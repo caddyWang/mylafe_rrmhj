@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="utf-8">
+		<title>人人漫画家</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="description" content="">
+    	<meta name="author" content="">
+
+    	<link href="css/bootstrap.min.css" rel="stylesheet">
+    	<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+    	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+	    <!--[if lt IE 9]>
+	      <script src="js/html5shiv.js"></script>
+	    <![endif]-->
+
+    	<style>
+    		body { background: #e2e1e3; padding-top: 60px; font-family:"微软雅黑","宋体","黑体",Arial; font-size: 12px;} 
+
+    		.thumbnail { background: #fff; }
+    		.item {	width: 260px;	margin: -5px;	float: left; }
+    		.span1 { width: 240px; max-width: 240px; min-width: 240px; }
+        .media-object { width: 32px; height: 32px; }
+        .media-heading { color: #999; font-weight: normal; font-style: italic; margin: -2px 0 -2px; }
+        .media-heading + p { color:#666; line-height: 150%}
+        .line { border-top:1px solid #eee; }
+
+        #container { margin: 0 auto; padding-left:0px; }
+        span[name="spanBolder"] { font-weight: bolder; }
+
+        .caption > span > img { width:24px; height:24px; }
+        .caption > span + span { font-size:14px; font-weight: bolder; padding-left: 5px;}
+        .caption > span + span + span { color:gray; font-size:9px; font-family: Verdana; font-style: italic;}
+        .caption > span + p { padding-top: 10px; color: #000; }
+    	</style>
+	</head>
+
+	<body>
+
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+					<div class="row-fluid" style="padding-top:5px; padding-bottom:5px;">
+						<div class="span4" style="padding-left:20px;"><img src="img/app.png" style="width:150"></div>
+						<div class="span4" style="text-align:center;"><img src="img/logo.png"></div>
+						<div class="span4" style="text-align:right; padding-right:20px;">
+							<div class="btn-group">
+								<a class="btn" href="#"><i class="icon-user"></i> dadairen</a>
+  								<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+								<ul class="dropdown-menu pull-right">
+								 	<li><a tabindex="-1" href="#">我发布的漫画</a></li>
+									<li><a tabindex="-1" href="#">我喜欢的漫画</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="container" class="container-fluid">
+
+	      
+            <ul class="thumbnails item">
+              <li class="span1">
+                	<div class="thumbnail">
+                  		<img src="test/1369388229312.jpg" alt="">
+                  		<div class="caption">
+                    		<span><img src="test/user1.jpg" class="img-rounded"></span> <span>dadairen</span> <span>2013/05/06</span>
+                        <p>麻麻最近迷上了画漫画，她把家庭生活中的故事通过卡通人物讲了出来，50岁的年龄却有18岁的style，赞！</p>
+                    		<p>
+                          <span name="spanBolder"><a href="#" class="btn btn-mini"><i class="icon-thumbs-up"></i> 155</a> <a href="#" class="btn btn-mini"><i class="icon-thumbs-down"></i> -52</a></span>
+                          <span name="spanBolder" class="pull-right"><a href="#" class="btn btn-mini"><i class="icon-comment"></i> 52</a> <a href="#" class="btn btn-mini"><i class="icon-share"></i></a></span>
+                        </p>
+                  		</div>
+
+                      <p class="line"></p>
+
+                      <div class="caption">
+                        <div class="media">
+                          <a class="pull-left" href="#"><img class="media-object img-rounded" src="test/user2.png"></a>
+                          <div class="media-body">
+                            <h6 class="media-heading">Media heading</h6>
+                            <p>非常有爱。</p>
+                          </div>
+                        </div>
+                        <div class="media">
+                          <a class="pull-left" href="#"><img class="media-object img-rounded" src="test/user1.jpg"></a>
+                          <div class="media-body">
+                            <h6 class="media-heading">麦麦粉</h6>
+                            <p>话说，貌似不应该用炒菜勺拖地吧太可爱了!</p>
+                          </div>
+                        </div>
+                      </div>
+
+                  	</div>
+              </li>
+            </ul>
+          
+
+          
+            <ul class="thumbnails item">
+              <li class="span1">
+                	<div class="thumbnail">
+                  		<img src="test/6538fe9cjw1e57arr98snj20hs2vy498.jpg" alt="">
+                  		<div class="caption">
+                    		<h3>Thumbnail label</h3>
+                    		<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                    		<p><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a></p>
+                  		</div>
+                  	</div>
+              </li>
+            </ul>
+           
+
+           
+            <ul class="thumbnails item">
+              <li class="span1">
+                	<div class="thumbnail">
+                  		<img src="test/1369636788127.jpg" alt="">
+                  		<div class="caption">
+                    		<h3>Thumbnail label</h3>
+                    		<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                    		<p><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a></p>
+                  		</div>
+                  	</div>
+              </li>
+            </ul>
+           
+
+   
+            <ul class="thumbnails item">
+              <li class="span1">
+                	<div class="thumbnail">
+                  		<img src="test/1369388229312.jpg" alt="">
+                  		<div class="caption">
+                    		<h3>Thumbnail label</h3>
+                    		<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                    		<p><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a></p>
+                  		</div>
+                  	</div>
+              </li>
+            </ul>
+           
+
+         
+            <ul class="thumbnails item">
+              <li class="span1">
+                	<div class="thumbnail">
+                  		<img src="test/1369388229312.jpg" alt="">
+                  		<div class="caption">
+                    		<h3>Thumbnail label</h3>
+                    		<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                    		<p><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a></p>
+                  		</div>
+                  	</div>
+              </li>
+            </ul>
+
+            <ul class="thumbnails item">
+              <li class="span1">
+                  <div class="thumbnail">
+                      <img src="test/1369388229312.jpg" alt="">
+                      <div class="caption">
+                        <h3>Thumbnail label</h3>
+                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                        <p><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a></p>
+                      </div>
+                    </div>
+              </li>
+            </ul>
+
+            <ul class="thumbnails item">
+              <li class="span1">
+                  <div class="thumbnail">
+                      <img src="test/1369388229312.jpg" alt="">
+                      <div class="caption">
+                        <h3>Thumbnail label</h3>
+                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                        <p><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a></p>
+                      </div>
+                    </div>
+              </li>
+            </ul>
+
+            <ul class="thumbnails item">
+              <li class="span1">
+                  <div class="thumbnail">
+                      <img src="test/1369388229312.jpg" alt="">
+                      <div class="caption">
+                        <h3>Thumbnail label</h3>
+                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                        <p><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a></p>
+                      </div>
+                    </div>
+              </li>
+            </ul>
+
+            <ul class="thumbnails item">
+              <li class="span1">
+                  <div class="thumbnail">
+                      <img src="test/1369388229312.jpg" alt="">
+                      <div class="caption">
+                        <h3>Thumbnail label</h3>
+                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                        <p><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a></p>
+                      </div>
+                    </div>
+              </li>
+            </ul>
+
+            <ul class="thumbnails item">
+              <li class="span1">
+                  <div class="thumbnail">
+                      <img src="test/1369388229312.jpg" alt="">
+                      <div class="caption">
+                        <h3>Thumbnail label</h3>
+                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                        <p><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a></p>
+                      </div>
+                    </div>
+              </li>
+            </ul>
+
+            <ul class="thumbnails item">
+              <li class="span1">
+                  <div class="thumbnail">
+                      <img src="test/1369388229312.jpg" alt="">
+                      <div class="caption">
+                        <h3>Thumbnail label</h3>
+                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                        <p><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a></p>
+                      </div>
+                    </div>
+              </li>
+            </ul>
+
+            <ul class="thumbnails item">
+              <li class="span1">
+                  <div class="thumbnail">
+                      <img src="test/1369388229312.jpg" alt="">
+                      <div class="caption">
+                        <h3>Thumbnail label</h3>
+                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                        <p><a href="#" class="btn btn-primary">Action</a> <a href="#" class="btn">Action</a></p>
+                      </div>
+                    </div>
+              </li>
+            </ul>
+           
+
+	    </div>
+
+      <div class="loading"></div>
+
+      <nav id="page-nav">
+  <a href="2.html"></a>
+</nav>
+
+
+
+		<script src="js/jquery.js"></script>
+    <script src="js/jquery.infinitescroll.min.js"
+	  <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.masonry.min.js"></script>
+    <script src="js/newelementmaker.js"></script>
+		<script>
+		  $(function(){
+
+		    var $container = $('#container');
+		  
+		    $container.imagesLoaded( function(){
+		      $container.masonry({
+		        itemSelector : '.item',
+            isFitWidth: true,
+            isAnimated: true
+		      });
+		    });
+
+
+        $container.autobrowse(
+                {
+                    url: function (offset)
+                    {
+                        return "http://api.flickr.com/services/feeds/photos_public.gne?tags=cat&tagmode=any&format=json&jsoncallback=?";
+                    },
+                    template: function (response)
+                    {
+                        var markup=elementMaker();
+                        alert(markup);
+                        
+                        return markup;
+                    },
+                    itemsReturned: 6,
+                    offset: 0,
+                    max: 100,
+                    loader: '<div class="loader"></div>',
+                    useCache: true,
+                    expiration: 1
+                }
+        );
+
+        $container.infinitescroll({
+            navSelector  : '#page-nav',    // selector for the paged navigation 
+            nextSelector : '#page-nav a',
+            itemSelector : '.item',  
+            dataType: 'json',//可以是json
+            template: function(data) {
+                return elementMaker();
+            },   
+            loading: {
+              msgText: "加载中...",
+              selector: '.loading', // 显示loading信息的div
+              finishedMsg: '没有作品了.',
+              img: 'img/loading.gif'
+            }
+          },
+      
+          // trigger Masonry as a callback
+          function( newElements ) {
+
+            alert('dddd');
+            // hide new items while they are loading
+            var $newElems = $(newElements).css({ opacity: 0 });
+            // ensure that images load before adding to masonry layout
+            $newElems.imagesLoaded(function(){
+              // show elems now they're ready
+              $newElems.animate({ opacity: 1 });
+              $container.masonry( 'appended', $newElems, true ); 
+            });
+          }
+        );
+		  
+		  });
+		</script>
+
+	</body>
+</html>
