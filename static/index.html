@@ -15,23 +15,43 @@
 	    <![endif]-->
 
     	<style>
-    		body { background: #e2e1e3; padding-top: 60px; font-family:"微软雅黑","宋体","黑体",Arial; font-size: 12px;} 
+    		body { 
+          background: #e2e1e3; padding-top: 60px; font-family:"微软雅黑","宋体","黑体",Arial; font-size: 12px;
+        } 
 
-    		.thumbnail { background: #fff; }
-    		.item {	width: 260px;	margin: -5px;	float: left; }
-    		.span1 { width: 240px; max-width: 240px; min-width: 240px; }
+        .thumbnails {
+          width:522px; max-width: 522px;
+          margin: auto;
+          background-color: #fff;
+          -webkit-border-radius: 5px;
+             -moz-border-radius: 5px;
+                  border-radius: 5px;
+          -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+             -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                  box-shadow: 0 1px 2px rgba(0,0,0,.05);
+        }
+
+        .thumbnail { width:512px; max-width: 512px; }
+        .thumbnails > li { margin: 0; }
+
         .media-object { width: 32px; height: 32px; }
         .media-heading { color: #999; font-weight: normal; font-style: italic; margin: -2px 0 -2px; }
-        .media-heading + p { color:#666; line-height: 150%}
+        .media-heading + p { color:#666; line-autoheight: 150%}
         .line { border-top:1px solid #eee; }
+        .blank { padding-top: 15px; }
 
-        #container { margin: 0 auto; padding-left:0px; }
         span[name="spanBolder"] { font-weight: bolder; }
 
         .caption > span > img { width:24px; height:24px; }
         .caption > span + span { font-size:14px; font-weight: bolder; padding-left: 5px;}
         .caption > span + span + span { color:gray; font-size:9px; font-family: Verdana; font-style: italic;}
         .caption > span + p { padding-top: 10px; color: #000; }
+
+        .bds_tsina { background-image:url('img/is.png'); background-repeat:no-repeat; background-attachment:fixed;background-position: 0 -115px !important; }
+        .bds_tqq { background-position: 0 -235px !important; }
+        .bds_tqzone { background-position: 0 -75px !important; }
+        .bds_trenren { background-position: 0 -195px !important; }
+
     	</style>
 	</head>
 
@@ -58,11 +78,9 @@
 			</div>
 		</div>
 
-		<div id="container" class="container-fluid">
-
-	      
-            <ul class="thumbnails item">
-              <li class="span1">
+		<div id="container" class="container">
+            <ul class="thumbnails">
+              <li>
                 	<div class="thumbnail">
                   		<img src="test/1369388229312.jpg" alt="">
                   		<div class="caption">
@@ -70,25 +88,27 @@
                         <p>麻麻最近迷上了画漫画，她把家庭生活中的故事通过卡通人物讲了出来，50岁的年龄却有18岁的style，赞！</p>
                     		<p>
                           <span name="spanBolder"><a href="#" class="btn btn-mini"><i class="icon-thumbs-up"></i> 155</a> <a href="#" class="btn btn-mini"><i class="icon-thumbs-down"></i> -52</a></span>
-                          <span name="spanBolder" class="pull-right"><a href="#" class="btn btn-mini"><i class="icon-comment"></i> 52</a> <a href="#" class="btn btn-mini"><i class="icon-share"></i></a></span>
+                          <span name="spanBolder" class="pull-right"><a href="javascript:void(0);" onclick="showcomm(1);" class="btn btn-mini"><i class="icon-comment"></i> 52</a> <a id="share" href="javascript:void(0);" class="btn btn-mini" data-content="<a class='bds_tsina' title='分享到新浪微博' href='#'>新浪微博</a> <a class='bds_tsina' title='分享到腾讯微博' href='#'>腾讯微博</a><br><a class='bds_tsina' title='分享到QQ空间' href='#'>QQ空间</a> <a class='bds_tsina' title='分享到人人网' href='#'>人人网</a>"><i class="icon-share"></i> 分享</a></span>
                         </p>
                   		</div>
 
-                      <p class="line"></p>
+                      <div id="comments_1" style="display:none">
+                        <p class="line"></p>
 
-                      <div class="caption">
-                        <div class="media">
-                          <a class="pull-left" href="#"><img class="media-object img-rounded" src="test/user2.png"></a>
-                          <div class="media-body">
-                            <h6 class="media-heading">Media heading</h6>
-                            <p>非常有爱。</p>
+                        <div class="caption">
+                          <div class="media">
+                            <a class="pull-left" href="#"><img class="media-object img-rounded" src="test/user2.png"></a>
+                            <div class="media-body">
+                              <h6 class="media-heading">Media heading</h6>
+                              <p>非常有爱。</p>
+                            </div>
                           </div>
-                        </div>
-                        <div class="media">
-                          <a class="pull-left" href="#"><img class="media-object img-rounded" src="test/user1.jpg"></a>
-                          <div class="media-body">
-                            <h6 class="media-heading">麦麦粉</h6>
-                            <p>话说，貌似不应该用炒菜勺拖地吧太可爱了!</p>
+                          <div class="media">
+                            <a class="pull-left" href="#"><img class="media-object img-rounded" src="test/user1.jpg"></a>
+                            <div class="media-body">
+                              <h6 class="media-heading">麦麦粉</h6>
+                              <p>话说，貌似不应该用炒菜勺拖地吧太可爱了!</p>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -96,7 +116,7 @@
                   	</div>
               </li>
             </ul>
-          
+          <div class="blank"></div>
 
           
             <ul class="thumbnails item">
@@ -251,40 +271,26 @@
 
 	    </div>
 
-</nav>
 
+	<script src="js/jquery.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+  <script src="js/bootstrap-tooltip.js"></script>
+  <script src="js/bootstrap-popover.js"></script>
 
+  <script>
+    function showcomm(id) {
+      if($('#comments_'+id).is(':hidden')) {
+        $('#comments_'+id).fadeIn();
+      } else {
+        $('#comments_'+id).fadeOut();
+      }
+        
+    }
 
-		<script src="js/jquery.js"></script>
-    <script src="js/jquery.infinitescroll.min.js"></script>
-	  <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.masonry.min.js"></script>
-		<script>
-		  $(function(){
-
-		    var $container = $('#container');
-		  
-		    $container.imagesLoaded( function(){
-		      $container.masonry({
-		        itemSelector : '.item',
-            isFitWidth: true,
-            isAnimated: true
-		      });
-		    });
-
-         $container.infinitescroll({
-            // other options
-            dataType: 'json',
-            appendCallback: false
-          }, function(json, opts) {
-            // Get current page
-            var page = opts.state.currPage; 
-            // Do something with JSON data, create DOM elements, etc ..
-            alert('ddd');
-          });
-
-		  });
-		</script>
+    $(function(){
+      $("#share").popover({trigger:'focus', placement:'top', html:true});
+    });
+  </script>
 
 	</body>
 </html>
