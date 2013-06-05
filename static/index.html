@@ -17,8 +17,36 @@
 
     	<style>
     		body { 
-          background: #e2e1e3; padding: 60px 0 0 0; font-family:Arial,"微软雅黑","宋体","黑体"; font-size: 12px;
+          background: url(img/bg.png) repeat scroll 0 0 #FFFFF5; padding: 0px 0 0 0; font-family:Arial,"微软雅黑","宋体","黑体"; font-size: 12px;
         } 
+
+        .navbar-inner { 
+          border-width: 5px 0 1px;
+          border-color: #ff788a #fff #FFAEB9; 
+          box-shadow: 0 1px 5px rgba(255, 174, 185, 1);
+          padding: 20px 0 30px 0;
+        }
+
+        #top-nav {
+            padding:155px 100px 0 0; 
+        }
+
+        #logo-left {
+          padding-left: 150px;
+        }
+
+        #phone { margin-left: 10px;}
+
+        @media screen and (max-width: 767px) {
+          #top-nav {
+            padding:155px 10px 0 0; 
+          }
+
+          #logo-left {
+            padding-left: 10px;
+          }
+        }
+
 
         .thumbnails {
           max-width: 522px;
@@ -27,7 +55,7 @@
           -webkit-border-radius: 5px;
              -moz-border-radius: 5px;
                   border-radius: 5px;
-          -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+          -webkit-box-shadow: 0 1px 2px class="pull-right" rgba(0,0,0,.05);
              -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
                   box-shadow: 0 1px 2px rgba(0,0,0,.05);
         }
@@ -69,23 +97,12 @@
 
 	<body>
 
-		<div class="navbar navbar-fixed-top">
+		<div class="navbar">
 			<div class="navbar-inner">
-				<div class="container-fluid">
-					<div class="row-fluid" style="padding-top:5px; padding-bottom:5px;">
-						<div class="span4" style="padding-left:20px;"><img src="img/app.png" style="width:150"></div>
-						<div class="span4" style="text-align:center;"><img src="img/logo.png"></div>
-						<div class="span4" style="text-align:right; padding-right:20px;">
-							<div class="btn-group">
-								<a class="btn" href="#"><i class="icon-user"></i> dadairen</a>
-  								<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-								<ul class="dropdown-menu pull-right">
-								 	<li><a tabindex="-1" href="#">我发布的漫画</a></li>
-									<li><a tabindex="-1" href="#">我喜欢的漫画</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
+				<div class="container-fluid" style="text-align:center;">
+            <span id="logo-left"></span>
+            <img src="img/logo.png">
+            <span id="top-nav" class="pull-right"><a href="#"><img id="login"src="img/login.png"></a> <a href="#"><img id="phone" src="img/phone.png" class="hidden-phone"></a></span>
 				</div>
 			</div>
 		</div>
@@ -233,6 +250,7 @@
           }
         })
 
+        //无限数据读取
         $('#container').scrollPagination({
           'contentPage': '2.html', 
           'contentData': {}, 
@@ -244,6 +262,21 @@
           'afterLoad': function(elementsLoaded){ 
              $('#loading').fadeOut();
           }
+        });
+
+        //菜单指向图片切换效果
+        $("#login").mouseover(function(){
+          $(this).attr("src","img/login_over.png");
+        });
+        $("#login").mouseout(function(){
+          $(this).attr("src","img/login.png");
+        });
+
+        $("#phone").mouseover(function(){
+          $(this).attr("src","img/phone_over.png");
+        });
+        $("#phone").mouseout(function(){
+          $(this).attr("src","img/phone.png");
         });
 
     });

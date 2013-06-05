@@ -1,0 +1,26 @@
+
+
+
+
+.mini-layout-body {
+  background-color: #dceaf4;
+  width: 50%;
+}
+.mini-layout-sidebar,
+.mini-layout-body {
+  float: left;
+}
+.mini-layout-sidebar {
+  background-color: #bbd8e9;
+  width: 50%;
+}
+
+
+
+
+
+
+
+
+
+
