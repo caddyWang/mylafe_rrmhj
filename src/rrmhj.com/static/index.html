@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="utf-8">
+		<title>人人漫画家</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="description" content="">
+    	<meta name="author" content="">
+
+    	<link href="css/bootstrap.min.css" rel="stylesheet">
+    	<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+
+    	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+	    <!--[if lt IE 9]>
+	      <script src="js/html5shiv.js"></script>
+	    <![endif]-->
+
+    	<style>
+    		body { 
+          background: url(img/bg.png) repeat scroll 0 0 #FFFFF5; padding: 0px 0 0 0; font-family:Arial,"微软雅黑","宋体","黑体"; font-size: 12px;
+        } 
+
+        .navbar-inner { 
+          border-width: 5px 0 1px;
+          border-color: #ff788a #fff #FFAEB9; 
+          box-shadow: 0 1px 5px rgba(255, 174, 185, 1);
+          padding: 20px 0 30px 0;
+        }
+
+        #top-nav {
+            padding:155px 100px 0 0; 
+        }
+
+        #logo-left {
+          padding-left: 150px;
+        }
+
+        #phone { margin-left: 10px;}
+
+        @media screen and (max-width: 767px) {
+          #top-nav {
+            padding:155px 10px 0 0; 
+          }
+
+          #logo-left {
+            padding-left: 10px;
+          }
+        }
+
+
+        .thumbnails {
+          max-width: 522px;
+          margin: auto;
+          background-color: #fff;
+          -webkit-border-radius: 5px;
+             -moz-border-radius: 5px;
+                  border-radius: 5px;
+          -webkit-box-shadow: 0 1px 2px class="pull-right" rgba(0,0,0,.05);
+             -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                  box-shadow: 0 1px 2px rgba(0,0,0,.05);
+        }
+
+        .thumbnail { max-width: 512px; }
+        .thumbnails > li { margin: 0; }
+
+        .media-object { width: 32px; height: 32px; }
+        .media-heading { color: #999; font-weight: normal; font-style: italic; margin: -2px 0 -2px; }
+        .media-heading + p { color:#666; line-autoheight: 150%}
+        .line { border-top:1px solid #eee; margin-top: 20px; }
+        .blank { padding-top: 15px; }
+
+        div[name="spanBolder"] { font-weight: bolder; }
+
+        .caption > span > img { width:24px; height:24px; }
+        .caption > span + span { font-size:14px; font-weight: bolder; padding-left: 5px;}
+        .caption > span + span + span { color:gray; font-size:9px; font-family: Verdana; font-style: italic;}
+        .caption > span + p { padding-top: 10px; color: #000; }
+
+        .bds_tsina {  background-image: url(img/is.png); background-repeat: no-repeat; background-position: 0 -115px;}
+        .bds_tqq {  background-image: url(img/is.png); background-repeat: no-repeat; background-position: 0 -235px; }
+        .bds_tqzone {  background-image: url(img/is.png); background-repeat: no-repeat; background-position: 0 -75px; }
+        .bds_trenren {  background-image: url(img/is.png); background-repeat: no-repeat; background-position: 0 -195px; }
+
+        .btn-group > .btn, .btn-group > .dropdown-menu, .btn-group > .popover { font-size: 12px; padding-left: 10px; }
+        .dropdown-menu { min-width: 100px; }
+
+        .digg, .undigg {position:absolute; z-index:999; display:block; width:200px; height:200px; font-size:16px; font-weight:bold;}
+        .digg table, .undigg table {width:100%; height:100%;}
+        .digg td, .undigg td {width:100%; height:100%; text-align:center; vertical-align:middle;}
+        .digg {color:#f60;}
+        .undigg {color:#666;}
+
+        #loading { text-align: center; }
+
+    	</style>
+	</head>
+
+	<body>
+
+		<div class="navbar">
+			<div class="navbar-inner">
+				<div class="container-fluid" style="text-align:center;">
+            <span id="logo-left"></span>
+            <img src="img/logo.png">
+            <span id="top-nav" class="pull-right"><a href="#"><img id="login"src="img/login.png"></a> <a href="#"><img id="phone" src="img/phone.png" class="hidden-phone"></a></span>
+				</div>
+			</div>
+		</div>
+
+		<div id="container" class="container-fluid">
+
+            <ul class="thumbnails">
+              <li>
+                	<div class="thumbnail">
+                  		<img src="test/1369388229312.jpg" alt="">
+                  		<div class="caption">
+                    		<span><img src="test/user1.jpg" class="img-rounded"></span> <span>dadairen</span> <span>2013/05/06</span>
+                        <p>麻麻最近迷上了画漫画，她把家庭生活中的故事通过卡通人物讲了出来，50岁的年龄却有18岁的style，赞！</p>
+                    		<div class="row-fluid">
+                          <div name="spanBolder"><a href="javascript:void(0);" class="btn btn-small up"><i class="icon-thumbs-up"></i> <i class="num">155</i></a> <a href="javascript:void(0);" class="btn btn-small down"><i class="icon-thumbs-down"></i> <i class="num">-52</i></a><input type="hidden" class="uid" value="1"></span>
+                          <div name="spanBolder" class="btn-group pull-right">
+                            <a href="javascript:void(0);" class="btn btn-small comment"><i class="icon-comment"></i> 52</a> 
+                            <a class="btn btn-small dropdown-toggle" data-delay="1000" data-hover="dropdown" data-toggle="dropdown"><i class="icon-share"></i> 分享</a>
+                            <ul class="dropdown-menu">
+                              <li><a class='bds_tsina' title='分享到新浪微博' href="#" style="padding-left:25px;"> 新浪微博</a></li>
+                              <li><a class='bds_tqq' title='分享到腾讯微博' href="#" style="padding-left:25px;"> 腾讯微博</a></li>
+                              <li><a class='bds_tqzone' title='分享到QQ空间' href='#' style="padding-left:25px;"> QQ空间</a></li>
+                              <li><a class='bds_trenren' title='分享到人人网' href='#' style="padding-left:25px;"> 人人网</a></li>
+                            </ul>
+                            <input type="hidden" class="uid" value="1">
+                          </div>
+                        </div>
+                  		</div>
+
+                      <div id="comments_1" style="display:none">
+                        <p class="line"></p>
+
+                        <div class="caption">
+                          <div class="media">
+                            <a class="pull-left" href="#"><img class="media-object img-rounded" src="test/user2.png"></a>
+                            <div class="media-body">
+                              <h6 class="media-heading">Media heading</h6>
+                              <p>非常有爱。</p>
+                            </div>
+                          </div>
+                          <div class="media">
+                            <a class="pull-left" href="#"><img class="media-object img-rounded" src="test/user1.jpg"></a>
+                            <div class="media-body">
+                              <h6 class="media-heading">麦麦粉</h6>
+                              <p>话说，貌似不应该用炒菜勺拖地吧太可爱了!</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                  	</div>
+              </li>
+            </ul>
+          <div class="blank"></div>
+
+
+          <ul class="thumbnails">
+              <li>
+                  <div class="thumbnail">
+                      <img src="test/1369636788127.jpg" alt="">
+                      <div class="caption">
+                        <span><img src="test/user1.jpg" class="img-rounded"></span> <span>dadairen</span> <span>2013/05/06</span>
+                        <p>麻麻最近迷上了画漫画，她把家庭生活中的故事通过卡通人物讲了出来，50岁的年龄却有18岁的style，赞！</p>
+                        <div class="row-fluid" uid="2">
+                          <div name="spanBolder"><a href="javascript:void(0);" class="btn btn-small up"><i class="icon-thumbs-up"></i> <i class="num">15</i></a> <a href="javascript:void(0);" class="btn btn-small down"><i class="icon-thumbs-down"></i> <i class="num">-2</i></a><input type="hidden" class="uid" value="2"></span>
+                          <div name="spanBolder" class="btn-group pull-right">
+                            <a href="javascript:void(0);" class="btn btn-small comment"><i class="icon-comment"></i> 52</a> 
+                            <a class="btn btn-small dropdown-toggle" data-delay="1000" data-hover="dropdown" data-toggle="dropdown"><i class="icon-share"></i> 分享</a>
+                            <ul class="dropdown-menu">
+                              <li><a class='bds_tsina' title='分享到新浪微博' href="#" style="padding-left:25px;"> 新浪微博</a></li>
+                              <li><a class='bds_tqq' title='分享到腾讯微博' href="#" style="padding-left:25px;"> 腾讯微博</a></li>
+                              <li><a class='bds_tqzone' title='分享到QQ空间' href='#' style="padding-left:25px;"> QQ空间</a></li>
+                              <li><a class='bds_trenren' title='分享到人人网' href='#' style="padding-left:25px;"> 人人网</a></li>
+                            </ul>
+                            <input type="hidden" class="uid" value="2">
+                          </div>
+                        </div>
+                      </div>
+
+                      <div id="comments_2" style="display:none">
+                        <p class="line"></p>
+
+                        <div class="caption">
+                          <div class="media">
+                            <a class="pull-left" href="#"><img class="media-object img-rounded" src="test/user2.png"></a>
+                            <div class="media-body">
+                              <h6 class="media-heading">Media heading</h6>
+                              <p>非常有爱。</p>
+                            </div>
+                          </div>
+                          <div class="media">
+                            <a class="pull-left" href="#"><img class="media-object img-rounded" src="test/user1.jpg"></a>
+                            <div class="media-body">
+                              <h6 class="media-heading">麦麦粉</h6>
+                              <p>话说，貌似不应该用炒菜勺拖地吧太可爱了!</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+              </li>
+            </ul>
+          <div class="blank"></div>
+
+	    </div>
+
+
+      <div id="loading"><img src="img/loading.gif"></div>
+
+
+	<script src="js/jquery.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+  <script src="js/twitter-bootstrap-hover-dropdown.min.js"></script>
+  <script src="js/scrollpagination.js"></script>
+
+  <script>
+
+    $(function(){
+
+        //顶 uid="2"
+        $("ul").find(".up").click(function(){
+          var up = $(this);
+          var down = $(this).siblings(".down");
+          var workId = $(this).siblings(".uid").val();
+          optUpOrDownOrAttention(up, down, workId, 1, 1);
+          
+        });
+        
+        //踩
+        $("ul").find(".down").click(function(){
+          var up = $(this).siblings(".up");
+          var down = $(this);
+          var workId = $(this).siblings(".uid").val();
+          optUpOrDownOrAttention(up, down, workId, 2, -1);
+        });
+
+        //评论
+        $("ul").find(".comment").click(function(){
+          var workId = $(this).siblings(".uid").val();
+          if($('#comments_'+workId).is(':hidden')) {
+            $('#comments_'+workId).fadeIn();
+          } else {
+            $('#comments_'+workId).fadeOut();
+          }
+        })
+
+        //无限数据读取
+        $('#container').scrollPagination({
+          'contentPage': '2.html', 
+          'contentData': {}, 
+          'scrollTarget': $(window), 
+          'heightOffset': 10, 
+          'beforeLoad': function(){ 
+            $('#loading').fadeIn(); 
+          },
+          'afterLoad': function(elementsLoaded){ 
+             $('#loading').fadeOut();
+          }
+        });
+
+        //菜单指向图片切换效果
+        $("#login").mouseover(function(){
+          $(this).attr("src","img/login_over.png");
+        });
+        $("#login").mouseout(function(){
+          $(this).attr("src","img/login.png");
+        });
+
+        $("#phone").mouseover(function(){
+          $(this).attr("src","img/phone_over.png");
+        });
+        $("#phone").mouseout(function(){
+          $(this).attr("src","img/phone.png");
+        });
+
+    });
+
+
+    //顶或踩的动画, type为1表示顶, -1表示踩
+    function playPlus(elm, type){
+      var div = null,
+        left = elm.offset().left - 80,
+        top = elm.offset().top - 100;
+      if (type == 1)
+        div = $('<div class="digg"><table><tr><td>+1</td></tr></table></div>');
+      else
+        div = $('<div class="undigg"><table><tr><td>-1</td></tr></table></div>');
+      div.css({
+        left : left,
+        top : top
+      });
+      setTimeout(function(){
+        $("body").append(div);
+        div.animate({fontSize:100, opacity:0}, 400, function(){
+          div.remove();
+        });
+      }, 50);
+    }
+
+    //项、踩动作与后台交互
+    function optUpOrDownOrAttention(up, down, workId, optVal, optView){
+      if(optView > 0) { 
+        var num = up.find(".num");
+        num.text(parseInt(num.text())+optView);
+        playPlus(up, optView); 
+      }
+      else { 
+        var num = down.find(".num");
+        num.text(parseInt(num.text())+optView);
+        playPlus(down, optView); 
+      }
+    }
+
+  </script>
+
+	</body>
+</html>

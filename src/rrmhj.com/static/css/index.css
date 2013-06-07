@@ -1,0 +1,75 @@
+        body { 
+          background: url(/static/img/bg.png) repeat scroll 0 0 #FFFFF5; padding: 0px 0 0 0; font-family:Arial,"微软雅黑","宋体","黑体"; font-size: 12px;
+        } 
+
+        .navbar-inner { 
+          border-width: 5px 0 1px;
+          border-color: #ff788a #fff #FFAEB9; 
+          box-shadow: 0 1px 5px rgba(255, 174, 185, 1);
+          padding: 20px 0 30px 0;
+        }
+
+        #top-nav {
+            padding:155px 100px 0 0; 
+        }
+
+        #logo-left {
+          padding-left: 150px;
+        }
+
+        #phone { margin-left: 10px;}
+
+        @media screen and (max-width: 767px) {
+          #top-nav {
+            padding:155px 10px 0 0; 
+          }
+
+          #logo-left {
+            padding-left: 10px;
+          }
+        }
+
+
+        .thumbnails {
+          max-width: 522px;
+          margin: auto;
+          background-color: #fff;
+          -webkit-border-radius: 5px;
+             -moz-border-radius: 5px;
+                  border-radius: 5px;
+          -webkit-box-shadow: 0 1px 2px class="pull-right" rgba(0,0,0,.05);
+             -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                  box-shadow: 0 1px 2px rgba(0,0,0,.05);
+        }
+
+        .thumbnail { max-width: 512px; }
+        .thumbnails > li { margin: 0; }
+
+        .media-object { width: 32px; height: 32px; }
+        .media-heading { color: #999; font-weight: normal; font-style: italic; margin: -2px 0 -2px; }
+        .media-heading + p { color:#666; line-autoheight: 150%}
+        .line { border-top:1px solid #eee; margin-top: 20px; }
+        .blank { padding-top: 15px; }
+
+        div[name="spanBolder"] { font-weight: bolder; }
+
+        .caption > span > img { width:24px; height:24px; }
+        .caption > span + span { font-size:14px; font-weight: bolder; padding-left: 5px;}
+        .caption > span + span + span { color:gray; font-size:9px; font-family: Verdana; font-style: italic;}
+        .caption > span + p { padding-top: 10px; color: #000; }
+
+        .bds_tsina {  background-image: url(/static/img/is.png); background-repeat: no-repeat; background-position: 0 -115px;}
+        .bds_tqq {  background-image: url(/static/img/is.png); background-repeat: no-repeat; background-position: 0 -235px; }
+        .bds_tqzone {  background-image: url(/static/img/is.png); background-repeat: no-repeat; background-position: 0 -75px; }
+        .bds_trenren {  background-image: url(/static/img/is.png); background-repeat: no-repeat; background-position: 0 -195px; }
+
+        .btn-group > .btn, .btn-group > .dropdown-menu, .btn-group > .popover { font-size: 12px; padding-left: 10px; }
+        .dropdown-menu { min-width: 100px; }
+
+        .digg, .undigg {position:absolute; z-index:999; display:block; width:200px; height:200px; font-size:16px; font-weight:bold;}
+        .digg table, .undigg table {width:100%; height:100%;}
+        .digg td, .undigg td {width:100%; height:100%; text-align:center; vertical-align:middle;}
+        .digg {color:#f60;}
+        .undigg {color:#666;}
+
+        #loading { text-align: center; }
