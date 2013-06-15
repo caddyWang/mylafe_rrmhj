@@ -14,5 +14,7 @@ type MainController struct {
 
 func (this *MainController) Get() {
 	this.Data["Plist"], _ = business.QueryProductsList(1, pageSize)
+	this.Data["IsLogin"] = business.CheckLogin(this.GetSession)
+
 	this.TplNames = "index.tpl"
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {{ $sfu := .SFUrl }}
+{{ $isLogin := .IsLogin}}
 <html lang="zh">
 	<head>
 		<meta charset="utf-8">
@@ -37,10 +38,10 @@
             <ul class="thumbnails">
               <li>
                 	<div class="thumbnail">
-                  		<img src="{{$sfu}}/{{.ImgPath}}" alt="">
+                  		<img src="{{$sfu}}/{{.ImgPath}}" alt="{{.Desc | html2str}}">
                   		<div class="caption">
                     		<span><img src="{{$sfu}}/{{.Author.HeadImg | fmtHeadImg}}" class="img-rounded"></span> <span>dadairen</span> <span>{{date .PostTime "Y-m-d" }}</span>
-                        <p>{{.Desc}}</p>
+                        <p>{{.Desc | html2str}}</p>
                     	<div class="row-fluid">
                           	<div name="spanBolder"><a href="javascript:void(0);" class="btn btn-small up"><i class="icon-thumbs-up"></i> <i class="num">{{.UpNum}}</i></a> <a href="javascript:void(0);" class="btn btn-small down"><i class="icon-thumbs-down"></i> <i class="num">{{.DownNum}}</i></a><input type="hidden" class="uid" value="{{.Pid}}"></span>
 	                          <div name="spanBolder" class="btn-group pull-right">
@@ -59,6 +60,10 @@
 
                       <div id="comments_{{.Pid}}" style="display:none">
                         <p class="line"></p>
+
+                        <div class="comment_login" {{$isLogin | logoutDisplay}}>发布评论要登录哦：<a href="#qqLogin" class="btn btn-small btn-info" role="button" data-toggle="modal">用腾讯QQ登录</a> <a class="btn btn-small btn-danger" href="https://api.weibo.com/oauth2/authorize?client_id=3269145958&response_type=code&redirect_uri=127.0.0.1:8080/sinalogin/" target="_blank">用新浪微博登录</a></div>
+                        <div class="comment_input" {{$isLogin | loginDisplay}}><span><textarea rows="1" style="width:80%"></textarea></span> <span class="pull-right"><button class="btn btn-large" type="button">发布</button></span></div>
+
 
                         <div class="caption">
                           {{with .Comments}}
@@ -85,14 +90,26 @@
 
 	    </div>
 
+      <!-- Modal -->
+      <div id="loginModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3 id="myModalLabel">Modal header</h3>
+        </div>
+        <div class="modal-body" style="height:300px;"></div>
+        <div class="modal-footer">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+          <button class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
 
     <div id="loading"><img src="{{$sfu}}/img/loading.gif"></div>
 
 	<script src="{{$sfu}}/js/jquery.js"></script>
 	<script src="{{$sfu}}/js/bootstrap.min.js"></script>
-  	<script src="{{$sfu}}/js/twitter-bootstrap-hover-dropdown.min.js"></script>
-  	<script src="{{$sfu}}/js/scrollpagination.js"></script>
-  	<script src="{{$sfu}}/js/index.js"></script>
+  <script src="{{$sfu}}/js/twitter-bootstrap-hover-dropdown.min.js"></script>
+  <script src="{{$sfu}}/js/scrollpagination.js"></script>
+  <script src="{{$sfu}}/js/index.js"></script>
 
 	</body>
 </html>

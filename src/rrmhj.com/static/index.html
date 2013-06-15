@@ -55,7 +55,7 @@
           -webkit-border-radius: 5px;
              -moz-border-radius: 5px;
                   border-radius: 5px;
-          -webkit-box-shadow: 0 1px 2px class="pull-right" rgba(0,0,0,.05);
+          -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
              -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
                   box-shadow: 0 1px 2px rgba(0,0,0,.05);
         }
@@ -89,6 +89,10 @@
         .digg td, .undigg td {width:100%; height:100%; text-align:center; vertical-align:middle;}
         .digg {color:#f60;}
         .undigg {color:#666;}
+	.comment_login { text-align:center; padding:10px 0 10px 0; background:#eee; }
+	.comment_input { padding:5px 0 5px 0; }
+	.comment_input > span > textarea { height: 30px; }
+	.comment_input > span > button { height: 40px; }
 
         #loading { text-align: center; }
 
@@ -134,6 +138,9 @@
 
                       <div id="comments_1" style="display:none">
                         <p class="line"></p>
+			
+			<div class="comment_login">发布评论要登录哦：<a class="btn btn-small btn-info">用腾讯QQ登录</a> <a class="btn btn-small btn-danger">用新浪微博登录</a></div>
+			<div class="comment_input"><span><textarea rows="1" style="width:80%"></textarea></span> <span class="pull-right"><button class="btn btn-large" type="button">发布</button></span></div>
 
                         <div class="caption">
                           <div class="media">
