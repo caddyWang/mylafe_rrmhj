@@ -9,6 +9,7 @@ package business
 ************************************************************************************/
 
 import (
+	"github.com/astaxie/beego"
 	"html/template"
 	"rrmhj.com/conf"
 	"strings"
@@ -16,11 +17,19 @@ import (
 
 //如果用户没用设置过头像，则获取默认头像（Wangdj 2013-06-07	）
 func DefaultHeadImg(headImg string) string {
+
+	beego.Debug("头像地址：", headImg)
+	beego.Debug("是否为站外地址：", strings.Contains(headImg, "http:"))
+
 	if strings.Trim(headImg, " ") == "" {
 		return conf.DefProfileImg
 	}
 
-	return headImg
+	if strings.Contains(headImg, "http:") {
+		return headImg
+	}
+
+	return conf.StaticFileURL + "/" + headImg
 }
 
 //当用户登录时，显示html控件

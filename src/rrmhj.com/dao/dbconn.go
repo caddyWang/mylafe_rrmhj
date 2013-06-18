@@ -8,7 +8,6 @@ package dao
 ************************************************************************************/
 
 import (
-	"errors"
 	"github.com/astaxie/beego"
 	"labix.org/v2/mgo"
 	"rrmhj.com/conf"
@@ -16,21 +15,25 @@ import (
 
 const (
 	findOneOpt = iota
-	insertOneOpt
+	findListOpt
 )
 
 var dbNameDef = conf.DefDBName
 
-func FindOne(query interface{}, result interface{}, collectionName string) (err error) {
-	return optDB(findOneOpt, dbNameDef, collectionName, query, result)
+func FindOne(query, result interface{}, collectionName string) (err error) {
+	_, err = queryOpt(findOneOpt, dbNameDef, collectionName, query, result, "", 0, 0)
+	return
 }
 
-func InsertOne(collectionName string, doc interface{}) (err error) {
-	return optDB(insertOneOpt, dbNameDef, collectionName, nil, doc)
+func FindList(query, result interface{}, collectionName string, skip, limit int, sort string) (count int, err error) {
+	if skip < 0 {
+		skip = 0
+	}
+
+	return queryOpt(findListOpt, dbNameDef, collectionName, query, result, sort, skip, limit)
 }
 
-//获取数据库
-func optDB(optType int, dbname string, collectionName string, query interface{}, docs ...interface{}) (err error) {
+func Insert(collectionName string, doc interface{}) (err error) {
 
 	session, err := getDBConnSession()
 	if err != nil {
@@ -39,25 +42,35 @@ func optDB(optType int, dbname string, collectionName string, query interface{},
 	}
 	defer session.Close()
 
-	if len(docs) <= 0 {
-		beego.Error("docs必须大于零")
-		return errors.New("docs必须大于零")
-	}
+	c := session.DB(dbNameDef).C(collectionName)
+	err = c.Insert(doc)
 
-	c := session.DB(dbname).C(collectionName)
+	return
+}
+
+func queryOpt(optType int, dbname string, collectionName string, query interface{}, result interface{}, sort string, skip, limit int) (count int, err error) {
+
+	session, err := getDBConnSession()
+	if err != nil {
+		beego.Critical("数据库连接出错：", err)
+		panic(err)
+	}
+	defer session.Close()
+
+	q := session.DB(dbname).C(collectionName).Find(query)
+
 	switch optType {
 	case findOneOpt:
-		err = c.Find(query).One(docs[0])
-	case insertOneOpt:
-		err = c.Insert(docs[0])
+		err = q.One(result)
+	case findListOpt:
+		count, err = q.Count()
+		err = q.Sort(sort).Skip(skip).Limit(limit).All(result)
 	}
-
 	return
 }
 
 //获取数据库连接
 func getDBConnSession() (session *mgo.Session, err error) {
-
 	session, err = mgo.Dial(conf.ConnAddr)
 	return
 }

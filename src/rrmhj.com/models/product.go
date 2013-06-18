@@ -5,7 +5,7 @@ import (
 )
 
 type Product struct {
-	Pid      int
+	Pid      string "_id"
 	ImgPath  string
 	Author   UserBase
 	PostTime time.Time
@@ -13,6 +13,7 @@ type Product struct {
 	UpNum    int
 	DownNum  int
 	Comments []Comment
+	Iflag    int //0为审核通过可查看，-1为不可查看
 }
 
 type Comment struct {

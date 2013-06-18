@@ -9,7 +9,6 @@ package business
 
 import (
 	"github.com/astaxie/beego"
-	"labix.org/v2/mgo/bson"
 	"rrmhj.com/dao"
 	"rrmhj.com/models"
 )
@@ -38,7 +37,7 @@ func SinaLoginProcess(tkRST *SinaWeiboOauth2AccesstokenResult, userRST *SinaWeib
 		return
 	}
 
-	user := models.UserInfo{Id: bson.ObjectId("-1"), Gender: userRST.Gender, Province: userRST.Province, City: userRST.City, Location: userRST.Location}
+	user := models.UserInfo{Id: "-1", Gender: userRST.Gender, Province: userRST.Province, City: userRST.City, Location: userRST.Location}
 	user.SinaWeibo = models.SinaWeiboUserInfo{userRST.Id, userRST.Screen_name, userRST.Profile_image_url, userRST.Avatar_large, userRST.Profile_url, userRST.Description}
 
 	userId := dao.InitUserInfoBySinaWeibo(&user)

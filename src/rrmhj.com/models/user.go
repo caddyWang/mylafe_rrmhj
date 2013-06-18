@@ -1,24 +1,27 @@
 package models
 
 import (
-	"labix.org/v2/mgo/bson"
+	//"labix.org/v2/mgo/bson"
+	"time"
 )
 
 type UserBase struct {
-	Id         bson.ObjectId "_id"
+	Id         string "_id"
 	UserName   string
 	ProfileImg string
 }
 
 type UserInfo struct {
-	Id         bson.ObjectId "_id"
+	Id         string "_id"
 	UserName   string
 	ProfileImg string
 
-	Gender   string
-	Province string
-	City     string
-	Location string
+	ProfileLargeImg string
+	Gender          string
+	Province        string
+	City            string
+	Location        string
+	CreateTime      time.Time
 
 	SinaWeibo SinaWeiboUserInfo
 }
