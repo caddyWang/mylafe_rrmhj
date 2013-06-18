@@ -22,8 +22,8 @@ func QueryProductsList(pageIndex, pageSize int) (prolist []models.Product, err e
 	prolist = []models.Product{}
 
 	for i := 0; i < pageSize; i++ {
-		p := models.Product{i, "test/1369388229312.jpg", models.UserBase{1, "dadairen", ""}, time.Now(), "麻麻最近迷上了画漫画，她把家庭生活中的故事通过卡通人物讲了出来，50岁的年龄却有18岁的style，赞！", 155, -23, nil}
-		comments := []models.Comment{{i, models.UserBase{1, "haha", "test/user1.jpg"}, time.Now(), "话说，貌似不应该用炒菜勺拖地吧太可爱了!"}, {2, models.UserBase{2, "麦麦粉", ""}, time.Now(), "太可爱了!"}}
+		p := models.Product{i, "test/1369388229312.jpg", models.UserBase{"1", "dadairen", ""}, time.Now(), "麻麻最近迷上了画漫画，她把家庭生活中的故事通过卡通人物讲了出来，50岁的年龄却有18岁的style，赞！", 155, -23, nil}
+		comments := []models.Comment{{i, models.UserBase{"1", "haha", "test/user1.jpg"}, time.Now(), "话说，貌似不应该用炒菜勺拖地吧太可爱了!"}, {2, models.UserBase{"2", "麦麦粉", ""}, time.Now(), "太可爱了!"}}
 		p.Comments = comments
 
 		prolist = append(prolist, p)

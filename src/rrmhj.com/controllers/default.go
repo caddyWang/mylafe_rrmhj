@@ -3,10 +3,11 @@ package controllers
 import (
 	"github.com/astaxie/beego"
 	"rrmhj.com/business"
+	"rrmhj.com/conf"
 )
 
 //每页条数
-var pageSize, _ = beego.AppConfig.Int("listsize")
+var pageSize = conf.PageSize
 
 type MainController struct {
 	beego.Controller

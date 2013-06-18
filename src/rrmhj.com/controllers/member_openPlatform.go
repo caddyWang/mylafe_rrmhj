@@ -46,9 +46,7 @@ func (this *SinaLoginController) Get() {
 		return
 	}
 
-	this.SetSession("access_token", rlt.Access_token)
-	this.SetSession("sinaUid", rlt.Uid)
-	this.SetSession("uid", user.Id)
+	business.SinaLoginProcess(&rlt, &user, this.SetSession)
 	beego.Debug("Session['uid']", this.GetSession("uid"))
 
 }

@@ -40,7 +40,7 @@
                 	<div class="thumbnail">
                   		<img src="{{$sfu}}/{{.ImgPath}}" alt="{{.Desc | html2str}}">
                   		<div class="caption">
-                    		<span><img src="{{$sfu}}/{{.Author.HeadImg | fmtHeadImg}}" class="img-rounded"></span> <span>dadairen</span> <span>{{date .PostTime "Y-m-d" }}</span>
+                    		<span><img src="{{$sfu}}/{{.Author.ProfileImg | fmtHeadImg}}" class="img-rounded"></span> <span>dadairen</span> <span>{{date .PostTime "Y-m-d" }}</span>
                         <p>{{.Desc | html2str}}</p>
                     	<div class="row-fluid">
                           	<div name="spanBolder"><a href="javascript:void(0);" class="btn btn-small up"><i class="icon-thumbs-up"></i> <i class="num">{{.UpNum}}</i></a> <a href="javascript:void(0);" class="btn btn-small down"><i class="icon-thumbs-down"></i> <i class="num">{{.DownNum}}</i></a><input type="hidden" class="uid" value="{{.Pid}}"></span>
@@ -69,7 +69,7 @@
                           {{with .Comments}}
                           {{range .}}
                           <div class="media">
-                            <a class="pull-left" href="#"><img class="media-object img-rounded" src="{{$sfu}}/{{.Reviewer.HeadImg | fmtHeadImg}}"></a>
+                            <a class="pull-left" href="#"><img class="media-object img-rounded" src="{{$sfu}}/{{.Reviewer.ProfileImg | fmtHeadImg}}"></a>
                             <div class="media-body">
                               <h6 class="media-heading">{{.Reviewer.UserName}}</h6>
                               <p>{{.CommentDesc}}</p>

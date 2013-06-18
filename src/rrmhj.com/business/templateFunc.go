@@ -9,15 +9,15 @@ package business
 ************************************************************************************/
 
 import (
-	"github.com/astaxie/beego"
 	"html/template"
+	"rrmhj.com/conf"
 	"strings"
 )
 
 //如果用户没用设置过头像，则获取默认头像（Wangdj 2013-06-07	）
 func DefaultHeadImg(headImg string) string {
 	if strings.Trim(headImg, " ") == "" {
-		return beego.AppConfig.String("defheadimg")
+		return conf.DefProfileImg
 	}
 
 	return headImg
