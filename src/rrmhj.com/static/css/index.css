@@ -19,16 +19,6 @@
 
         #phone { margin-left: 10px;}
 
-        @media screen and (max-width: 767px) {
-          #top-nav {
-            padding:155px 10px 0 0; 
-          }
-
-          #logo-left {
-            padding-left: 10px;
-          }
-        }
-
 
         .thumbnails {
           max-width: 522px;
@@ -74,8 +64,20 @@
 
         .comment_login { text-align:center; padding:10px 0 10px 0; background:#eee; }
         .comment_input { padding:5px 0 5px 0; }
-        .comment_input > span > textarea { height: 30px; }
+        .comment_input > span > textarea { width:80%; height: 30px; }
         .comment_input > span > button { height: 40px; }
         .commentTime {padding-left: 10px}
 
         #loading { text-align: center; }
+
+        @media screen and (max-width: 767px) {
+          #top-nav {
+            padding:155px 10px 0 0; 
+          }
+
+          #logo-left {
+            padding-left: 10px;
+          }
+
+          .comment_input > span > textarea { width: 70%; }
+        }

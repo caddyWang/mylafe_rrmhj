@@ -144,7 +144,7 @@
 
                         <div class="caption">
                           <div class="media row-fluid">
-			    <div class="pull-left"><a href="#"><img class="media-object img-rounded" src="test/user2.png"></a></div>
+                            <a class="pull-left" href="#"><img class="media-object img-rounded" src="test/user2.png"></a>
                             <div class="media-body">
                               <h6 class="media-heading">Media heading</h6>
                               <p>非常有爱。</p>

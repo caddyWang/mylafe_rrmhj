@@ -42,15 +42,15 @@
         $("ul").find(".comment").click(function(){
           var workId = $(this).siblings(".uid").val();
           if($('#comments_'+workId).is(':hidden')) {
-            var hasComment = $('#hascomment'+workId).val()
+            var hasComment = $('#commlist'+workId).attr("view")
             //如果第一次展开评论，通过ajax到后读取
             if(hasComment == "0"){
-              $.get("/pro/comment",{"pid":workId},function(data){
+              $.get("/pro/comment?t="+(new Date()).valueOf() ,{"pid":workId},function(data){
                   var json = JSON.parse(data)
                   for(var i=0; i<json.length; i++){
                       $("#commlist"+workId).append('<div class="media"><a class="pull-left" href="#"><img class="media-object img-rounded" src="'+json[i].Reviewer.ProfileImg+'"></a><div class="media-body"><h6 class="media-heading">'+json[i].Reviewer.UserName+' <span class="commentTime">'+new Date(json[i].PostTime).format("yyyy/MM/dd hh:mm")+'</span></h6><p>'+json[i].CommentDesc+'</p></div></div>');
                   }
-                  $('#hascomment'+workId).val("1")
+                  $('#commlist'+workId).attr("view","1")
               });
             }
 
