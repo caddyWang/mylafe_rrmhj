@@ -45,7 +45,7 @@
                     	<div class="row-fluid">
                           	<div name="spanBolder"><a href="javascript:void(0);" class="btn btn-small up"><i class="icon-thumbs-up"></i> <i class="num">{{.UpNum}}</i></a> <a href="javascript:void(0);" class="btn btn-small down"><i class="icon-thumbs-down"></i> <i class="num">{{.DownNum}}</i></a><input type="hidden" class="uid" value="{{.Pid}}"></span>
 	                          <div name="spanBolder" class="btn-group pull-right">
-	                            <a href="javascript:void(0);" class="btn btn-small comment"><i class="icon-comment"></i> {{.Comments | len}}</a> 
+	                            <a href="javascript:void(0);" class="btn btn-small comment"><i class="icon-comment"></i> <i class="commnum{{.Pid}}">{{.CommentNum}}</i></a> 
 	                            <a class="btn btn-small dropdown-toggle" data-delay="1000" data-hover="dropdown" data-toggle="dropdown"><i class="icon-share"></i> 分享</a>
 	                            <ul class="dropdown-menu">
 	                              <li><a class='bds_tsina' title='分享到新浪微博' href="#" style="padding-left:25px;"> 新浪微博</a></li>
@@ -62,21 +62,19 @@
                         <p class="line"></p>
 
                         <div class="comment_login" {{$isLogin | logoutDisplay}}>发布评论要登录哦：<a href="#qqLogin" class="btn btn-small btn-info" role="button" data-toggle="modal">用腾讯QQ登录</a> <a class="btn btn-small btn-danger" href="https://api.weibo.com/oauth2/authorize?client_id=3269145958&response_type=code&redirect_uri=127.0.0.1:8080/sinalogin/" target="_blank">用新浪微博登录</a></div>
-                        <div class="comment_input" {{$isLogin | loginDisplay}}><span><textarea rows="1" style="width:80%"></textarea></span> <span class="pull-right"><button class="btn btn-large" type="button">发布</button></span></div>
+                        <div class="comment_input" {{$isLogin | loginDisplay}}><span><textarea class="commentdesc{{.Pid}}" placeholder="我也来说点什么呗..." rows="1" style="width:80%"></textarea></span> <span class="pull-right"><button class="btn btn-large" id="sendCommnet" type="button" proid="{{.Pid}}">发布</button></span></div>
 
-
-                        <div class="caption">
-                          {{with .Comments}}
-                          {{range .}}
+                        <div class="caption" id="commlist{{.Pid}}">
+                          <input type="hidden" id="hascomment{{.Pid}}" value="0">
+                          <!--
                           <div class="media">
-                            <a class="pull-left" href="#"><img class="media-object img-rounded" src="{{.Reviewer.ProfileImg | fmtHeadImg}}"></a>
+                            <a class="pull-left" href="#"><img class="media-object img-rounded" src=""></a>
                             <div class="media-body">
-                              <h6 class="media-heading">{{.Reviewer.UserName}}</h6>
-                              <p>{{.CommentDesc}}</p>
+                              <h6 class="media-heading"></h6>
+                              <p></p>
                             </div>
                           </div>
-                          {{end}}
-                          {{end}}
+                          -->
                         </div>
                       </div>
 

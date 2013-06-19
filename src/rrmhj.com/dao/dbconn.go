@@ -48,6 +48,21 @@ func Insert(collectionName string, doc interface{}) (err error) {
 	return
 }
 
+func Update(collectionName string, selector, change interface{}) (err error) {
+
+	session, err := getDBConnSession()
+	if err != nil {
+		beego.Critical("数据库连接出错：", err)
+		panic(err)
+	}
+	defer session.Close()
+
+	c := session.DB(dbNameDef).C(collectionName)
+	err = c.Update(selector, change)
+
+	return
+}
+
 func queryOpt(optType int, dbname string, collectionName string, query interface{}, result interface{}, sort string, skip, limit int) (count int, err error) {
 
 	session, err := getDBConnSession()
