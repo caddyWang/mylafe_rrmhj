@@ -16,6 +16,12 @@ type Product struct {
 	Iflag      int //0为审核通过可查看，-1为不可查看
 }
 
+type ProductUseHtml struct {
+	Product
+	UpNumScript   string
+	DownNumScript string
+}
+
 type Comment struct {
 	Cid         string "_id"
 	Proid       string

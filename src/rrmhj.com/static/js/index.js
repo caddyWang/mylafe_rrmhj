@@ -43,7 +43,7 @@
           var workId = $(this).siblings(".uid").val();
           if($('#comments_'+workId).is(':hidden')) {
             var hasComment = $('#commlist'+workId).attr("view")
-            //如果第一次展开评论，通过ajax到后读取
+            //如果第一次展开评论，通过ajax到后台读取
             if(hasComment == "0"){
               $.get("/pro/comment?t="+(new Date()).valueOf() ,{"pid":workId},function(data){
                   var json = JSON.parse(data)
@@ -138,10 +138,19 @@
         var num = up.find(".num");
         num.text(parseInt(num.text())+optView);
         playPlus(up, optView); 
+        up.addClass("btn-warning")
       }
       else { 
         var num = down.find(".num");
         num.text(parseInt(num.text())+optView);
         playPlus(down, optView); 
+        down.addClass("btn-warning")
       }
+
+      up.addClass("disabled")
+      down.addClass("disabled")
+      up.unbind("click")
+      down.unbind("click")
+
+      $.get("/pro/updown?t="+(new Date()).valueOf() ,{"proId":workId, "optView":optView});
     }

@@ -5,6 +5,7 @@ import (
 	"github.com/astaxie/beego"
 	"rrmhj.com/business"
 	"rrmhj.com/models"
+	"strconv"
 	"strings"
 )
 
@@ -13,7 +14,7 @@ type MainController struct {
 }
 
 func (this *MainController) Get() {
-	this.Data["Plist"] = business.QueryProductsList(0)
+	this.Data["Plist"] = business.QueryProductsList(0, this.Ctx.Request)
 	this.Data["IsLogin"] = business.CheckLogin(this.GetSession)
 
 	this.TplNames = "index.tpl"
@@ -71,4 +72,25 @@ func (this *CommentController) Post() {
 	}
 
 	this.Ctx.WriteString(string(infoJson))
+}
+
+type ProOptController struct {
+	beego.Controller
+}
+
+func (this *ProOptController) Get() {
+
+	proId, optValue := this.GetString("proId"), this.GetString("optView")
+	optIntVal, err := strconv.Atoi(optValue)
+	if err != nil {
+		beego.Error("顶踩参数不正确：optValue=", optValue, "proId=", proId, err)
+		return
+	}
+
+	beego.Debug(proId)
+	beego.Debug(optIntVal)
+	this.Ctx.SetCookie(proId, optValue, 0)
+	business.UpdateProUporDown(proId, optIntVal)
+
+	this.TplNames = "blank.tpl"
 }

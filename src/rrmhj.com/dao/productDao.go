@@ -62,3 +62,22 @@ func SaveProComment(comment *models.Comment) (err error) {
 
 	return
 }
+
+//更新用户踩或顶(Wangdj 2013-06-20)
+func UpdateProUporDown(proId string, optValue int) {
+	var change interface{}
+	if optValue > 0 {
+		change = bson.M{"$inc": bson.M{"upnum": 1}}
+	} else {
+		change = bson.M{"$inc": bson.M{"downnum": -1}}
+	}
+
+	beego.Debug("proId=", proId)
+	beego.Debug("optValue=", optValue)
+	beego.Debug("change=", change)
+
+	err := Update(proInfo, bson.M{"_id": proId}, change)
+	if err != nil {
+		beego.Error("更新用户踩或顶时出错：proId=", proId, err)
+	}
+}
