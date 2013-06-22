@@ -62,15 +62,32 @@
 
         //无限数据读取
         $('#container').scrollPagination({
-          'contentPage': '/static/2.html', 
-          'contentData': {}, 
+          'contentPage': '/', 
           'scrollTarget': $(window), 
-          'heightOffset': 10, 
+          'heightOffset': 5, 
           'beforeLoad': function(){ 
             $('#loading').fadeIn(); 
+
+
+            var pageSize = parseInt($('#pageSize').val());
+            var proCount = parseInt($('#proCount').val());
+
+            var a = $('#container').children('.thumbnails').size();
+            var pageIndex =Math.floor(a / pageSize)
+
+            if(pageIndex*pageSize >= proCount) {
+              $('#loading').fadeOut();
+              $('#container').stopScrollPagination();
+              
+              $('#container').append('<div class="alert alert-success" style="text-align:center; display:none;"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>没有新的作品了，等大家来创作吧...</strong></div>')
+              $('.alert').delay(1000).fadeIn(0);
+            }
+            
           },
           'afterLoad': function(elementsLoaded){ 
-             $('#loading').fadeOut();
+            
+            $('#loading').fadeOut();
+
           }
         });
 

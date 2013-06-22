@@ -26,7 +26,7 @@ func GetProductListByPage(pageIndex int) (proList []models.Product, count int) {
 	pageSize := conf.PageSize
 	proList = []models.Product{}
 
-	count, err := FindList(bson.M{"iflag": 0}, &proList, proInfo, pageIndex, pageSize, "-posttime")
+	count, err := FindList(bson.M{"iflag": 0}, &proList, proInfo, pageIndex*pageSize, pageSize, "-posttime")
 	if err != nil {
 		beego.Error("查询漫画列表数据出错：", err)
 	}

@@ -68,7 +68,8 @@
         .comment_input > span > button { height: 40px; }
         .commentTime {padding-left: 10px}
 
-        #loading { text-align: center; }
+        #loading { text-align: center; padding: 0 0 20px 0;}
+        .alert { max-width: 470px; margin: auto; display: none;}
 
         @media screen and (max-width: 767px) {
           #top-nav {

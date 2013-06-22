@@ -1,40 +1,6 @@
-<!DOCTYPE html>
+
 {{ $sfu := .SFUrl }}
 {{ $isLogin := .IsLogin}}
-<html lang="zh">
-	<head>
-		<meta charset="utf-8">
-		<title>人人漫画家</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    	<meta name="description" content="">
-    	<meta name="author" content="">
-
-    	<link href="{{$sfu}}/css/bootstrap.min.css" rel="stylesheet">
-    	<link href="{{$sfu}}/css/bootstrap-responsive.min.css" rel="stylesheet">
-    	<link href="{{$sfu}}/css/index.css" rel="stylesheet">
-
-    	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-	    <!--[if lt IE 9]>
-	      <script src="js/html5shiv.js"></script>
-	    <![endif]-->
-	</head>
-
-	<body>
-
-		<div class="navbar">
-			<div class="navbar-inner">
-				<div class="container-fluid" style="text-align:center;">
-            <span id="logo-left"></span>
-            <img src="{{$sfu}}/img/logo.png">
-            <span id="top-nav" class="pull-right"><a href="#"><img id="login"src="{{$sfu}}/img/login.png"></a> <a href="#"><img id="phone" src="{{$sfu}}/img/phone.png" class="hidden-phone"></a></span>
-				</div>
-			</div>
-		</div>
-
-		<div id="container" class="container-fluid">
-      <input type="hidden" id="pageIndex" pageindex="{{.PageIndex}}">
-      <input type="hidden" id="proCount" value="{{.ProCount}}">
-      <input type="hidden" id="pageSize" value="{{.PageSize}}">
 
 			{{with .Plist}}
 			{{range .}}
@@ -77,17 +43,3 @@
           <div class="blank"></div>
           {{end}}
           {{end}}
-
-	 </div>
-   <div id="loading"><img src="{{$sfu}}/img/loading.gif"></div>
-   <div id="bottom" style="padding-top:20px"></div>
-
-
-	<script src="{{$sfu}}/js/jquery.js"></script>
-	<script src="{{$sfu}}/js/bootstrap.min.js"></script>
-  <script src="{{$sfu}}/js/twitter-bootstrap-hover-dropdown.min.js"></script>
-  <script src="{{$sfu}}/js/scrollpagination.js"></script>
-  <script src="{{$sfu}}/js/index.js"></script>
-
-	</body>
-</html>

@@ -16,8 +16,8 @@ import (
 )
 
 //根据分页参数获取漫画作品列表（Wangdj 2013-06-07	）
-func QueryProductsList(pageIndex int, req *http.Request) (proHtmllist []models.ProductUseHtml) {
-	prolist, _ := dao.GetProductListByPage(pageIndex)
+func QueryProductsList(pageIndex int, req *http.Request) (proHtmllist []models.ProductUseHtml, count int) {
+	prolist, count := dao.GetProductListByPage(pageIndex)
 	proHtmllist = []models.ProductUseHtml{}
 
 	for _, pro := range prolist {
