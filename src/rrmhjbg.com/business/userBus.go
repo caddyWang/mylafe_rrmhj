@@ -5,8 +5,8 @@ import (
 	"rrmhjbg.com/models"
 )
 
-func InitUserInfoBySinaWeibo(socialUser models.SocialUserInfo, platformName string) (uid string) {
-	user := models.UserInfo{}
+func InitUserInfoBySinaWeibo(socialUser models.SocialUserInfo, platformName, rrmhjUid string) (uid string) {
+	user := models.UserInfo{Id: rrmhjUid}
 
 	switch platformName {
 	case models.SinaWeibo:

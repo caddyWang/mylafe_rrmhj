@@ -12,10 +12,10 @@ type UserController struct {
 }
 
 func (this *UserController) Post() {
-	iconURL, platformName, profileURL, userName, uid := this.GetString("iconURL"), this.GetString("platformName"), this.GetString("profileURL"), this.GetString("userName"), this.GetString("usid")
+	rrmhjUid, iconURL, platformName, profileURL, userName, uid := this.GetString("rrmhjUid"), this.GetString("iconURL"), this.GetString("platformName"), this.GetString("profileURL"), this.GetString("userName"), this.GetString("usid")
 
 	socialuser := models.SocialUserInfo{Uid: uid, UserName: userName, ProfileImg: iconURL, ProfileUrl: profileURL}
-	dbUid := business.InitUserInfoBySinaWeibo(socialuser, platformName)
+	dbUid := business.InitUserInfoBySinaWeibo(socialuser, platformName, rrmhjUid)
 
 	var rtn struct {
 		OptCode  string

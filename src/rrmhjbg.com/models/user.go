@@ -6,7 +6,7 @@ import (
 
 const (
 	SinaWeibo = "sina"
-	TencWeibo = "tenc"
+	TencWeibo = "tencent"
 	QQZone    = "qqzone"
 	RenRenSNS = "renren"
 )
