@@ -1,8 +1,14 @@
 package models
 
 import (
-	//"labix.org/v2/mgo/bson"
 	"time"
+)
+
+const (
+	SinaWeibo = "sina"
+	TencWeibo = "tencent"
+	QQZone    = "qqzone"
+	RenRenSNS = "renren"
 )
 
 type UserBase struct {
@@ -23,14 +29,22 @@ type UserInfo struct {
 	Location        string
 	CreateTime      time.Time
 
-	SinaWeibo SinaWeiboUserInfo
+	SinaWeibo []SocialUserInfo
+	TencWeibo []SocialUserInfo
+	QQZone    []SocialUserInfo
+	RenRenSNS []SocialUserInfo
 }
 
-type SinaWeiboUserInfo struct {
-	SnUid         int64
-	SnUserName    string
-	SnProfileImg  string
-	SnAvaterLarge string
-	SnProfileUrl  string
-	SnDescription string
+type SocialUserInfo struct {
+	Uid        string
+	UserName   string
+	ProfileImg string
+	ProfileUrl string
+
+	Gender      string
+	Province    string
+	City        string
+	Location    string
+	AvaterLarge string
+	Description string
 }
