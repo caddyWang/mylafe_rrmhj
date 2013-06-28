@@ -41,6 +41,8 @@ func (this *CommentController) Get() {
 	proid := this.GetString("pid")
 	commlist, _, _ := business.GetProComment(proid)
 
+	beego.Debug("commentlist =", commlist)
+
 	infoJson, err1 := json.Marshal(commlist)
 	if err1 != nil {
 		beego.Error("数据格式化成JSON出错！", err1)

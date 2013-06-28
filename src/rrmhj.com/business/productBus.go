@@ -44,17 +44,24 @@ func QueryProductsList(pageIndex int, req *http.Request) (proHtmllist []models.P
 
 //读取某个漫画下的所有评论(Wangdj 2013-06-19)
 func GetProComment(pid string) (commentList []models.Comment, count int, err error) {
-	commentList, count, err = dao.GetProComment(pid)
-	for _, comment := range commentList {
+	var list []models.Comment
+	commentList = []models.Comment{}
+	list, count, err = dao.GetProComment(pid)
+
+	for _, comment := range list {
 		comment.CommentDesc = beego.Html2str(comment.CommentDesc)
+		comment.Reviewer.ProfileImg = DefaultHeadImg(comment.Reviewer.ProfileImg)
+		commentList = append(commentList, comment)
 	}
-	return
+
+	return commentList, count, err
 }
 
 //保存漫画评论（Wangdj 2013-06-19）
 func SaveProductComment(comment *models.Comment, gs GetSession) (err error) {
 	comment.Reviewer = GetSessinUserBase(gs)
 	err = dao.SaveProComment(comment)
+
 	comment.Reviewer.ProfileImg = DefaultHeadImg(comment.Reviewer.ProfileImg)
 
 	return

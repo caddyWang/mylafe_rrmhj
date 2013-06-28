@@ -22,7 +22,7 @@ func DefaultHeadImg(headImg string) string {
 	beego.Debug("是否为站外地址：", strings.Contains(headImg, "http:"))
 
 	if strings.Trim(headImg, " ") == "" {
-		return conf.DefProfileImg
+		headImg = conf.DefProfileImg
 	}
 
 	if strings.Contains(headImg, "http:") {

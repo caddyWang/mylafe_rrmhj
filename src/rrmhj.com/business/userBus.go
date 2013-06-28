@@ -68,3 +68,23 @@ func SinaLoginProcess(tkRST *SinaWeiboOauth2AccesstokenResult, userRST *SinaWeib
 	setSess("uname", user.UserName)
 	setSess("uprofileimg", user.ProfileImg)
 }
+
+// 2013/06/28 Wangdj 新增：通过腾讯微博开放平台获取登录用户帐户信息，并绑定到人人漫画家平台的用户信息中
+func TencLoginProcess(tkRST *TencWeiboOauth2AccesstokenResult, userRST *TencWeiboUserShowResult, setSess SetSession) {
+	if userRST.Data.Openid == "" {
+		beego.Error("获取腾讯用户信息数据出错，不能正常登录！")
+		return
+	}
+
+	user := models.UserInfo{Id: "-1", Gender: userRST.Data.Sex, Province: userRST.Data.Province_code, City: userRST.Data.City_code, Location: userRST.Data.Location}
+	socialUser := models.SocialUserInfo{userRST.Data.Openid, userRST.Data.Name, userRST.Data.Head, userRST.Data.Homepage, userRST.Data.Sex, userRST.Data.Province_code, userRST.Data.City_code, userRST.Data.Location, "", userRST.Data.Introduction}
+	user.TencWeibo = []models.SocialUserInfo{socialUser}
+
+	userId := dao.InitUserInfoBySocialUser(&user, models.TencWeibo)
+
+	setSess("tenc_access_token", tkRST.Access_token)
+	setSess("tenc_id", userRST.Data.Openid)
+	setSess("uid", userId)
+	setSess("uname", user.UserName)
+	setSess("uprofileimg", user.ProfileImg)
+}

@@ -9,6 +9,7 @@ import (
 func main() {
 	beego.Router("/", &controllers.MainController{})
 	beego.Router("/sinalogin", &controllers.SinaLoginController{})
+	beego.Router("/tenclogin", &controllers.TencLoginController{})
 	beego.Router("/pro/comment", &controllers.CommentController{})
 	beego.Router("/pro/updown", &controllers.ProOptController{})
 

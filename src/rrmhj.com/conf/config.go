@@ -16,12 +16,20 @@ var PageSize, _ = beego.AppConfig.Int("page_size")            //每页显示条�
 var DefProfileImg = beego.AppConfig.String("def_profile_img") //用户没有设置头像时的，默认头像
 
 //Sina weibo API's config params
-var SinaRedirectUri = beego.AppConfig.String("sina_redirect_uri")                      //用新浪微博帐户登录后的，回调页面
-var SinaOauth2AccesstokenAddr = beego.AppConfig.String("sina_oauth2_accesstoken_addr") //请求access token的地址
-var SinaClientId = beego.AppConfig.String("sina_client_id")                            //新浪appKey
-var SinaClientSecret = beego.AppConfig.String("sina_client_secret")                    //新浪appSecret
-var SinaGrantType = beego.AppConfig.String("sina_grant_type")                          //请求access token时grant类型
-var SinaUserShowAddr = beego.AppConfig.String("sina_user_show_addr")                   //请求用户信息的地址
+var SinaRedirectUri = beego.AppConfig.String("web_url") + beego.AppConfig.String("sina_redirect_uri") //用新浪微博帐户登录后的，回调页面
+var SinaOauth2AccesstokenAddr = beego.AppConfig.String("sina_oauth2_accesstoken_addr")                //请求access token的地址
+var SinaClientId = beego.AppConfig.String("sina_client_id")                                           //新浪appKey
+var SinaClientSecret = beego.AppConfig.String("sina_client_secret")                                   //新浪appSecret
+var SinaGrantType = beego.AppConfig.String("sina_grant_type")                                         //请求access token时grant类型
+var SinaUserShowAddr = beego.AppConfig.String("sina_user_show_addr")                                  //请求用户信息的地址
+
+//Tenc weibo API's config params
+var TencRedirectUri = beego.AppConfig.String("web_url") + beego.AppConfig.String("tenc_redirect_uri") //用新浪微博帐户登录后的，回调页面
+var TencOauth2AccesstokenAddr = beego.AppConfig.String("tenc_oauth2_accesstoken_addr")                //请求access token的地址
+var TencClientId = beego.AppConfig.String("tenc_client_id")                                           //新浪appKey
+var TencClientSecret = beego.AppConfig.String("tenc_client_secret")                                   //新浪appSecret
+var TencGrantType = beego.AppConfig.String("tenc_grant_type")                                         //请求access token时grant类型
+var TencUserShowAddr = beego.AppConfig.String("tenc_user_show_addr")                                  //请求用户信息的地址
 
 //mongoDB
 var ConnAddr = beego.AppConfig.String("conn_addr")

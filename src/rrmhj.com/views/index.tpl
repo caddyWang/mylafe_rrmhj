@@ -64,7 +64,7 @@
                       <div id="comments_{{.Pid}}" style="display:none">
                         <p class="line"></p>
 
-                        <div class="comment_login" {{$isLogin | logoutDisplay}}>发布评论要登录哦：<a href="#qqLogin" class="btn btn-small btn-info" role="button" data-toggle="modal">用腾讯QQ登录</a> <a class="btn btn-small btn-danger" href="https://api.weibo.com/oauth2/authorize?client_id=3269145958&response_type=code&redirect_uri=127.0.0.1:8080/sinalogin/" target="_blank">用新浪微博登录</a></div>
+                        <div class="comment_login" {{$isLogin | logoutDisplay}}>发布评论要登录哦：<a class="btn btn-small btn-info" href="https://open.t.qq.com/cgi-bin/oauth2/authorize?client_id=801378372&response_type=code&redirect_uri=http://127.0.0.1:8080/tenclogin" role="button" data-toggle="modal" target="_blank">用腾讯微博登录</a> <a class="btn btn-small btn-danger" href="https://api.weibo.com/oauth2/authorize?client_id=3269145958&response_type=code&redirect_uri=127.0.0.1:8080/sinalogin" target="_blank">用新浪微博登录</a></div>
                         <div class="comment_input" {{$isLogin | loginDisplay}}><span><textarea class="commentdesc{{.Pid}}" placeholder="我也来说点什么呗..." rows="1" ></textarea></span> <span class="pull-right"><button class="btn btn-large" id="sendCommnet" type="button" proid="{{.Pid}}">发布</button></span></div>
 
                         <div class="caption" id="commlist{{.Pid}}" view="0"></div>
@@ -88,6 +88,7 @@
   <script src="{{$sfu}}/js/twitter-bootstrap-hover-dropdown.min.js"></script>
   <script src="{{$sfu}}/js/scrollpagination.js"></script>
   <script src="{{$sfu}}/js/index.js"></script>
+
 
 	</body>
 </html>
