@@ -17,6 +17,8 @@
 	    <!--[if lt IE 9]>
 	      <script src="js/html5shiv.js"></script>
 	    <![endif]-->
+
+      <script src="http://mat1.gtimg.com/app/openjs/openjs.js#autoboot=no&debug=no"></script>
 	</head>
 
 	<body>
@@ -51,8 +53,8 @@
 	                            <a href="javascript:void(0);" class="btn btn-small comment"><i class="icon-comment"></i> <i class="commnum{{.Pid}}">{{.CommentNum}}</i></a> 
 	                            <a class="btn btn-small dropdown-toggle" data-delay="1000" data-hover="dropdown" data-toggle="dropdown"><i class="icon-share"></i> 分享</a>
 	                            <ul class="dropdown-menu">
-	                              <li><a class='bds_tsina' title='分享到新浪微博' href="#" style="padding-left:25px;"> 新浪微博</a></li>
-	                              <li><a class='bds_tqq' title='分享到腾讯微博' href="#" style="padding-left:25px;"> 腾讯微博</a></li>
+	                              <li><a class='bds_tsina' title='分享到新浪微博' href='http://service.weibo.com/share/share.php?url=&appkey=3269145958&title={{.Desc | html2str}}&pic={{$sfu}}/{{.ImgPath}}&ralateUid=3125160187' style="padding-left:25px;"  target="_blank"> 新浪微博</a></li>
+	                              <li><a class='bds_tqq' title='分享到腾讯微博' href='http://share.v.t.qq.com/index.php?c=share&a=index&url={{$sfu}}/{{.ImgPath}}&appkey=801378372&title={{.Desc | html2str}}&pic={{$sfu}}/{{.ImgPath}}&line1=' style="padding-left:25px;" target="_blank"> 腾讯微博</a></li>
 	                              <li><a class='bds_tqzone' title='分享到QQ空间' href='#' style="padding-left:25px;"> QQ空间</a></li>
 	                              <li><a class='bds_trenren' title='分享到人人网' href='#' style="padding-left:25px;"> 人人网</a></li>
 	                            </ul>
