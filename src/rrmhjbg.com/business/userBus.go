@@ -24,3 +24,12 @@ func InitUserInfoBySinaWeibo(socialUser models.SocialUserInfo, platformName, rrm
 
 	return dao.InitUserInfoBySinaWeibo(&user, platformName)
 }
+
+func GetAllUsers(pageIndex, pageSize int, user *[]models.UserInfo) (icount, optCode int) {
+	count, err := dao.GetAllUsers(pageIndex, pageSize, "", user)
+	if err != nil {
+		optCode = -1
+	}
+
+	return count, optCode
+}

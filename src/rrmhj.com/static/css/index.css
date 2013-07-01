@@ -52,6 +52,7 @@
         .bds_tqq {  background-image: url(/static/img/is.png); background-repeat: no-repeat; background-position: 0 -235px; }
         .bds_tqzone {  background-image: url(/static/img/is.png); background-repeat: no-repeat; background-position: 0 -75px; }
         .bds_trenren {  background-image: url(/static/img/is.png); background-repeat: no-repeat; background-position: 0 -195px; }
+        .bds_tsina .bds_tqq .bds_tqzone .bds_trenren { cursor: hand; }
 
         .btn-group > .btn, .btn-group > .dropdown-menu, .btn-group > .popover { font-size: 12px; padding-left: 10px; }
         .dropdown-menu { min-width: 100px; }

@@ -125,6 +125,37 @@
             });
         });
 
+
+        //分享公共平台地址调用
+        $(".bds_tsina").click(function(){
+          var img = $(this).attr("img");
+          var info = $(this).attr("info");
+
+          var url = "http://service.weibo.com/share/share.php?url=&appkey=3269145958&title="+encodeURIComponent(info)+"&pic="+encodeURIComponent(img)+"&ralateUid=3125160187";
+          window.open(url);
+        });
+        $(".bds_tqq").click(function(){
+          var img = $(this).attr("img");
+          var info = $(this).attr("info");
+
+          var url = "http://share.v.t.qq.com/index.php?c=share&a=index&url="+encodeURIComponent(img)+"&appkey=801378372&title="+encodeURIComponent(info)+"&pic="+encodeURIComponent(img)+"&line1=";
+          window.open(url);
+        });
+        $(".bds_tqzone").click(function(){
+          var img = $(this).attr("img");
+          var info = $(this).attr("info");
+
+          var url = "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://renrenmanhua.com&showcount=0&summary=&title="+encodeURIComponent(info)+"&site="+encodeURIComponent("人人漫画家")+"&pics="+encodeURIComponent(img)+"&style=103&width=71&height=22&otype=share";
+          window.open(url);
+        });
+        $(".bds_trenren").click(function(){
+          var img = $(this).attr("img");
+          var info = $(this).attr("info");
+
+          var url = "http://widget.renren.com/dialog/share?resourceUrl=http://renrenmanhua.com&pic="+encodeURIComponent(img)+"&title="+encodeURIComponent("人人漫画家")+"&description="+encodeURIComponent(info)+"&images="+encodeURIComponent(img)+"&charset=utf-8";
+          window.open(url);
+        });
+
     });
 
 

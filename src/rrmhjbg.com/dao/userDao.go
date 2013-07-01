@@ -59,6 +59,17 @@ func InitUserInfoBySinaWeibo(user *models.UserInfo, platformName string) (uid st
 	return user.Id
 }
 
+func GetAllUsers(pageIndex, pageSize int, sort string, user *[]models.UserInfo) (icount int, err error) {
+	if sort == "" {
+		sort = "-createtime"
+	}
+	icount, err = FindList(bson.M{}, user, userInfo, (pageIndex-1)*pageSize, pageSize, sort)
+	if err != nil {
+		beego.Error("查询用户分页数据出错：pageindex=", pageIndex, " pagesize=", pageSize, err)
+	}
+	return
+}
+
 func findSocialUser(platform string, socialUser models.SocialUserInfo, user *models.UserInfo) (pushSocialUser map[string]interface{}, err error) {
 	err = FindOne(bson.M{platform: bson.M{"$elemMatch": bson.M{"uid": socialUser.Uid}}}, user, userInfo)
 	user.UserName, user.ProfileImg = socialUser.UserName, socialUser.ProfileImg
