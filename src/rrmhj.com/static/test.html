@@ -1,0 +1,90 @@
+<html lang="zh">
+	<head>
+		<meta charset="utf-8">
+		<style>
+			.parent{
+				background-color: #eee;
+				width: 500; height: auto;
+				margin: 0 0 10px 0;
+				position: relative;
+				overflow: hidden;
+				padding-bottom: 5px;
+			}
+			.span1 {
+				float: right;
+				background-color: red;
+				width: 200; height: 50;
+				position: absolute;
+				bottom:20; right: 20px;
+				overflow: hidden;
+				display: none;
+			}
+			.span2{
+				background-color: green;
+				width: 490; height: auto;
+				overflow: hidden;
+			}
+
+		</style>
+	</head>
+	<body>
+		<div class="parent">
+			<div class="span1"><p>Love</p></div>
+			<div class="span2">这里是不是你一直想要的地方 #沃特湖# 克拉根福 #奥地利201202# morning sun #@聚雲者 @雲飛 @芦隐山 @Tibet格桑 @啪啪 @夏诺 @cuinana 这里是不是你一直想要的地方 #沃特湖# 克拉根福 #奥地利201202# morning sun #@聚雲者 @雲飛 @芦隐山 @Tibet格桑 @啪啪 @夏诺 @cuinana这里是不是你一直想要的地方 #沃特湖# 克拉根福 #奥地利201202# morning sun #@聚雲者 @雲飛 @芦隐山 @Tibet格桑 @啪啪 @夏诺 @cuinana</div>
+		</div>
+
+		<div class="parent">
+			<div class="span1"><p>Love</p></div>
+			<div class="span2"><ul class="sf-menu">
+				<li class=" home"> <a href="/blog/">Home</a>
+					<ul>
+						<li><a href="/blog/about-us/">About Us</a></li>
+						<li><a href="/blog/advertise/">Advertise</a></li>
+						<li><a href="/blog/contact/">Contact us</a></li>
+						<li><a href="/blog/write-for-us/">Become an author</a></li>
+						<li><a href="/blog/submit-news-tips/">Submit tips</a></li>
+					</ul>
+				</li>
+				<li class=" photoshop"><a href="/blog/category/photoshop/">Photoshop</a></li>
+				<li class=" icons"><a href="/blog/category/free-icons/">Icons</a></li>
+				<li class=" design"><a href="/blog/category/design/">Design</a></li>
+				<li class=" wordpress"><a href="/blog/category/wordpress/">Wordpress</a></li>
+				<li class=" tools"><a href="/blog/category/tools/">Tools</a></li>
+				<li class=" inspiration"><a href="/blog/category/inspiration/">Inspiration</a></li>
+				<li class=" graphics"><a href="/blog/category/graphics/">Graphics</a></li>
+				<li class=" wallpapers"><a href="/blog/category/free-wallpapers/">Wallpapers</a></li>
+				<li class=" howto"><a href="/blog/category/how-to/">How-to</a></li>
+				<li class=" web20"><a href="/blog/category/web-20/">Web 2.0</a></li>
+				<li class=" freebies"><a href="/blog/category/freebies-online/">Freebies</a></li>
+			</ul></div>
+		</div>
+
+	</body>
+</html>
+
+<script src="js/jquery.js"></script>
+<script>
+	$(function(){
+
+		$(".span2").bind("mouseover",function(){
+			$(this).siblings(".span1").show();
+			return false;
+		});
+
+		$(".span2").bind("mouseleave",function(){
+			$(this).siblings(".span1").hide();
+			return false;
+		});
+
+		$(".span1").bind("mouseover",function(){
+			$(this).show();
+			return false;
+		});
+		$(".span1").bind("mouseleave",function(){
+			$(this).hide();
+			return false;
+		});
+
+		
+	});
+</script>

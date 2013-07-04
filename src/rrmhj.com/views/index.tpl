@@ -17,8 +17,6 @@
 	    <!--[if lt IE 9]>
 	      <script src="js/html5shiv.js"></script>
 	    <![endif]-->
-
-      <script src="http://mat1.gtimg.com/app/openjs/openjs.js#autoboot=no&debug=no"></script>
 	</head>
 
 	<body>
@@ -43,7 +41,13 @@
             <ul class="thumbnails">
               <li>
                 	<div class="thumbnail">
-                  		<img src="{{$sfu}}/{{.ImgPath}}" alt="{{.Desc | html2str}}">
+                      <div class="imgshow">
+                        <a class="ilike-m" data-proid="2361819" href="javascript:;">
+                          <i></i>
+                          <span class="ilikeCount" data-val="2">喜欢(3)</span>
+                        </a>
+                        <img src="{{$sfu}}/{{.ImgPath}}" alt="{{.Desc | html2str}}">
+                      </div>
                   		<div class="caption">
                     		<span><img src="{{.Author.ProfileImg | fmtHeadImg}}" class="img-rounded"></span> <span>{{.Author.UserName}}</span> <span>{{date .PostTime "Y-m-d" }}</span>
                         <p>{{.Desc | html2str}}</p>

@@ -1,0 +1,168 @@
+/*---------------------------------------
+   Label.css
+
+   Developed By Hosein Emrani:
+   
+    |twitter: @hoseiin
+    |facebook : fb.com/hosein.emrani
+    |Mail : hoseiin[at]outlook[dot]com
+   
+   with love in usablica, Tehran. 
+----------------------------------------*/
+
+/* Basic CSS for the label */
+.hoseinlabel {
+    position: relative;
+    font-family: Arial;
+    margin: auto;
+    display: inline-block;
+    width: auto; 
+    overflow: hidden;
+}
+.hoseinlabel.rtl:after,
+.hoseinlabel.rtl:before {
+    text-align: right;
+    direction: rtl;
+    font-family: 'B yekan';
+    font-size: .9em;
+    font-weight: 200;
+}
+.hoseinlabel:after,
+.hoseinlabel:before { 
+    position: absolute;
+    
+    height: auto;
+    width: 98%;
+    display: block;
+    
+    padding:1%;
+    display: block;
+    background:rgba(242, 242, 242, 0.80);
+    
+    content: attr(data-label);
+    
+}
+
+/* Now we just wanna chose the position of the label with class names. */
+
+/*  Positions Seprated to two category: "outer","inner". 
+    Each of them have subcategories in axises left or right, top, bottom (default in inside mode) ,middle and center */
+
+/* Inside positions */
+
+/* we don't neeed these to show. */
+.hoseinlabel.top:after,
+.hoseinlabel.bottom:before,
+.hoseinlabel.inside.middle:before
+ { 
+    display: none;
+}
+/* top positions*/
+.hoseinlabel.inside.top:before {
+    top: 0px;
+}
+/* bottom positions*/
+.hoseinlabel.bottom:after { 
+    bottom:1%;
+}
+/* middle positions */
+.hoseinlabel.inside.middle:after {
+    top: 45%;
+}
+
+/* Left or Right Axis */
+.hoseinlabel.inside.left:after,.label.inside.left:before {
+    float: left;
+    width: auto;
+    left: 0px;
+}
+
+.hoseinlabel.inside.right:after,.label.inside.right:before { 
+    float: right;
+    width: auto;
+    right: 0px;
+}
+
+/* Outside Positions basics */
+.hoseinlabel.outside {
+    overflow: initial;
+}
+.hoseinlabel.outside:after,
+.hoseinlabel.outside:before { 
+    position: relative;
+    background: none;
+}
+.hoseinlabel.outside:after {
+    margin-bottom: -5%;
+}
+.hoseinlabel.outside:before {
+    margin-top: -5%;
+}
+
+/* let's play with CSS3 Transitions and make very cute effects for hovering! */
+
+/* fade effect */
+.hoseinlabel.fade:after,
+.hoseinlabel.fade:before,
+.hoseinlabel.float:after,
+.hoseinlabel.float:before {
+	transition:all 0.25s ease;
+    -webkit-transition:all 0.25s ease;
+    -moz-transition:all 0.25s ease;
+    -ms-transition:all 0.25s ease;
+}
+.hoseinlabel.fade:after,
+.hoseinlabel.fade:before {
+    opacity: 0;
+    visibility: hidden;
+}
+.hoseinlabel.fade:hover:after,
+.hoseinlabel.fade:hover:before {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* float effect */
+
+.hoseinlabel.inside.top.float:before {
+    top: -15px;
+}
+.hoseinlabel.inside.top.float:hover:before {
+    top: 0;
+}
+.hoseinlabel.inside.bottom.float:after {
+    bottom: -5px;
+}
+.hoseinlabel.inside.bottom.float:hover:after {
+    bottom: 1%;
+}
+.hoseinlabel.inside.middle.float:after {
+    margin-top: 20px;
+}
+.hoseinlabel.inside.middle.float:hover:after {
+    margin-top: 0px;
+}
+.hoseinlabel.outside.top.float:before { 
+    top: 10px;
+}
+.hoseinlabel.outside.top.float:hover:before {
+    top: 0px;
+}
+.hoseinlabel.outside.bottom.float:after { 
+    top: -10px;
+}
+.hoseinlabel.outside.bottom.float:hover:after {
+    top: 0px;
+}
+
+.hoseinlabel.float:after,
+.hoseinlabel.float:before {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.hoseinlabel.float:hover:after,
+.hoseinlabel.float:hover:before {
+    opacity: 1;
+    visibility: visible;
+}

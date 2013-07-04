@@ -9,104 +9,29 @@
 
     	<link href="css/bootstrap.min.css" rel="stylesheet">
     	<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+      <link href="css/index.css" rel="stylesheet">
 
     	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 	    <!--[if lt IE 9]>
 	      <script src="js/html5shiv.js"></script>
 	    <![endif]-->
 
-    	<style>
-    		body { 
-          background: url(img/bg.png) repeat scroll 0 0 #FFFFF5; padding: 0px 0 0 0; font-family:Arial,"微软雅黑","宋体","黑体"; font-size: 12px;
-        } 
-
-        .navbar-inner { 
-          border-width: 5px 0 1px;
-          border-color: #ff788a #fff #FFAEB9; 
-          box-shadow: 0 1px 5px rgba(255, 174, 185, 1);
-          padding: 20px 0 30px 0;
-        }
-
-        #top-nav {
-            padding:155px 100px 0 0; 
-        }
-
-        #logo-left {
-          padding-left: 150px;
-        }
-
-        #phone { margin-left: 10px;}
-
-        @media screen and (max-width: 767px) {
-          #top-nav {
-            padding:155px 10px 0 0; 
-          }
-
-          #logo-left {
-            padding-left: 10px;
-          }
-        }
-
-
-        .thumbnails {
-          max-width: 522px;
-          margin: auto;
-          background-color: #fff;
-          -webkit-border-radius: 5px;
-             -moz-border-radius: 5px;
-                  border-radius: 5px;
-          -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-             -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-                  box-shadow: 0 1px 2px rgba(0,0,0,.05);
-        }
-
-        .thumbnail { max-width: 512px; }
-        .thumbnails > li { margin: 0; }
-
-        .media-object { width: 32px; height: 32px; }
-        .media-heading { color: #999; font-weight: normal; font-style: italic; margin: -2px 0 -2px; }
-        .media-heading + p { color:#666; line-autoheight: 150%}
-        .line { border-top:1px solid #eee; margin-top: 20px; }
-        .blank { padding-top: 15px; }
-
-        div[name="spanBolder"] { font-weight: bolder; }
-
-        .caption > span > img { width:24px; height:24px; }
-        .caption > span + span { font-size:14px; font-weight: bolder; padding-left: 5px;}
-        .caption > span + span + span { color:gray; font-size:9px; font-family: Verdana; font-style: italic;}
-        .caption > span + p { padding-top: 10px; color: #000; }
-
-        .bds_tsina {  background-image: url(img/is.png); background-repeat: no-repeat; background-position: 0 -115px;}
-        .bds_tqq {  background-image: url(img/is.png); background-repeat: no-repeat; background-position: 0 -235px; }
-        .bds_tqzone {  background-image: url(img/is.png); background-repeat: no-repeat; background-position: 0 -75px; }
-        .bds_trenren {  background-image: url(img/is.png); background-repeat: no-repeat; background-position: 0 -195px; }
-
-        .btn-group > .btn, .btn-group > .dropdown-menu, .btn-group > .popover { font-size: 12px; padding-left: 10px; }
-        .dropdown-menu { min-width: 100px; }
-
-        .digg, .undigg {position:absolute; z-index:999; display:block; width:200px; height:200px; font-size:16px; font-weight:bold;}
-        .digg table, .undigg table {width:100%; height:100%;}
-        .digg td, .undigg td {width:100%; height:100%; text-align:center; vertical-align:middle;}
-        .digg {color:#f60;}
-        .undigg {color:#666;}
-	.comment_login { text-align:center; padding:10px 0 10px 0; background:#eee; }
-	.comment_input { padding:5px 0 5px 0; }
-	.comment_input > span > textarea { height: 30px; }
-	.comment_input > span > button { height: 40px; }
-
-        #loading { text-align: center; }
-
-    	</style>
+    	
 	</head>
 
 	<body>
 
 		<div class="navbar">
 			<div class="navbar-inner">
-				<div class="container-fluid" style="text-align:center;">
-            <span id="logo-left"></span>
-            <img src="img/logo.png">
-            <span id="top-nav" class="pull-right"><a href="#"><img id="login"src="img/login.png"></a> <a href="#"><img id="phone" src="img/phone.png" class="hidden-phone"></a></span>
+				<div id="head" class="container-fluid">
+            <div class="headleft"><div id="logo"></div></div>
+            <div class="headright pull-right dropdown">
+                <div id="login" class="dropdown-toggle" data-close-others="true" data-hover="dropdown" data-toggle="dropdown"></div>
+                <ul class="dropdown-menu">
+                    <li><a title='新浪微博登录' href="#"><div class="sinaweibo"></div> 新浪微博登录</a></li>
+                    <li><a title='腾讯微博登录' href="#"><div class="tencweibo"></div> 腾讯微博登录</a></li>
+                </ul>
+              </div>
 				</div>
 			</div>
 		</div>

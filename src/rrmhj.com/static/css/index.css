@@ -1,23 +1,62 @@
         body { 
-          background: url(/static/img/bg.png) repeat scroll 0 0 #FFFFF5; padding: 0px 0 0 0; font-family:Arial,"微软雅黑","宋体","黑体"; font-size: 12px;
+          background: #f2f2e9 none; padding: 0px 0 0 0; font-family:Arial,"微软雅黑","宋体","黑体"; font-size: 12px;
         } 
 
+        /*头部*/
         .navbar-inner { 
-          border-width: 5px 0 1px;
-          border-color: #ff788a #fff #FFAEB9; 
-          box-shadow: 0 1px 5px rgba(255, 174, 185, 1);
-          padding: 20px 0 30px 0;
+          border-width: 0 0 1px;
+          border-color: #FFF #FFF #FFAEB9; 
+          background: #fffff5 none;
+          height: 100px;
         }
 
-        #top-nav {
-            padding:155px 100px 0 0; 
+        #head { 
+          max-width: 900px;
+          text-align:center; 
+          margin: 0 auto; image
         }
 
-        #logo-left {
-          padding-left: 150px;
+        .headleft{ float: left; }
+
+        #logo, #login, .sinaweibo, .tencweibo {
+          background-image: url(../img/icon.png); 
+          background-repeat: no-repeat;
         }
 
-        #phone { margin-left: 10px;}
+        #logo {
+          background-position: -19px -20px;
+          width: 204px; height: 69px;
+          margin: 12px 0 0 0;
+        }
+
+        #login {
+          background-position: -54px -103px;
+          width: 42px; height: 43px;
+          margin: 30px 0 0 0;
+          cursor: pointer;
+        }
+        #login:hover {
+          background-position: -105px -103px;
+        }
+
+        .headright > .dropdown-menu {
+          border: 2px solid rgba(255, 120, 138, 0.3);
+          width: 150px;
+        }
+        .headright > .dropdown-menu > li {
+          padding: 5px 0 5px 0;
+        }
+
+        .sinaweibo, .tencweibo {
+          float: left; padding: 0 8px 0 0;
+          width: 26px; height: 22px;
+        }
+        .sinaweibo {
+          background-position: -160px -214px;
+        }
+        .tencweibo {
+          background-position: -210px -217px;
+        }
 
 
         .thumbnails {
@@ -32,8 +71,30 @@
                   box-shadow: 0 1px 2px rgba(0,0,0,.05);
         }
 
-        .thumbnail { max-width: 512px; }
+        .thumbnail { max-width: 512px; } 
+        .imgshow { max-width: 512px; position: relative; }
         .thumbnails > li { margin: 0; }
+
+        .ilike-m {
+            background-image: url("/static/img/like-btn.png");
+            background-repeat: no-repeat;
+            background-position: 0 -45px;
+            cursor: pointer;
+            border-radius: 3px 3px 3px 3px;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.6);
+            color: #FFFFFF;
+            height: 36px;
+            line-height: 36px;
+            margin: -18px 0 0 -60px;
+            outline: medium none;
+            padding: 0 15px 0 40px;
+            position: absolute;
+            text-align: left;
+            width: 65px; height: auto;
+            float: right;
+            bottom:20px; right: 20px;
+            overflow: hidden;
+        }
 
         .media-object { width: 32px; height: 32px; }
         .media-heading { color: #999; font-weight: normal; font-style: italic; margin: -2px 0 -2px; }
@@ -48,11 +109,10 @@
         .caption > span + span + span { color:gray; font-size:9px; font-family: Verdana; font-style: italic;}
         .caption > span + p { padding-top: 10px; color: #000; }
 
-        .bds_tsina {  background-image: url(/static/img/is.png); background-repeat: no-repeat; background-position: 0 -115px;}
-        .bds_tqq {  background-image: url(/static/img/is.png); background-repeat: no-repeat; background-position: 0 -235px; }
-        .bds_tqzone {  background-image: url(/static/img/is.png); background-repeat: no-repeat; background-position: 0 -75px; }
-        .bds_trenren {  background-image: url(/static/img/is.png); background-repeat: no-repeat; background-position: 0 -195px; }
-        .bds_tsina .bds_tqq .bds_tqzone .bds_trenren { cursor: hand; }
+        .bds_tsina {  background-image: url(/static/img/is.png); background-repeat: no-repeat; background-position: 0 -115px; cursor: pointer; }
+        .bds_tqq {  background-image: url(/static/img/is.png); background-repeat: no-repeat; background-position: 0 -235px; cursor: pointer;  }
+        .bds_tqzone {  background-image: url(/static/img/is.png); background-repeat: no-repeat; background-position: 0 -75px; cursor: pointer;  }
+        .bds_trenren {  background-image: url(/static/img/is.png); background-repeat: no-repeat; background-position: 0 -195px; cursor: pointer;  }
 
         .btn-group > .btn, .btn-group > .dropdown-menu, .btn-group > .popover { font-size: 12px; padding-left: 10px; }
         .dropdown-menu { min-width: 100px; }
@@ -73,13 +133,5 @@
         .alert { max-width: 470px; margin: auto; display: none;}
 
         @media screen and (max-width: 767px) {
-          #top-nav {
-            padding:155px 10px 0 0; 
-          }
-
-          #logo-left {
-            padding-left: 10px;
-          }
-
           .comment_input > span > textarea { width: 70%; }
         }
