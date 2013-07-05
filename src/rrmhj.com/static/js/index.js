@@ -21,6 +21,14 @@
 
     $(function(){
 
+        //锚动画
+        $(document).ready(function(){
+          $(".arrow").anchorGoWhere({target:1});
+        });
+
+        //登录模态框
+        $('#myModal').modal({show:false})
+
         //顶 uid="2"
         $("ul").find(".up").click(function(){
           var up = $(this);
@@ -202,3 +210,26 @@
 
       $.get("/pro/updown?t="+(new Date()).valueOf() ,{"proId":workId, "optView":optView});
     }
+
+
+    jQuery.fn.anchorGoWhere = function(options){
+     var obj = jQuery(this);
+     var defaults = {target:0, timer:1000};
+     var o = jQuery.extend(defaults,options);
+     obj.each(function(i){
+         jQuery(obj[i]).click(function(){
+             var _rel = jQuery(this).attr("href").substr(1);
+             switch(o.target){
+                 case 1: 
+                     var _targetTop = jQuery("#"+_rel).offset().top;
+                     jQuery("html,body").animate({scrollTop:_targetTop},o.timer);
+                     break;
+                 case 2:
+                     var _targetLeft = jQuery("#"+_rel).offset().left;
+                     jQuery("html,body").animate({scrollLeft:_targetLeft},o.timer);
+                     break;
+             }
+             return false;
+        });                  
+     });
+   };

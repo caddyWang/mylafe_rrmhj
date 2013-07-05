@@ -1,5 +1,5 @@
         body { 
-          background: #f2f2e9 none; padding: 0px 0 0 0; font-family:Arial,"微软雅黑","宋体","黑体"; font-size: 12px;
+          background: #f2f2e9 none; padding: 0px 0 0 0; font-family:Arial,"微软雅黑","黑体","宋体"; font-size: 12px;
         } 
 
         /*头部*/
@@ -10,15 +10,15 @@
           height: 100px;
         }
 
-        #head { 
+        #head {  
           max-width: 900px;
           text-align:center; 
-          margin: 0 auto; image
+          margin: 0 auto;
         }
 
         .headleft{ float: left; }
 
-        #logo, #login, .sinaweibo, .tencweibo {
+        #logo, #login, .sinaweibo, .tencweibo, .sinaweiboWhite, .tencweiboWhite, .arrow {
           background-image: url(../img/icon.png); 
           background-repeat: no-repeat;
         }
@@ -47,7 +47,7 @@
           padding: 5px 0 5px 0;
         }
 
-        .sinaweibo, .tencweibo {
+        .sinaweibo, .tencweibo, .sinaweiboWhite, .tencweiboWhite {
           float: left; padding: 0 8px 0 0;
           width: 26px; height: 22px;
         }
@@ -56,6 +56,120 @@
         }
         .tencweibo {
           background-position: -210px -217px;
+        }
+        .sinaweiboWhite {
+          background-position: -162px -266px;
+        }
+        .tencweiboWhite {
+          background-position: -114px -267px;
+        }
+
+
+        /*登录模态框*/
+        .modal {
+          border: 5px solid rgba(255, 120, 138, 0.5);
+        }
+
+        .modal > .headleft {
+          margin: 20px 0 20px 0;
+          width:280px; height: 245px;
+          padding: 10px 30px 0 50px;
+          border-right: 1px solid rgba(255, 120, 138, 0.5);
+          color: #999;
+        }
+
+        .modal > .headleft > div {
+          padding: 20px 0 0 0;
+        }
+
+        .btnSinaWeibo, .btnTencWeibo {
+          color: #FFF;
+          width: 160px; height: 28px;
+          font-size: 14px;
+          padding: 7px 0 0 14px;
+          margin: 0 0 15px 0;
+          cursor: pointer;
+        }
+        .btnSinaWeibo {
+          background-color: #dc504b;
+        }
+        .btnSinaWeibo:hover {
+          background-color: #cb1814;
+        }
+        .btnTencWeibo {
+          background-color: #61cae3;
+        }
+        .btnTencWeibo:hover {
+          background-color: #1c99b8;
+        }
+
+        .modal > .headright {
+          padding: 0 20px 0 380px;
+          color: #999;
+        }
+
+        .modal > .headright > div {
+          padding: 5px -10px 0 0;
+        }
+
+        .modal > .headright > h6 {
+          padding: 80px 0 0 0;
+          color: #666;
+        }
+
+        .modal-backdrop {
+          background-color: #999;
+        }
+
+        .close {
+          color: red;
+          font-size: 30px;
+        }
+        .close:hover {
+          color: red;
+        }
+
+
+        /*广告*/
+        #ad { 
+          width: 100%;
+          text-align: center;
+          margin: 0 auto;
+          background: #fffff5 none;
+        }
+
+        #default_ad { 
+          max-width: 900px; 
+          margin: 0 auto; 
+        }
+
+        #default_ad > .headleft {
+          padding: 85px 80px 90px 20px;
+        }
+        #default_ad > .headright {
+          text-align: left;
+          padding: 140px 50px 0 0;
+          color: #545454;
+        }
+        #default_ad > .headright > h1 {
+          font-size: 30px;
+        }
+        #default_ad > .headright > h5 {
+          font-size: 16px;
+          color: #9e9e9c;
+          font-style: normal;
+          padding: 10px 0 0 0;
+        }
+
+        #ad > .arrow {
+          width: 23px; height: 14px;
+          background-position: -115px -210px;
+          margin: 0 auto;
+          padding: 0 0 6px 0;
+          cursor: pointer;
+        }
+        #ad > .arrow:hover {
+          background-position: -115px -231px;
         }
 
 
@@ -132,6 +246,6 @@
         #loading { text-align: center; padding: 0 0 20px 0;}
         .alert { max-width: 470px; margin: auto; display: none;}
 
-        @media screen and (max-width: 767px) {
+        @media screen and (max-width: 767px) {left
           .comment_input > span > textarea { width: 70%; }
         }
