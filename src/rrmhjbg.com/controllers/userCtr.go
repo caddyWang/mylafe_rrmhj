@@ -5,15 +5,19 @@ import (
 	"github.com/astaxie/beego"
 	"rrmhjbg.com/business"
 	"rrmhjbg.com/models"
+	"rrmhjbg.com/tools"
 	"strconv"
 )
 
 type UserController struct {
 	beego.Controller
 }
+type FilterController struct {
+	beego.Controller
+}
 
 func (this *UserController) Post() {
-	rrmhjUid, iconURL, platformName, profileURL, userName, uid := this.GetString("rrmhjUid"), this.GetString("iconURL"), this.GetString("platformName"), this.GetString("profileURL"), this.GetString("userName"), this.GetString("usid")
+	rrmhjUid, iconURL, platformName, profileURL, userName, uid := this.GetString("rrmhjUid"), tools.FilterURL(this.GetString("iconURL")), this.GetString("platformName"), tools.FilterURL(this.GetString("profileURL")), this.GetString("userName"), this.GetString("usid")
 
 	socialuser := models.SocialUserInfo{Uid: uid, UserName: userName, ProfileImg: iconURL, ProfileUrl: profileURL}
 	dbUid := business.InitUserInfoBySinaWeibo(socialuser, platformName, rrmhjUid)
@@ -67,4 +71,53 @@ func (this *UserController) Get() {
 	}
 
 	this.Ctx.WriteString(string(jsonRtn))
+}
+
+func (this *FilterController) Get() {
+	var UserDatas []models.UserInfo
+	_, _ = business.GetAllUsers(1, 10000, &UserDatas)
+
+	for _, u := range UserDatas {
+		u.ProfileImg = tools.FilterURL(u.ProfileImg)
+
+		var swb []models.SocialUserInfo
+		for _, s := range u.SinaWeibo {
+			s.ProfileImg = tools.FilterURL(s.ProfileImg)
+			s.ProfileUrl = tools.FilterURL(s.ProfileUrl)
+
+			swb = append(swb, s)
+		}
+		u.SinaWeibo = swb
+
+		var twb []models.SocialUserInfo
+		for _, s := range u.TencWeibo {
+			s.ProfileImg = tools.FilterURL(s.ProfileImg)
+			s.ProfileUrl = tools.FilterURL(s.ProfileUrl)
+
+			twb = append(twb, s)
+		}
+		u.TencWeibo = twb
+
+		var qq []models.SocialUserInfo
+		for _, s := range u.QQZone {
+			s.ProfileImg = tools.FilterURL(s.ProfileImg)
+			s.ProfileUrl = tools.FilterURL(s.ProfileUrl)
+
+			qq = append(qq, s)
+		}
+		u.QQZone = qq
+
+		var rr []models.SocialUserInfo
+		for _, s := range u.RenRenSNS {
+			s.ProfileImg = tools.FilterURL(s.ProfileImg)
+			s.ProfileUrl = tools.FilterURL(s.ProfileUrl)
+
+			rr = append(rr, s)
+		}
+		u.RenRenSNS = rr
+
+		business.UpdateUser(&u)
+
+	}
+	this.Ctx.WriteString("filter OK!")
 }

@@ -70,6 +70,10 @@ func GetAllUsers(pageIndex, pageSize int, sort string, user *[]models.UserInfo) 
 	return
 }
 
+func UpateUser(user *models.UserInfo) {
+	Update(userInfo, bson.M{"_id": user.Id}, user)
+}
+
 func findSocialUser(platform string, socialUser models.SocialUserInfo, user *models.UserInfo) (pushSocialUser map[string]interface{}, err error) {
 	err = FindOne(bson.M{platform: bson.M{"$elemMatch": bson.M{"uid": socialUser.Uid}}}, user, userInfo)
 	user.UserName, user.ProfileImg = socialUser.UserName, socialUser.ProfileImg

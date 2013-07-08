@@ -33,3 +33,7 @@ func GetAllUsers(pageIndex, pageSize int, user *[]models.UserInfo) (icount, optC
 
 	return count, optCode
 }
+
+func UpdateUser(user *models.UserInfo) {
+	dao.UpateUser(user)
+}
