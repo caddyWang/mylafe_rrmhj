@@ -18,7 +18,8 @@
 
         .headleft{ float: left; }
 
-        #logo, #login, .sinaweibo, .tencweibo, .sinaweiboWhite, .tencweiboWhite, .arrow {
+        #logo, #login, .sinaweibo, .tencweibo, .sinaweiboWhite, .tencweiboWhite, .arrow, .star, .star-full, .icn-ding, .icn-comm, .icn-share, 
+        .face-laugh, .face-love, .face-applause, .face-chop, .face-cry, .share-sina, .share-tenc, .share-qq, .share-renren {
           background-image: url(../img/icon.png); 
           background-repeat: no-repeat;
         }
@@ -51,10 +52,10 @@
           float: left; padding: 0 8px 0 0;
           width: 26px; height: 22px;
         }
-        .sinaweibo {
+        .sinaweibo, .share-sina {
           background-position: -160px -214px;
         }
-        .tencweibo {
+        .tencweibo, .share-tenc {
           background-position: -210px -217px;
         }
         .sinaweiboWhite {
@@ -62,6 +63,12 @@
         }
         .tencweiboWhite {
           background-position: -114px -267px;
+        }
+        .share-qq {
+          background-position: -260px -213px;
+        }
+        .share-renren {
+          background-position: -309px -216px;
         }
 
 
@@ -89,19 +96,31 @@
           padding: 7px 0 0 14px;
           margin: 0 0 15px 0;
           cursor: pointer;
+          border-radius: 2px 2px 2px 2px;
         }
-        .btnSinaWeibo {
+        .btnSinaWeiboMini, .btnTencWeiboMini {
+          display: inline-table;
+          font-style: 12px;
+          color: #FFF;
+          width: 100px; height: 28px;
+          padding: 5px 15px 0 15px;
+          margin: 0 10px 0 0;
+          cursor: pointer;
+          border-radius: 2px 2px 2px 2px;
+        }
+        .btnSinaWeibo, .btnSinaWeiboMini {
           background-color: #dc504b;
         }
-        .btnSinaWeibo:hover {
+        .btnSinaWeibo:hover, .btnSinaWeiboMini:hover {
           background-color: #cb1814;
         }
-        .btnTencWeibo {
+        .btnTencWeibo, .btnTencWeiboMini {
           background-color: #61cae3;
         }
-        .btnTencWeibo:hover {
+        .btnTencWeibo:hover, .btnTencWeiboMini:hover {
           background-color: #1c99b8;
         }
+        
 
         .modal > .headright {
           padding: 0 20px 0 380px;
@@ -118,7 +137,7 @@
         }
 
         .modal-backdrop {
-          background-color: #999;
+          background-color: rgba(0,0,0,0.3);
         }
 
         .close {
@@ -128,6 +147,7 @@
         .close:hover {
           color: red;
         }
+
 
 
         /*广告*/
@@ -173,6 +193,7 @@
         }
 
 
+        /*作品列表*/
         .thumbnails {
           max-width: 522px;
           margin: auto;
@@ -185,49 +206,271 @@
                   box-shadow: 0 1px 2px rgba(0,0,0,.05);
         }
 
-        .thumbnail { max-width: 512px; } 
+        .thumbnail { 
+          max-width: 520px;
+          padding: 0; 
+        } 
+
+
+        /*收藏*/
+        .product { 
+          position: relative;
+          overflow: hidden;
+          height: auto;
+        } 
+
+        .product > img { 
+          position: relative;
+          overflow: hidden;
+          height: auto;
+          padding: 4px;
+          max-width: 512px;
+        } 
+
+        .star {
+          background-position: -66px -265px;
+          width: 21px; height: 21px;
+          margin: 0 0 0 8px;
+          float: left;
+        }
+        .star-full {
+          background-position: -15px -265px;
+          width: 21px; height: 21px;
+          margin: 0 0 0 8px;
+          float: left;
+        }
+        .like {
+          position: absolute;
+          float: right;
+          background-color: rgba(0,0,0,.4);
+          border-radius: 3px 3px 3px 3px;
+          width: 80px; 
+          position: absolute;
+          bottom:10px; right: 10px;
+          overflow: hidden;
+          color: #FFF;
+          font-size: 14px; 
+          text-align: center; 
+          padding: 6px 3px 6px 0;
+          cursor: pointer;
+          display: none;
+        }
+        .like:hover {
+          background-color: rgba(0,0,0,.6);
+        }
+
+
+        /*发表人信息*/
+        .pro-user, .pro-user > div {
+          float: left;
+        }
+        .pro-user {
+          padding: 25px 0 25px 0;
+        }
+        .pro-user img {
+          max-width: 36px; max-height: 36px;
+          margin: 0 20px 0 15px;
+        }
+        .pro-user .user {
+          font-weight: bolder; font-size: 14px;
+        }
+        .pro-user .time {
+          color: gray; font-size: 12px; font-style: italic;
+        }
+
+
+        /*分享评论操作*/
+        .thumbnail .row-fluid {
+          position: relative;
+        }
+        .thumbnail .row-fluid > .ding-face {
+          border: 1px solid rgba(0,0,0, 0.2);
+          width: 215px; height: 35px;
+          position: absolute;
+          float: right;
+          bottom:20px; right: 20px;
+          overflow: hidden;
+          padding: 4px;
+          border-radius: 1px;
+          background-color: #FFF;
+          display: none;
+        }
+        .thumbnail .row-fluid > .share-icon {
+          border: 1px solid rgba(0,0,0, 0.2);
+          width: 210px; height: 35px;
+          position: absolute;
+          float: right;
+          bottom:20px; right: 20px;
+          overflow: hidden;
+          padding: 4px;
+          border-radius: 1px;
+          background-color: #FFF;
+          display: none;
+        }
+
+        .face-laugh, .face-love, .face-applause, .face-chop, .face-cry {
+          width: 36px; height: 36px;
+          cursor: pointer;
+          display: inline-block;
+        }
+        .face-laugh:hover, .face-love:hover, .face-applause:hover, .face-chop:hover, .face-cry:hover {
+          background-color: rgba(0,0,0,0.1);
+          background-position: 0 0;
+        }
+
+        .face-laugh {
+          background-position: -8px -160px;
+        }
+        .face-love {
+          background-position: -56px -160px;
+        }
+        .face-applause {
+          background-position: -108px -160px;
+        }
+        .face-chop {
+          background-position: -158px -160px;
+        }
+        .face-cry {
+          background-position: -210px -160px;
+        }
+        
+        .face-laugh:hover {
+          background-image: url(../img/laugh.gif);
+        }
+        .face-love:hover {
+          background-image: url(../img/love.gif);
+        }
+        .face-applause:hover {
+          background-image: url(../img/applause.gif);
+        }
+        .face-chop:hover {
+          background-image: url(../img/chop.gif);
+        }
+        .face-cry:hover {
+          background-image: url(../img/cry.gif);
+        }
+
+        .share-sina, .share-tenc, .share-qq, .share-renren {
+          width: 28px; height: 22px;
+          cursor: pointer;
+          display: inline-block;
+          border: 7px solid #FFF;
+        }
+        .share-sina:hover, .share-tenc:hover, .share-qq:hover, .share-renren:hover {
+          background-color: rgba(0,0,0,0.1);
+          border: 7px solid rgba(0,0,0,0);
+        }
+
+        .pro-opt {
+          padding: 30px 10px 0 0;
+        }
+        .ding, .comment, .share {
+          display: inline-block;
+          margin: 0 5px 0 5px;
+          font-size: 14px;
+          cursor: pointer;
+          padding: 8px 8px 8px 8px;
+        }
+        .ding:hover, .comment:hover, .share:hover{ 
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          border-radius: 2px 2px 2px 2px;  
+        }
+        .ding {color: #fe766c;}
+        .comment {color: #66c4da;}
+        .share {color: #52b24e;}
+        .icn-ding, .icn-comm, .icn-share {
+          width: 21px; height: 20px;
+          float: left;
+          margin-right: 5px;
+        }
+
+        .icn-ding{
+          background-position: -216px -267px;
+        }
+        .icn-comm{
+          background-position: -266px -267px;
+        }
+        .icn-share{
+          background-position: -317px -267px;
+        }
+
+        .pro-info {
+          font-size: 14px;
+          line-height: 25px;
+          padding: 20px 15px 20px 15px;
+          border-width: 1px 0 0 0;
+        }
+        .pro-info, .comment-list {  
+          border-style: solid;
+          border-color: rgba(0,0,0,0.15);
+        }
+
+
+        /*评论列表*/
+        .comment-list {
+          border-width: 2px 0 0 0;
+          display: none;
+          color: #000;
+        }
+
+        .comment_login { 
+          text-align:center; 
+          padding:20px 0 20px 0;
+          font-size: 14px;
+          color: gray;
+        }
+
+        .comment-list .user {
+          float: left;
+          width: 30%;
+        }
+        .comment-list .user span{
+          display: inline-block;
+          vertical-align: middle;
+          padding: 0 0 0 5px;
+          font-size: 12px;
+        }
+        .comment-list .comments {
+          border-width: 1px 0 0 0;
+          border-color: rgba(0,0,0,0.15);
+          border-style: solid;
+          overflow: hidden;
+          padding: 15px;
+          background-color: #fbfbf5;
+        }
+
+        .comments .content {
+          text-align: left;
+          vertical-align: middle;
+          width: 68%;
+          padding: 5px 0 0 0;
+          font-size: 14px;
+        }
+        .comments .content span{
+          display: inline-table;
+          width: 75%;
+        }
+        .comments .content .time {
+          text-align: right;
+          width: 20%;
+          color: gray;
+          font-size: 12px;
+        }
+
+
         .imgshow { max-width: 512px; position: relative; }
         .thumbnails > li { margin: 0; }
 
-        .ilike-m {
-            background-image: url("/static/img/like-btn.png");
-            background-repeat: no-repeat;
-            background-position: 0 -45px;
-            cursor: pointer;
-            border-radius: 3px 3px 3px 3px;
-            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.6);
-            color: #FFFFFF;
-            height: 36px;
-            line-height: 36px;
-            margin: -18px 0 0 -60px;
-            outline: medium none;
-            padding: 0 15px 0 40px;
-            position: absolute;
-            text-align: left;
-            width: 65px; height: auto;
-            float: right;
-            bottom:20px; right: 20px;
-            overflow: hidden;
-        }
+        
 
         .media-object { width: 32px; height: 32px; }
-        .media-heading { color: #999; font-weight: normal; font-style: italic; margin: -2px 0 -2px; }
-        .media-heading + p { color:#666; line-autoheight: 150%}
+
         .line { border-top:1px solid #eee; margin-top: 20px; }
         .blank { padding-top: 15px; }
 
         div[name="spanBolder"] { font-weight: bolder; }
 
-        .caption > span > img { width:24px; height:24px; }
-        .caption > span + span { font-size:14px; font-weight: bolder; padding-left: 5px;}
-        .caption > span + span + span { color:gray; font-size:9px; font-family: Verdana; font-style: italic;}
-        .caption > span + p { padding-top: 10px; color: #000; }
-
-        .bds_tsina {  background-image: url(/static/img/is.png); background-repeat: no-repeat; background-position: 0 -115px; cursor: pointer; }
-        .bds_tqq {  background-image: url(/static/img/is.png); background-repeat: no-repeat; background-position: 0 -235px; cursor: pointer;  }
-        .bds_tqzone {  background-image: url(/static/img/is.png); background-repeat: no-repeat; background-position: 0 -75px; cursor: pointer;  }
-        .bds_trenren {  background-image: url(/static/img/is.png); background-repeat: no-repeat; background-position: 0 -195px; cursor: pointer;  }
-
+        
         .btn-group > .btn, .btn-group > .dropdown-menu, .btn-group > .popover { font-size: 12px; padding-left: 10px; }
         .dropdown-menu { min-width: 100px; }
 
@@ -237,7 +480,7 @@
         .digg {color:#f60;}
         .undigg {color:#666;}
 
-        .comment_login { text-align:center; padding:10px 0 10px 0; background:#eee; }
+        
         .comment_input { padding:5px 0 5px 0; }
         .comment_input > span > textarea { width:80%; height: 30px; }
         .comment_input > span > button { height: 40px; }

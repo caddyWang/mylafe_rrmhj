@@ -29,6 +29,39 @@
         //登录模态框
         $('#myModal').modal({show:false})
 
+        //指向作品出现收藏按钮，离开则隐藏
+        $(".product").bind("mouseover",function(){
+          $(this).children(".like").show();
+          return false;
+        });
+        $(".product").bind("mouseleave",function(){
+          $(this).children(".like").hide();
+          return false;
+        });
+
+        //顶 调用相关的表情选择框
+        $(".ding").click(function(){
+          var uid = $(this).attr("data-uid");
+          $('#face_'+uid).fadeIn();
+        });
+        //关闭表情选择框
+        $(".faceclose").click(function(){
+          var uid = $(this).attr("data-uid");
+          $('#face_'+uid).hide();
+        });
+
+        //分享 调用相关的平台选择框
+        $(".share").click(function(){
+          var uid = $(this).attr("data-uid");
+          $('#share_'+uid).fadeIn();
+        });
+        //关闭分享平台选择框
+        $(".shareclose").click(function(){
+          var uid = $(this).attr("data-uid");
+          $('#share_'+uid).hide();
+        });
+
+
         //顶 uid="2"
         $("ul").find(".up").click(function(){
           var up = $(this);
@@ -48,7 +81,7 @@
 
         //展现评论
         $("ul").find(".comment").click(function(){
-          var workId = $(this).siblings(".uid").val();
+          var workId = $(this).attr("data-uid");
           if($('#comments_'+workId).is(':hidden')) {
             var hasComment = $('#commlist'+workId).attr("view")
             //如果第一次展开评论，通过ajax到后台读取
