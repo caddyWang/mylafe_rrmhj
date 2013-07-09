@@ -19,7 +19,29 @@
     }
 
 
+    
     $(function(){
+
+        //返回顶部
+        $(window).scroll(function(){
+          if($('#back-to-top').is(':hidden')){
+            $("#back-to-top").css({bottom:"100px"});
+            $("#back-to-top").removeClass("fly-to-top");
+          }
+
+          if ($(window).scrollTop()>100){
+            $("#back-to-top").fadeIn(1000);
+          } else {
+            $("#back-to-top").fadeOut(800);
+          }
+        });
+
+        $("#back-to-top").click(function(){
+          $("#back-to-top").addClass("fly-to-top");
+          $('body,html').animate({scrollTop:0},1000);
+          $("#back-to-top").animate({bottom:400},3000);
+          return false;
+        });
 
         //锚动画
         $(document).ready(function(){
