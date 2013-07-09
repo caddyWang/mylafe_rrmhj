@@ -64,6 +64,7 @@ func SinaLoginProcess(tkRST *SinaWeiboOauth2AccesstokenResult, userRST *SinaWeib
 
 	setSess("sina_access_token", tkRST.Access_token)
 	setSess("sina_id", userRST.Id)
+	setSess("open_platform", "新浪微博")
 	setSess("uid", userId)
 	setSess("uname", user.UserName)
 	setSess("uprofileimg", user.ProfileImg)
@@ -84,7 +85,15 @@ func TencLoginProcess(tkRST *TencWeiboOauth2AccesstokenResult, userRST *TencWeib
 
 	setSess("tenc_access_token", tkRST.Access_token)
 	setSess("tenc_id", userRST.Data.Openid)
+	setSess("open_platform", "腾讯微博")
 	setSess("uid", userId)
 	setSess("uname", user.UserName)
 	setSess("uprofileimg", user.ProfileImg)
+}
+
+// 2013/07/09 Wangdj 新增：获取当前站点登录的用户信息
+func LoginedUserInfo(ctx *beego.Controller) {
+	ctx.Data["UserName"] = ctx.GetSession("uname")
+	ctx.Data["Uid"] = ctx.GetSession("uid")
+	ctx.Data["Platform"] = ctx.GetSession("open_platform")
 }

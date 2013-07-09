@@ -34,3 +34,6 @@ var TencUserShowAddr = beego.AppConfig.String("tenc_user_show_addr")            
 //mongoDB
 var ConnAddr = beego.AppConfig.String("conn_addr")
 var DefDBName = beego.AppConfig.String("db_name")
+
+//Open Platform Login
+var SinaLoginAddr = beego.AppConfig.String("sina_login_addr")

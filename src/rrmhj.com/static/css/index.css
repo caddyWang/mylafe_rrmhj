@@ -20,7 +20,7 @@
 
         #logo, #login, .sinaweibo, .tencweibo, .sinaweiboWhite, .tencweiboWhite, .arrow, .star, .star-full, .icn-ding, .icn-comm, .icn-share, 
         .face-laugh, .face-love, .face-applause, .face-chop, .face-cry, .share-sina, .share-tenc, .share-qq, .share-renren, #back-to-top,
-        .user-arrow, .dropdown-arrow {
+        .user-arrow, .dropdown-arrow, .myproduct, .exit, #logined > .arrow {
           background-image: url(../img/icon.png); 
           background-repeat: no-repeat;
         }
@@ -40,6 +40,22 @@
         #login:hover {
           background-position: -105px -103px;
         }
+        #logined {
+          height: 30px;
+          padding: 10px 0 0 0;
+          margin: 30px 0 0 0;
+          cursor: pointer;
+          color: #ff788a;
+          font-size: 14px;
+        }
+        #logined:hover {
+          color: #b95869;
+        }
+        #logined > .arrow {
+          width: 14px; height: 12px;
+          background-position: -2px -232px;
+          display: inline-block;
+        }
 
         .headright > .dropdown-menu {
           border: 2px solid rgba(255, 120, 138, 0.3);
@@ -50,9 +66,10 @@
         }
         .headright > .dropdown-menu > li {
           padding: 5px 0 5px 0;
+          text-align: left;
         }
         .headright > .dropdown-menu > li a:hover {
-          background: rgba(0,0,0,0.1); !important;
+          background: rgba(0,0,0,0.1) !important;
         }
         .dropdown-arrow {
           width: 18px; height: 10px;
@@ -124,12 +141,14 @@
         }
         .btnSinaWeibo, .btnSinaWeiboMini {
           background-color: #dc504b;
+          vertical-align: middle;
         }
         .btnSinaWeibo:hover, .btnSinaWeiboMini:hover {
           background-color: #cb1814;
         }
         .btnTencWeibo, .btnTencWeiboMini {
           background-color: #61cae3;
+          vertical-align: middle;
         }
         .btnTencWeibo:hover, .btnTencWeiboMini:hover {
           background-color: #1c99b8;
@@ -239,26 +258,32 @@
           max-width: 512px;
         } 
 
-        .star {
-          background-position: -66px -265px;
-          width: 21px; height: 21px;
+        .star, .star-full, .myproduct, .exit {
+          width: 30px; height: 21px;
           margin: 0 0 0 8px;
           float: left;
+        }
+        .star {
+          background-position: -66px -265px;
         }
         .star-full {
           background-position: -15px -265px;
-          width: 21px; height: 21px;
-          margin: 0 0 0 8px;
-          float: left;
         }
+        .myproduct {
+          background-position: -14px -313px;
+        }
+        .exit {
+          background-position: -63px -314px;
+        }
+
         .like {
           float: right;
           background-color: rgba(0,0,0,.4);
-          border-radius: 3px 3px 3px 3px;
+          border-radius: 3px;
           width: 80px; 
           color: #FFF;
           font-size: 14px; 
-          text-align: center; 
+          text-align: left; 
           padding: 6px 3px 6px 0;
           cursor: pointer;
           position: absolute;
@@ -380,20 +405,22 @@
         }
 
         .pro-opt {
-          padding: 30px 10px 0 0;
+          padding: 25px 10px 0 0;
         }
         .ding, .comment, .share {
           display: inline-block;
           margin: 0 5px 0 5px;
           font-size: 14px;
           cursor: pointer;
-          padding: 8px 8px 8px 8px;
+          padding: 8px;
+          border: 1px solid #fff;
+          border-radius: 2px 2px 2px 2px;
         }
         .ding:hover, .comment:hover, .share:hover{ 
-          border: 1px solid rgba(0, 0, 0, 0.1);
-          border-radius: 2px 2px 2px 2px;  
+          border: 1px solid rgba(0, 0, 0, 0.1);  
         }
         .ding {color: #fe766c;}
+        .ding_disabled { background: rgba(0, 0, 0, 0.05); }
         .comment {color: #66c4da;}
         .share {color: #52b24e;}
         .icn-ding, .icn-comm, .icn-share {
@@ -424,6 +451,7 @@
         }
 
 
+
         /*评论列表*/
         .comment-list {
           border-width: 2px 0 0 0;
@@ -433,6 +461,7 @@
 
         .comment_login { 
           text-align:center; 
+          vertical-align: middle;
           padding:20px 0 20px 0;
           font-size: 14px;
           color: gray;
@@ -456,6 +485,31 @@
           padding: 15px;
           background-color: #fbfbf5;
         }
+
+        .comment_input { padding:20px; }
+        .comment_input textarea { width:80%; height: 30px; }
+        .comment_input div { 
+          background-color: rgba(0,0,0,0.3);
+          text-align: center; vertical-align: middle;
+          font-size: 14px; color: #fff;
+          padding: 10px 15px 10px 15px;
+          border-radius: 2px;
+          cursor: pointer;
+        }
+        .comment_input textarea:focus { 
+          border-color: #00c49f !important; 
+        }
+        .comment_input_focus {
+          background-color: #00c49f !important;
+        }
+
+        @media screen and (max-width: 767px) {left
+          .comment_input > span > textarea { width: 70%; }
+        }
+
+
+        /*评论用户头像*/
+        .media-object { width: 36px; height: 36px; }
 
         .comments .content {
           text-align: left;
@@ -516,7 +570,7 @@
 
         
 
-        .media-object { width: 32px; height: 32px; }
+        
 
         .line { border-top:1px solid #eee; margin-top: 20px; }
         .blank { padding-top: 15px; }
@@ -534,15 +588,4 @@
         .undigg {color:#666;}
 
         
-        .comment_input { padding:5px 0 5px 0; }
-        .comment_input > span > textarea { width:80%; height: 30px; }
-        .comment_input > span > button { height: 40px; }
-        .commentTime {padding-left: 10px}
-
-
-
-
-
-        @media screen and (max-width: 767px) {left
-          .comment_input > span > textarea { width: 70%; }
-        }
+   

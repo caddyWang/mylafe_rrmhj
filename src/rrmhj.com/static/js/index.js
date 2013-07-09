@@ -39,7 +39,7 @@
         $("#back-to-top").click(function(){
           $("#back-to-top").addClass("fly-to-top");
           $('body,html').animate({scrollTop:0},1000);
-          $("#back-to-top").animate({bottom:400},3000);
+          $("#back-to-top").animate({bottom:400},1000);
           return false;
         });
 
@@ -80,40 +80,52 @@
         //关闭分享平台选择框
         $(".shareclose").click(function(){
           var uid = $(this).attr("data-uid");
-          $('#share_'+uid).hide();
+          $('#share_'+uid).fadeOut();
+        });
+
+        //新浪微博登录绑定
+        $(".btnSinaWeiboMini").click(function(){
+          var durl = $(this).attr("data-url");
+          window.open(durl);
+        });
+        $(".btnSinaWeibo").click(function(){
+          var durl = $(this).attr("data-url");
+          window.open(durl);
+        });
+        //腾讯微博登录绑定
+        $(".btnTencWeiboMini").click(function(){
+          var durl = $(this).attr("data-url");
+          window.open(durl);
+        });
+        $(".btnTencWeibo").click(function(){
+          var durl = $(this).attr("data-url");
+          window.open(durl);
         });
 
 
-        //顶 uid="2"
-        $("ul").find(".up").click(function(){
-          var up = $(this);
-          var down = $(this).siblings(".down");
-          var workId = $(this).siblings(".uid").val();
-          optUpOrDownOrAttention(up, down, workId, 1, 1);
+        //顶
+        $(".ding-face").find("div").click(function(){
+          var workId = $(this).attr("data-pid");
+          var dingface = $(this).attr("data-val");
+          var up = $(".ding_"+workId);
+          $('#face_'+workId).fadeOut();
+          optUpOrDownOrAttention(up, workId, dingface);
           
-        });
-        
-        //踩
-        $("ul").find(".down").click(function(){
-          var up = $(this).siblings(".up");
-          var down = $(this);
-          var workId = $(this).siblings(".uid").val();
-          optUpOrDownOrAttention(up, down, workId, 2, -1);
         });
 
         //展现评论
-        $("ul").find(".comment").click(function(){
+        $(".comment").click(function(){
           var workId = $(this).attr("data-uid");
           if($('#comments_'+workId).is(':hidden')) {
-            var hasComment = $('#commlist'+workId).attr("view")
+            var hasComment = $('#comments_'+workId).attr("view")
             //如果第一次展开评论，通过ajax到后台读取
             if(hasComment == "0"){
               $.get("/pro/comment?t="+(new Date()).valueOf() ,{"pid":workId},function(data){
                   var json = JSON.parse(data)
                   for(var i=0; i<json.length; i++){
-                      $("#commlist"+workId).append('<div class="media"><a class="pull-left" href="#"><img class="media-object img-rounded" src="'+json[i].Reviewer.ProfileImg+'"></a><div class="media-body"><h6 class="media-heading">'+json[i].Reviewer.UserName+' <span class="commentTime">'+new Date(json[i].PostTime).format("yyyy/MM/dd hh:mm")+'</span></h6><p>'+json[i].CommentDesc+'</p></div></div>');
+                      $(".comm_list_"+workId).append('<div class="comments caption"><div class="user"><span><img class="media-object img-rounded" src="'+json[i].Reviewer.ProfileImg+'"></span><span>'+json[i].Reviewer.UserName+'</span></div><div class="content pull-right"><span>'+json[i].CommentDesc+'</span><span class="time pull-right">'+new Date(json[i].PostTime).format("yyyy/MM/dd")+'</span></div>');
                   }
-                  $('#commlist'+workId).attr("view","1")
+                  $('#comments_'+workId).attr("view","1")
               });
             }
 
@@ -122,6 +134,17 @@
             $('#comments_'+workId).fadeOut();
           }
         })
+
+        //评论输入框选中
+        $(".comm_input").focus(function(){
+          var uid = $(this).attr("data-pid");
+          $("#sendCommnet_"+uid).addClass("comment_input_focus");
+        });
+        //评论输入框失去焦点
+        $(".comm_input").blur(function(){
+          var uid = $(this).attr("data-pid");
+          $("#sendCommnet_"+uid).removeClass("comment_input_focus");
+        });
 
         //无限数据读取
         $('#container').scrollPagination({
@@ -142,7 +165,7 @@
               $('#loading').fadeOut();
               $('#container').stopScrollPagination();
               
-              $('#container').append('<div class="alert alert-success" style="text-align:center; display:none;"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>没有新的作品了，等大家来创作吧...</strong></div>')
+              $('#container').append('<div class="alert alert-success" style="text-align:center; display:none;"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>没有新的作品了，等大家来创作吧...</strong></div><br>')
               $('.alert').delay(1000).fadeIn(0);
             }
             
@@ -154,23 +177,10 @@
           }
         });
 
-        //菜单指向图片切换效果
-        $("#login").mouseover(function(){
-          $(this).attr("src","/static/img/login_over.png");
-        });
-        $("#login").mouseout(function(){
-          $(this).attr("src","/static/img/login.png");
-        });
 
-        $("#phone").mouseover(function(){
-          $(this).attr("src","/static/img/phone_over.png");
-        });
-        $("#phone").mouseout(function(){
-          $(this).attr("src","/static/img/phone.png");
-        });
 
         //发表评论
-        $("#sendCommnet").click(function(){
+        $(".sendCommnet").click(function(){
           var proid = $(this).attr("proid");
           var commdesc = $(".commentdesc"+proid).val();
 
@@ -182,38 +192,47 @@
                 alert(j.StateInfo);
               } else {
                 $(".commentdesc"+proid).val('');
-                $("#commlist"+proid).prepend('<div class="media"><a class="pull-left" href="#"><img class="media-object img-rounded" src="'+j.Reviewer.ProfileImg+'"></a><div class="media-body"><h6 class="media-heading">'+j.Reviewer.UserName+' <span class="commentTime">'+new Date(j.PostTime).format("yyyy/MM/dd hh:mm")+'</span></h6><p>'+j.CommentDesc+'</p></div></div>');
+                $(".comm_list_"+proid).prepend('<div class="comments caption"><div class="user"><span><img class="media-object img-rounded" src="'+j.Reviewer.ProfileImg+'"></span><span>'+j.Reviewer.UserName+'</span></div><div class="content pull-right"><span>'+j.CommentDesc+'</span><span class="time pull-right">'+new Date(j.PostTime).format("yyyy/MM/dd")+'</span></div>');
                 $(".commnum"+proid).text(parseInt($(".commnum"+proid).text())+1)
+                $("#sendCommnet_"+proid).removeClass("comment_input_focus");
               }
             });
         });
 
 
         //分享公共平台地址调用
-        $(".bds_tsina").click(function(){
+        $(".share-sina").click(function(){
           var img = $(this).attr("img");
           var info = $(this).attr("info");
+          var uid = $(this).attr("data-uid");
+          $('#share_'+uid).hide();
 
           var url = "http://service.weibo.com/share/share.php?url=&appkey=3269145958&title="+encodeURIComponent(info)+"&pic="+encodeURIComponent(img)+"&ralateUid=3125160187";
           window.open(url);
         });
-        $(".bds_tqq").click(function(){
+        $(".share-tenc").click(function(){
           var img = $(this).attr("img");
           var info = $(this).attr("info");
+          var uid = $(this).attr("data-uid");
+          $('#share_'+uid).hide();
 
           var url = "http://share.v.t.qq.com/index.php?c=share&a=index&url="+encodeURIComponent(img)+"&appkey=801378372&title="+encodeURIComponent(info)+"&pic="+encodeURIComponent(img)+"&line1=";
           window.open(url);
         });
-        $(".bds_tqzone").click(function(){
+        $(".share-qq").click(function(){
           var img = $(this).attr("img");
           var info = $(this).attr("info");
+          var uid = $(this).attr("data-uid");
+          $('#share_'+uid).hide();
 
           var url = "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://renrenmanhua.com&showcount=0&summary=&title="+encodeURIComponent(info)+"&site="+encodeURIComponent("人人漫画家")+"&pics="+encodeURIComponent(img)+"&style=103&width=71&height=22&otype=share";
           window.open(url);
         });
-        $(".bds_trenren").click(function(){
+        $(".share-renren").click(function(){
           var img = $(this).attr("img");
           var info = $(this).attr("info");
+          var uid = $(this).attr("data-uid");
+          $('#share_'+uid).hide();
 
           var url = "http://widget.renren.com/dialog/share?resourceUrl=http://renrenmanhua.com&pic="+encodeURIComponent(img)+"&title="+encodeURIComponent("人人漫画家")+"&description="+encodeURIComponent(info)+"&images="+encodeURIComponent(img)+"&charset=utf-8";
           window.open(url);
@@ -244,26 +263,16 @@
     }
 
     //项、踩动作与后台交互
-    function optUpOrDownOrAttention(up, down, workId, optVal, optView){
-      if(optView > 0) { 
-        var num = up.find(".num");
-        num.text(parseInt(num.text())+optView);
-        playPlus(up, optView); 
-        up.addClass("btn-warning")
-      }
-      else { 
-        var num = down.find(".num");
-        num.text(parseInt(num.text())+optView);
-        playPlus(down, optView); 
-        down.addClass("btn-warning")
-      }
+    function optUpOrDownOrAttention(up, workId, dingface){
+      
+      var num = $(".num"+workId);
+      num.text(parseInt(num.text())+1);
+      playPlus(up, 1); 
 
-      up.addClass("disabled")
-      down.addClass("disabled")
+      up.addClass("ding_disabled")
       up.unbind("click")
-      down.unbind("click")
 
-      $.get("/pro/updown?t="+(new Date()).valueOf() ,{"proId":workId, "optView":optView});
+      $.get("/pro/updown?t="+(new Date()).valueOf() ,{"proId":workId, "dingface":dingface});
     }
 
 

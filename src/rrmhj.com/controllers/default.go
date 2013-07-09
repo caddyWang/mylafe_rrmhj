@@ -6,7 +6,6 @@ import (
 	"rrmhj.com/business"
 	"rrmhj.com/conf"
 	"rrmhj.com/models"
-	"strconv"
 	"strings"
 )
 
@@ -18,6 +17,8 @@ func (this *MainController) Get() {
 	this.Data["Plist"], this.Data["ProCount"] = business.QueryProductsList(0, this.Ctx.Request)
 	this.Data["IsLogin"] = business.CheckLogin(this.GetSession)
 	this.Data["PageIndex"], this.Data["PageSize"] = 1, conf.PageSize
+
+	business.LoginedUserInfo(&this.Controller)
 
 	this.TplNames = "index.tpl"
 }
@@ -95,17 +96,12 @@ type ProOptController struct {
 
 func (this *ProOptController) Get() {
 
-	proId, optValue := this.GetString("proId"), this.GetString("optView")
-	optIntVal, err := strconv.Atoi(optValue)
-	if err != nil {
-		beego.Error("顶踩参数不正确：optValue=", optValue, "proId=", proId, err)
-		return
-	}
+	proId, dingface := this.GetString("proId"), this.GetString("dingface")
 
 	beego.Debug(proId)
-	beego.Debug(optIntVal)
-	this.Ctx.SetCookie(proId, optValue, 0)
-	business.UpdateProUporDown(proId, optIntVal)
+	beego.Debug(dingface)
+	this.Ctx.SetCookie(proId, "1", 0)
+	business.UpdateProUporDown(proId, 1)
 
 	this.TplNames = "blank.tpl"
 }
