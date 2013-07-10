@@ -101,7 +101,7 @@ func (this *ProOptController) Get() {
 	beego.Debug(proId)
 	beego.Debug(dingface)
 	this.Ctx.SetCookie(proId, "1", 0)
-	business.UpdateProUporDown(proId, 1)
+	business.UpdateProUporDown(proId, dingface)
 
 	this.TplNames = "blank.tpl"
 }

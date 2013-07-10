@@ -28,11 +28,7 @@ func QueryProductsList(pageIndex int, req *http.Request) (proHtmllist []models.P
 		if err == nil && cookie != nil {
 			val := cookie.Value
 			if val == "1" {
-				proHtml.UpNumScript = "upselected btn-warning disabled"
-				proHtml.DownNumScript = "downselected disabled"
-			} else if val == "-1" {
-				proHtml.UpNumScript = "upselected disabled"
-				proHtml.DownNumScript = "downselected btn-warning disabled"
+				proHtml.UpNumScript = "ding_disabled"
 			}
 		}
 
@@ -68,6 +64,7 @@ func SaveProductComment(comment *models.Comment, gs GetSession) (err error) {
 }
 
 //更新用户踩或顶(Wangdj 2013-06-20)
-func UpdateProUporDown(proId string, optValue int) {
-	dao.UpdateProUporDown(proId, optValue)
+//2013-07-10 Wangdj 修改：只保留“顶”功能，并增加顶的表情选择
+func UpdateProUporDown(proId, dingface string) {
+	dao.UpdateProUporDown(proId, dingface)
 }

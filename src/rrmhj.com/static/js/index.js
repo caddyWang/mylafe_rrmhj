@@ -62,14 +62,19 @@
         });
 
         //顶 调用相关的表情选择框
-        $(".ding").click(function(){
+        $(".up").click(function(){
           var uid = $(this).attr("data-uid");
           $('#face_'+uid).fadeIn();
+        });
+        //顶过用户的提醒
+        $(".ding_disabled").click(function(){
+          var uid = $(this).attr("data-uid");
+          $('#has_ding_'+uid).show(300).delay(1000).hide(300);
         });
         //关闭表情选择框
         $(".faceclose").click(function(){
           var uid = $(this).attr("data-uid");
-          $('#face_'+uid).hide();
+          $('#face_'+uid).fadeOut();
         });
 
         //分享 调用相关的平台选择框
@@ -104,7 +109,7 @@
 
 
         //顶
-        $(".ding-face").find("div").click(function(){
+        $(".ding-face").find('div[class|="face"]').click(function(){
           var workId = $(this).attr("data-pid");
           var dingface = $(this).attr("data-val");
           var up = $(".ding_"+workId);
@@ -201,40 +206,23 @@
 
 
         //分享公共平台地址调用
-        $(".share-sina").click(function(){
+        $('div[class|="shareicon"]').click(function(){
           var img = $(this).attr("img");
           var info = $(this).attr("info");
           var uid = $(this).attr("data-uid");
           $('#share_'+uid).hide();
 
-          var url = "http://service.weibo.com/share/share.php?url=&appkey=3269145958&title="+encodeURIComponent(info)+"&pic="+encodeURIComponent(img)+"&ralateUid=3125160187";
-          window.open(url);
-        });
-        $(".share-tenc").click(function(){
-          var img = $(this).attr("img");
-          var info = $(this).attr("info");
-          var uid = $(this).attr("data-uid");
-          $('#share_'+uid).hide();
+          var url = "";
+          if($(this).hasClass("shareicon-sina")) {
+              url = "http://service.weibo.com/share/share.php?url=&appkey=3269145958&title="+encodeURIComponent(info)+"&pic="+encodeURIComponent(img)+"&ralateUid=3125160187";
+          }else if($(this).hasClass("shareicon-tenc")) {
+              url = "http://share.v.t.qq.com/index.php?c=share&a=index&url="+encodeURIComponent(img)+"&appkey=801378372&title="+encodeURIComponent(info)+"&pic="+encodeURIComponent(img)+"&line1=";
+          }else if($(this).hasClass("shareicon-qq")) {
+              url = "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://renrenmanhua.com&showcount=0&summary=&title="+encodeURIComponent(info)+"&site="+encodeURIComponent("人人漫画家")+"&pics="+encodeURIComponent(img)+"&style=103&width=71&height=22&otype=share";
+          }else if($(this).hasClass("shareicon-renren")) {
+              url = "http://widget.renren.com/dialog/share?resourceUrl=http://renrenmanhua.com&pic="+encodeURIComponent(img)+"&title="+encodeURIComponent("人人漫画家")+"&description="+encodeURIComponent(info)+"&images="+encodeURIComponent(img)+"&charset=utf-8";
+          }
 
-          var url = "http://share.v.t.qq.com/index.php?c=share&a=index&url="+encodeURIComponent(img)+"&appkey=801378372&title="+encodeURIComponent(info)+"&pic="+encodeURIComponent(img)+"&line1=";
-          window.open(url);
-        });
-        $(".share-qq").click(function(){
-          var img = $(this).attr("img");
-          var info = $(this).attr("info");
-          var uid = $(this).attr("data-uid");
-          $('#share_'+uid).hide();
-
-          var url = "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://renrenmanhua.com&showcount=0&summary=&title="+encodeURIComponent(info)+"&site="+encodeURIComponent("人人漫画家")+"&pics="+encodeURIComponent(img)+"&style=103&width=71&height=22&otype=share";
-          window.open(url);
-        });
-        $(".share-renren").click(function(){
-          var img = $(this).attr("img");
-          var info = $(this).attr("info");
-          var uid = $(this).attr("data-uid");
-          $('#share_'+uid).hide();
-
-          var url = "http://widget.renren.com/dialog/share?resourceUrl=http://renrenmanhua.com&pic="+encodeURIComponent(img)+"&title="+encodeURIComponent("人人漫画家")+"&description="+encodeURIComponent(info)+"&images="+encodeURIComponent(img)+"&charset=utf-8";
           window.open(url);
         });
 
@@ -271,6 +259,9 @@
 
       up.addClass("ding_disabled")
       up.unbind("click")
+      $(".ding_"+workId).click(function(){
+        $('#has_ding_'+workId).show(300).delay(1000).hide(300);
+      });
 
       $.get("/pro/updown?t="+(new Date()).valueOf() ,{"proId":workId, "dingface":dingface});
     }

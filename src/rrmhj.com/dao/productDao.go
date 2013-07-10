@@ -64,20 +64,18 @@ func SaveProComment(comment *models.Comment) (err error) {
 }
 
 //更新用户踩或顶(Wangdj 2013-06-20)
-func UpdateProUporDown(proId string, optValue int) {
+//2013-07-10 Wangdj 修改：只保留“顶”功能，并增加顶的表情选择
+func UpdateProUporDown(proId, dingface string) {
 	var change interface{}
-	if optValue > 0 {
-		change = bson.M{"$inc": bson.M{"upnum": 1}}
-	} else {
-		change = bson.M{"$inc": bson.M{"downnum": -1}}
-	}
+
+	change = bson.M{"$inc": bson.M{"upnum": 1, "dingface." + dingface: 1}}
 
 	beego.Debug("proId=", proId)
-	beego.Debug("optValue=", optValue)
+	beego.Debug("dingface=", dingface)
 	beego.Debug("change=", change)
 
 	err := Update(proInfo, bson.M{"_id": proId}, change)
 	if err != nil {
-		beego.Error("更新用户踩或顶时出错：proId=", proId, err)
+		beego.Error("更新用户顶时出错：proId=", proId, err)
 	}
 }

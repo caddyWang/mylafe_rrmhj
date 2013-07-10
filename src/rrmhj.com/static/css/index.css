@@ -19,7 +19,7 @@
         .headleft{ float: left; position: relative;}
 
         #logo, #login, .sinaweibo, .tencweibo, .sinaweiboWhite, .tencweiboWhite, .arrow, .star, .star-full, .icn-ding, .icn-comm, .icn-share, 
-        .face-laugh, .face-love, .face-applause, .face-chop, .face-cry, .share-sina, .share-tenc, .share-qq, .share-renren, #back-to-top,
+        .face-laugh, .face-love, .face-applause, .face-chop, .face-cry, .shareicon-sina, .shareicon-tenc, .shareicon-qq, .shareicon-renren, #back-to-top,
         .user-arrow, .dropdown-arrow, .myproduct, .exit, #logined > .arrow {
           background-image: url(../img/icon.png); 
           background-repeat: no-repeat;
@@ -82,10 +82,10 @@
           float: left; padding: 0 8px 0 0;
           width: 26px; height: 22px;
         }
-        .sinaweibo, .share-sina {
+        .sinaweibo, .shareicon-sina {
           background-position: -160px -214px;
         }
-        .tencweibo, .share-tenc {
+        .tencweibo, .shareicon-tenc {
           background-position: -210px -217px;
         }
         .sinaweiboWhite {
@@ -94,10 +94,10 @@
         .tencweiboWhite {
           background-position: -114px -267px;
         }
-        .share-qq {
+        .shareicon-qq {
           background-position: -260px -213px;
         }
-        .share-renren {
+        .shareicon-renren {
           background-position: -309px -216px;
         }
 
@@ -322,7 +322,7 @@
         .thumbnail .row-fluid > .ding-face {
           border: 1px solid rgba(0,0,0, 0.2);
           width: 215px; height: 35px;
-          position: absolute;
+          position: absolute; z-index: 5555;
           float: right;
           bottom:20px; right: 20px;
           overflow: hidden;
@@ -334,7 +334,7 @@
         .thumbnail .row-fluid > .share-icon {
           border: 1px solid rgba(0,0,0, 0.2);
           width: 210px; height: 35px;
-          position: absolute;
+          position: absolute; z-index: 5555;
           float: right;
           bottom:20px; right: 20px;
           overflow: hidden;
@@ -393,19 +393,31 @@
           background-image: url(../img/cry.gif);
         }
 
-        .share-sina, .share-tenc, .share-qq, .share-renren {
+        .shareicon-sina, .shareicon-tenc, .shareicon-qq, .shareicon-renren {
           width: 28px; height: 22px;
           cursor: pointer;
           display: inline-block;
           border: 7px solid #FFF;
         }
-        .share-sina:hover, .share-tenc:hover, .share-qq:hover, .share-renren:hover {
+        .shareicon-sina:hover, .shareicon-tenc:hover, .shareicon-qq:hover, .shareicon-renren:hover {
           background-color: rgba(0,0,0,0.1);
           border: 7px solid rgba(0,0,0,0);
         }
 
         .pro-opt {
           padding: 25px 10px 0 0;
+          position: relative;
+        }
+        .pro-opt .has-ding {
+          position: absolute;
+          color: #FFF;
+          background: rgba(0,0,0,0.3);
+          width: 70px; height: 18px;
+          top: 1px; left: 1px;
+          border-radius: 3px;
+          text-align: center;
+          padding: 5px;
+          display: none;
         }
         .ding, .comment, .share {
           display: inline-block;
@@ -420,7 +432,7 @@
           border: 1px solid rgba(0, 0, 0, 0.1);  
         }
         .ding {color: #fe766c;}
-        .ding_disabled { background: rgba(0, 0, 0, 0.05); }
+        .ding_disabled { background: rgba(0, 0, 0, 0.1); }
         .comment {color: #66c4da;}
         .share {color: #52b24e;}
         .icn-ding, .icn-comm, .icn-share {
