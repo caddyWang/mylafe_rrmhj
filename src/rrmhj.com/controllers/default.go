@@ -28,5 +28,7 @@ func (this *MainController) Post() {
 	this.Data["IsLogin"] = business.CheckLogin(this.GetSession)
 	this.Data["Plist"], _ = business.QueryProductsList(int(pageIndex), this.Ctx.Request)
 
+	business.LoginedUserInfo(&this.Controller)
+
 	this.TplNames = "product/loading.tpl"
 }

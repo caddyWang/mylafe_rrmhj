@@ -1,45 +1,70 @@
 
 {{ $sfu := .SFUrl }}
 {{ $isLogin := .IsLogin}}
+{{ $sinaLogin := .SinaLogin}}
+{{ $tencLogin := .TencLogin}}
+{{ $uid := .Uid}}
 
 			{{with .Plist}}
 			{{range .}}
             <ul class="thumbnails">
               <li>
-                	<div class="thumbnail">
-                  		<img src="{{$sfu}}/{{.ImgPath}}" alt="{{.Desc | html2str}}">
-                  		<div class="caption">
-                    		<span><img src="{{.Author.ProfileImg | fmtHeadImg}}" class="img-rounded"></span> <span>{{.Author.UserName}}</span> <span>{{date .PostTime "Y-m-d" }}</span>
-                        <p>{{.Desc | html2str}}</p>
-                    	<div class="row-fluid">
-                          	<div name="spanBolder"><a href="javascript:void(0);" class="btn btn-small {{.UpNumScript}}"><i class="icon-thumbs-up"></i> <i class="num">{{.UpNum}}</i></a> <a href="javascript:void(0);" class="btn btn-small {{.DownNumScript}}"><i class="icon-thumbs-down"></i> <i class="num">{{.DownNum}}</i></a><input type="hidden" class="uid" value="{{.Pid}}"></span>
-	                          <div name="spanBolder" class="btn-group pull-right">
-	                            <a href="javascript:void(0);" class="btn btn-small comment"><i class="icon-comment"></i> <i class="commnum{{.Pid}}">{{.CommentNum}}</i></a> 
-	                            <a class="btn btn-small dropdown-toggle" data-delay="1000" data-hover="dropdown" data-toggle="dropdown"><i class="icon-share"></i> 分享</a>
-	                            <ul class="dropdown-menu">
-	                              <li><a class='bds_tsina' title='分享到新浪微博' href="#" style="padding-left:25px;"> 新浪微博</a></li>
-	                              <li><a class='bds_tqq' title='分享到腾讯微博' href="#" style="padding-left:25px;"> 腾讯微博</a></li>
-	                              <li><a class='bds_tqzone' title='分享到QQ空间' href='#' style="padding-left:25px;"> QQ空间</a></li>
-	                              <li><a class='bds_trenren' title='分享到人人网' href='#' style="padding-left:25px;"> 人人网</a></li>
-	                            </ul>
-	                            <input type="hidden" class="uid" value="{{.Pid}}">
-	                          </div>
-	                        </div>
-                  		</div>
-
-                      <div id="comments_{{.Pid}}" style="display:none">
-                        <p class="line"></p>
-
-                        <div class="comment_login" {{$isLogin | logoutDisplay}}>发布评论要登录哦：<a href="#qqLogin" class="btn btn-small btn-info" role="button" data-toggle="modal">用腾讯QQ登录</a> <a class="btn btn-small btn-danger" href="https://api.weibo.com/oauth2/authorize?client_id=3269145958&response_type=code&redirect_uri=127.0.0.1:8080/sinalogin/" target="_blank">用新浪微博登录</a></div>
-                        <div class="comment_input" {{$isLogin | loginDisplay}}><span><textarea class="commentdesc{{.Pid}}" placeholder="我也来说点什么呗..." rows="1" ></textarea></span> <span class="pull-right"><button class="btn btn-large" id="sendCommnet" type="button" proid="{{.Pid}}">发布</button></span></div>
-
-                        <div class="caption" id="commlist{{.Pid}}" view="0"></div>
+                  <div class="thumbnail">
+                      <div class="product">
+                        <div class="like {{islike $uid .Pid}}" data-pid="{{.Pid}}" data-login="{{$isLogin}}">{{displayLike $uid .Pid}}</div>
+                        <img src="{{$sfu}}/{{.ImgPath}}" alt="{{.Desc | html2str}}">
                       </div>
 
-                  	</div>
-                 </div>
+                      <div class="row-fluid">
+                        <div id="face_{{.Pid}}" class="ding-face">
+                          <div class="face-laugh" data-pid="{{.Pid}}" data-val="laugh"></div>
+                          <div class="face-love" data-pid="{{.Pid}}" data-val="love"></div>
+                          <div class="face-applause" data-pid="{{.Pid}}" data-val="applause"></div>
+                          <div class="face-chop" data-pid="{{.Pid}}" data-val="chop"></div>
+                          <div class="face-cry" data-pid="{{.Pid}}" data-val="cry"></div>
+                          <div class="pull-right"><button type="button" class="close faceclose" data-dismiss="modal" aria-hidden="true" data-uid="{{.Pid}}">&times;</button></div>
+                        </div>
+                        <div id="share_{{.Pid}}" class="share-icon">
+                          <div class="shareicon-sina" img="{{$sfu}}/{{.ImgPath}}" info="{{.Desc | html2str}}" data-uid="{{.Pid}}"></div>
+                          <div class="shareicon-tenc" img="{{$sfu}}/{{.ImgPath}}" info="{{.Desc | html2str}}" data-uid="{{.Pid}}"></div>
+                          <div class="shareicon-qq" img="{{$sfu}}/{{.ImgPath}}" info="{{.Desc | html2str}}" data-uid="{{.Pid}}"></div>
+                          <div class="shareicon-renren" img="{{$sfu}}/{{.ImgPath}}" info="{{.Desc | html2str}}" data-uid="{{.Pid}}"></div>
+                          <div class="pull-right"><button type="button" class="close shareclose" data-dismiss="modal" aria-hidden="true" data-uid="{{.Pid}}">&times;</button></div>
+                        </div>
+                        <div class="pro-user">
+                            <div><img src="{{.Author.ProfileImg | fmtHeadImg}}"></div>
+                            <div class="pull-right"><div class="user">{{.Author.UserName}}</div> <div class="time">{{date .PostTime "Y-m-d" }}</div></div>
+                        </div>
+                        <div class="pro-opt pull-right">
+                          <div id="has_ding_{{.Pid}}" class="has-ding">你顶过了!</div>
+                          <div class="ding ding_{{.Pid}} {{.UpNumScript}}" data-uid="{{.Pid}}"><div class="icn-ding"></div><span class="num{{.Pid}}">{{.UpNum}}</span></div>
+                          <div class="comment" data-uid="{{.Pid}}"><div class="icn-comm"></div><span class="commnum{{.Pid}}">{{.CommentNum}}</span></div>
+                          <div class="share" data-uid="{{.Pid}}"><div class="icn-share"></div>分享</div>
+                        </div>
+
+                        <div class="user-arrow"></div>
+                      </div>
+                      
+                      <div class="pro-info">{{.Desc | html2str}}</div>
+
+                      <div id="comments_{{.Pid}}" class="comment-list" view="0">
+      
+                        <div class="comment_login" {{$isLogin | logoutDisplay}}>发布评论要登录哦：
+                          <div class="btnSinaWeiboMini" data-url="{{$sinaLogin}}"><div class="sinaweiboWhite"></div> 新浪微博</div>
+                          <div class="btnTencWeiboMini" data-url="{{$tencLogin}}"><div class="tencweiboWhite"></div> 腾讯微博</div>
+                        </div>
+
+                        <div class="comment_input" {{$isLogin | loginDisplay}}>
+                          <span><textarea class="commentdesc{{.Pid}} comm_input" data-pid="{{.Pid}}" placeholder="我来说两句..." rows="1" ></textarea></span> <span class="pull-right"><div id="sendCommnet_{{.Pid}}" class="sendCommnet" proid="{{.Pid}}">发布</div></span>
+                        </div>
+
+                        <div class="comm_list_{{.Pid}}"></div>
+
+                      </div>
+
+                  </div>
               </li>
             </ul>
-          <div class="blank"></div>
+            <div class="blank"></div>
           {{end}}
           {{end}}

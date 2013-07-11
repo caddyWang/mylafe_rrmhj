@@ -22,6 +22,8 @@
     
     $(function(){
 
+        loadPageInit();
+
         //返回顶部
         $(window).scroll(function(){
           if($('#back-to-top').is(':hidden')){
@@ -51,7 +53,43 @@
         //登录模态框
         $('#myModal').modal({show:false})
 
-        //指向作品出现收藏按钮，离开则隐藏
+
+        //无限数据读取
+        $('#container').scrollPagination({
+          'contentPage': '/', 
+          'scrollTarget': $(window), 
+          'heightOffset': 15, 
+          'beforeLoad': function(){ 
+            $('#loading').fadeIn(); 
+
+
+            var pageSize = parseInt($('#pageSize').val());
+            var proCount = parseInt($('#proCount').val());
+
+            var a = $('#container').children('.thumbnails').size();
+            var pageIndex =Math.floor(a / pageSize)
+
+            if(pageIndex*pageSize >= proCount) {
+              $('#loading').fadeOut();
+              $('#container').stopScrollPagination();
+              
+              $('#container').append('<div class="alert alert-success" style="text-align:center; display:none;"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>没有新的作品了，等大家来创作吧...</strong></div><br>')
+              $('.alert').delay(1000).fadeIn(0);
+            }
+          },
+          'afterLoad': function(elementsLoaded){ 
+            
+            $('#loading').fadeOut();
+            loadPageInit()
+          }
+        });
+
+    });
+
+
+
+    function loadPageInit() {
+      //指向作品出现收藏按钮，离开则隐藏
         $(".product").bind("mouseover",function(){
           $(this).children(".like").show();
           return false;
@@ -62,6 +100,7 @@
         });
 
         //收藏
+        $(".unlike").unbind("click");
         $(".unlike").click(function(){
           var pid = $(this).attr("data-pid");
           var login = $(this).attr("data-login");
@@ -80,46 +119,55 @@
         });
 
         //顶 调用相关的表情选择框
+        $(".up").unbind("click");
         $(".up").click(function(){
           var uid = $(this).attr("data-uid");
           $('#face_'+uid).fadeIn();
         });
         //顶过用户的提醒
+        $(".ding_disabled").unbind("click");
         $(".ding_disabled").click(function(){
           var uid = $(this).attr("data-uid");
           $('#has_ding_'+uid).show(300).delay(1000).hide(300);
         });
         //关闭表情选择框
+        $(".faceclose").unbind("click");
         $(".faceclose").click(function(){
           var uid = $(this).attr("data-uid");
           $('#face_'+uid).fadeOut();
         });
 
         //分享 调用相关的平台选择框
+        $(".share").unbind("click");
         $(".share").click(function(){
           var uid = $(this).attr("data-uid");
           $('#share_'+uid).fadeIn();
         });
         //关闭分享平台选择框
+        $(".shareclose").unbind("click");
         $(".shareclose").click(function(){
           var uid = $(this).attr("data-uid");
           $('#share_'+uid).fadeOut();
         });
 
         //新浪微博登录绑定
+        $(".btnSinaWeiboMini").unbind("click");
         $(".btnSinaWeiboMini").click(function(){
           var durl = $(this).attr("data-url");
           window.open(durl);
         });
+        $(".btnSinaWeibo").unbind("click");
         $(".btnSinaWeibo").click(function(){
           var durl = $(this).attr("data-url");
           window.open(durl);
         });
         //腾讯微博登录绑定
+        $(".btnTencWeiboMini").unbind("click");
         $(".btnTencWeiboMini").click(function(){
           var durl = $(this).attr("data-url");
           window.open(durl);
         });
+        $(".btnTencWeibo").unbind("click");
         $(".btnTencWeibo").click(function(){
           var durl = $(this).attr("data-url");
           window.open(durl);
@@ -127,6 +175,7 @@
 
 
         //顶
+        $(".ding-face").find('div[class|="face"]').unbind("click");
         $(".ding-face").find('div[class|="face"]').click(function(){
           var workId = $(this).attr("data-pid");
           var dingface = $(this).attr("data-val");
@@ -137,6 +186,7 @@
         });
 
         //展现评论
+        $(".comment").unbind("click");
         $(".comment").click(function(){
           var workId = $(this).attr("data-uid");
           if($('#comments_'+workId).is(':hidden')) {
@@ -169,40 +219,8 @@
           $("#sendCommnet_"+uid).removeClass("comment_input_focus");
         });
 
-        //无限数据读取
-        $('#container').scrollPagination({
-          'contentPage': '/', 
-          'scrollTarget': $(window), 
-          'heightOffset': 15, 
-          'beforeLoad': function(){ 
-            $('#loading').fadeIn(); 
-
-
-            var pageSize = parseInt($('#pageSize').val());
-            var proCount = parseInt($('#proCount').val());
-
-            var a = $('#container').children('.thumbnails').size();
-            var pageIndex =Math.floor(a / pageSize)
-
-            if(pageIndex*pageSize >= proCount) {
-              $('#loading').fadeOut();
-              $('#container').stopScrollPagination();
-              
-              $('#container').append('<div class="alert alert-success" style="text-align:center; display:none;"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>没有新的作品了，等大家来创作吧...</strong></div><br>')
-              $('.alert').delay(1000).fadeIn(0);
-            }
-            
-          },
-          'afterLoad': function(elementsLoaded){ 
-            
-            $('#loading').fadeOut();
-
-          }
-        });
-
-
-
         //发表评论
+        $(".sendCommnet").unbind("click");
         $(".sendCommnet").click(function(){
           var proid = $(this).attr("proid");
           var commdesc = $(".commentdesc"+proid).val();
@@ -224,6 +242,7 @@
 
 
         //分享公共平台地址调用
+        $('div[class|="shareicon"]').unbind("click");
         $('div[class|="shareicon"]').click(function(){
           var img = $(this).attr("img");
           var info = $(this).attr("info");
@@ -243,8 +262,7 @@
 
           window.open(url);
         });
-
-    });
+    }
 
 
     //顶或踩的动画, type为1表示顶, -1表示踩
@@ -272,7 +290,8 @@
     function optUpOrDownOrAttention(up, workId, dingface){
       
       var num = $(".num"+workId);
-      num.text(parseInt(num.text())+1);
+      var inum = parseInt(num.text())+1;
+      num.text(inum);
       playPlus(up, 1); 
 
       up.addClass("ding_disabled")
