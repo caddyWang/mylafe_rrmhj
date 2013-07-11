@@ -28,6 +28,7 @@ type UserInfo struct {
 	City            string
 	Location        string
 	CreateTime      time.Time
+	LikePro         []string
 
 	SinaWeibo []SocialUserInfo
 	TencWeibo []SocialUserInfo

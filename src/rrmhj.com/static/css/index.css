@@ -263,6 +263,9 @@
           margin: 0 0 0 8px;
           float: left;
         }
+        .star-full {
+          width: 25px !important;
+        }
         .star {
           background-position: -66px -265px;
         }

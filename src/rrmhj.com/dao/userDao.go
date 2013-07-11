@@ -58,6 +58,29 @@ func InitUserInfoBySocialUser(user *models.UserInfo, platformName string) (uid s
 	return user.Id
 }
 
+// 2013/07/10 Wangdj 新增：用户收藏作品功能
+func SaveUserLikeProduct(proId, userId string) (err error) {
+	change := bson.M{"$push": bson.M{"likepro": proId}}
+
+	err = Update(userInfo, bson.M{"_id": userId}, change)
+	if err != nil {
+		beego.Error("添加用户收藏商品时出错：proid=", proId, ", userId=", userId, err)
+	}
+
+	return
+}
+
+// 2013/07/11 Wangdj 新增：查找当前用户已经收藏的作品
+func GetUserLikeProduct(userId string) []string {
+	user := models.UserInfo{}
+	err := FindOne(bson.M{"_id": userId}, &user, userInfo)
+	if err != nil {
+		beego.Error("查找当前用户已经收藏的作品出错：userId=", userId, err)
+	}
+
+	return user.LikePro
+}
+
 func findSocialUser(platform string, socialUser models.SocialUserInfo, user *models.UserInfo) (pushSocialUser map[string]interface{}, err error) {
 	err = FindOne(bson.M{platform: bson.M{"$elemMatch": bson.M{"uid": socialUser.Uid}}}, user, userInfo)
 	user.UserName, user.ProfileImg = socialUser.UserName, socialUser.ProfileImg

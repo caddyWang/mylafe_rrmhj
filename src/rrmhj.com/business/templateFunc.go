@@ -48,3 +48,32 @@ func LoginDisplay(islogin bool) template.HTMLAttr {
 func LogoutDisplay(islogin bool) template.HTMLAttr {
 	return LoginDisplay(!islogin)
 }
+
+// 2013/07/11 Wangdj 新增：判断页面上显示的作品是否是当前用户已经收藏的
+func DisplayLike(userId, proId string) template.HTML {
+	if IsLike(userId, proId) == "" {
+		return template.HTML("<div class='star-full'></div>已收藏")
+	}
+
+	return template.HTML("<div class='star'></div>收藏")
+}
+
+// 2013/07/11 Wangdj 新增：判断页面上显示的作品是否是当前用户已经收藏的
+func IsLike(userId, proId string) string {
+	if userId == "" || proId == "" {
+		return "unlike"
+	}
+
+	pros := GetUserLikeProduct(userId)
+
+	beego.Debug("Like:userId=", userId, ",proId=", proId)
+	beego.Debug("Like:pros=", pros)
+
+	for _, p := range pros {
+		if p == proId {
+			return ""
+		}
+	}
+
+	return "unlike"
+}

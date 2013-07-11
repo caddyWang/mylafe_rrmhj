@@ -61,6 +61,24 @@
           return false;
         });
 
+        //收藏
+        $(".unlike").click(function(){
+          var pid = $(this).attr("data-pid");
+          var login = $(this).attr("data-login");
+          var like = $(this);
+          if(login == "false") {
+            $('#myModal').modal('show');
+            return false;
+          }else{
+            $.get("/pro/like?t="+(new Date()).valueOf() ,{"proId":pid},function(data){
+                  if(data == "0"){
+                    like.html("<div class='star-full'></div>已收藏");
+                    like.unbind("click");
+                  }
+              });
+          }
+        });
+
         //顶 调用相关的表情选择框
         $(".up").click(function(){
           var uid = $(this).attr("data-uid");
@@ -155,7 +173,7 @@
         $('#container').scrollPagination({
           'contentPage': '/', 
           'scrollTarget': $(window), 
-          'heightOffset': 5, 
+          'heightOffset': 15, 
           'beforeLoad': function(){ 
             $('#loading').fadeIn(); 
 

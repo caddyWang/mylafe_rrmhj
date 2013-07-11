@@ -93,7 +93,21 @@ func TencLoginProcess(tkRST *TencWeiboOauth2AccesstokenResult, userRST *TencWeib
 
 // 2013/07/09 Wangdj 新增：获取当前站点登录的用户信息
 func LoginedUserInfo(ctx *beego.Controller) {
-	ctx.Data["UserName"] = ctx.GetSession("uname")
-	ctx.Data["Uid"] = ctx.GetSession("uid")
-	ctx.Data["Platform"] = ctx.GetSession("open_platform")
+	if ctx.GetSession("uid") != nil {
+		ctx.Data["UserName"] = ctx.GetSession("uname")
+		ctx.Data["Uid"] = ctx.GetSession("uid")
+		ctx.Data["Platform"] = ctx.GetSession("open_platform")
+	} else {
+		ctx.Data["UserName"], ctx.Data["Uid"], ctx.Data["Platform"] = "", "", ""
+	}
+}
+
+// 2013/07/10 Wangdj 新增：用户收藏作品功能
+func SaveUserLikeProduct(proId, userId string) (err error) {
+	return dao.SaveUserLikeProduct(proId, userId)
+}
+
+// 2013/07/11 Wangdj 新增：查找当前用户已经收藏的作品
+func GetUserLikeProduct(userId string) []string {
+	return dao.GetUserLikeProduct(userId)
 }

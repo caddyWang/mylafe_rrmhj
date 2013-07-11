@@ -3,6 +3,7 @@
 {{ $isLogin := .IsLogin}}
 {{ $sinaLogin := .SinaLogin}}
 {{ $tencLogin := .TencLogin}}
+{{ $uid := .Uid}}
 <html lang="zh">
 	<head>
 		<meta charset="utf-8">
@@ -69,7 +70,7 @@
               <li>
                   <div class="thumbnail">
                       <div class="product">
-                        <div class="like"><div class="star"></div>收藏</div>
+                        <div class="like {{islike $uid .Pid}}" data-pid="{{.Pid}}" data-login="{{$isLogin}}">{{displayLike $uid .Pid}}</div>
                         <img src="{{$sfu}}/{{.ImgPath}}" alt="{{.Desc | html2str}}">
                       </div>
 
