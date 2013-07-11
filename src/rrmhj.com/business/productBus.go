@@ -20,6 +20,10 @@ func QueryProductsList(pageIndex int, req *http.Request) (proHtmllist []models.P
 	prolist, count := dao.GetProductListByPage(pageIndex)
 	proHtmllist = []models.ProductUseHtml{}
 
+	if pageIndex < 0 {
+		pageIndex = 0
+	}
+
 	for _, pro := range prolist {
 		proHtml := models.ProductUseHtml{}
 		proHtml.Pid, proHtml.ImgPath, proHtml.Author, proHtml.PostTime, proHtml.Desc, proHtml.UpNum, proHtml.DownNum, proHtml.CommentNum = pro.Pid, pro.ImgPath, pro.Author, pro.PostTime, pro.Desc, pro.UpNum, pro.DownNum, pro.CommentNum
@@ -63,8 +67,23 @@ func SaveProductComment(comment *models.Comment, gs GetSession) (err error) {
 	return
 }
 
-//更新用户踩或顶(Wangdj 2013-06-20)
-//2013-07-10 Wangdj 修改：只保留“顶”功能，并增加顶的表情选择
+//2013/06/20 Wangdj 新建：更新用户踩或顶
+//2013/07/10 Wangdj 修改：只保留“顶”功能，并增加顶的表情选择
 func UpdateProUporDown(proId, dingface string) {
 	dao.UpdateProUporDown(proId, dingface)
+}
+
+//2013/07/11 Wangdj 新建：获取指定用户发布的作品集
+func GetProductsByUid(ctx *beego.Controller, pageIndex int) (proList []models.Product, count int) {
+
+	if pageIndex < 0 {
+		pageIndex = 0
+	}
+
+	uid := ctx.GetSession("uid")
+	if uid == nil || uid == "" {
+		return []models.Product{}, 0
+	}
+
+	return dao.GetProductsByUid(uid.(string), pageIndex)
 }

@@ -9,6 +9,7 @@ package dao
 ************************************************************************************/
 import (
 	"github.com/astaxie/beego"
+	"labix.org/v2/mgo"
 	"labix.org/v2/mgo/bson"
 	"rrmhj.com/conf"
 	"rrmhj.com/models"
@@ -19,9 +20,6 @@ const proInfo = "productInfo"
 const commInfo = "commentInfo"
 
 func GetProductListByPage(pageIndex int) (proList []models.Product, count int) {
-	if pageIndex < 0 {
-		pageIndex = 0
-	}
 
 	pageSize := conf.PageSize
 	proList = []models.Product{}
@@ -63,8 +61,8 @@ func SaveProComment(comment *models.Comment) (err error) {
 	return
 }
 
-//更新用户踩或顶(Wangdj 2013-06-20)
-//2013-07-10 Wangdj 修改：只保留“顶”功能，并增加顶的表情选择
+//2013/06/20 Wangdj 新建：更新用户踩或顶
+//2013/07/10 Wangdj 修改：只保留“顶”功能，并增加顶的表情选择
 func UpdateProUporDown(proId, dingface string) {
 	var change interface{}
 
@@ -78,4 +76,21 @@ func UpdateProUporDown(proId, dingface string) {
 	if err != nil {
 		beego.Error("更新用户顶时出错：proId=", proId, err)
 	}
+}
+
+//2013/07/11 Wangdj 新建：获取指定用户发布的作品集
+func GetProductsByUid(uid string, pageIndex int) (proList []models.Product, count int) {
+
+	pageSize := 10
+	proList = []models.Product{}
+
+	count, err := FindList(bson.M{"author.id": uid}, &proList, proInfo, pageIndex*pageSize, pageSize, "-posttime")
+	if err == mgo.ErrNotFound {
+		return []models.Product{}, 0
+	} else if err != nil {
+		beego.Error("查询指定用户漫画列表数据出错：Uid=", uid, err)
+		return []models.Product{}, 0
+	}
+
+	return proList, count
 }

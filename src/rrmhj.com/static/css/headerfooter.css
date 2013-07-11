@@ -1,0 +1,199 @@
+        body { 
+          background: #f2f2e9 none; padding: 0px 0 0 0; font-family:Arial,"微软雅黑","黑体","宋体"; font-size: 12px;
+        } 
+
+        /*头部*/
+        .navbar-inner { 
+          border-width: 0 0 1px;
+          border-color: #FFF #FFF #FFAEB9; 
+          background: #fffff5 none;
+          height: 100px;
+        }
+
+        #head {  
+          max-width: 900px;
+          text-align:center; 
+          margin: 0 auto;
+        }
+
+        .headleft{ float: left; position: relative;}
+
+        #logo, #login, .sinaweibo, .tencweibo, .sinaweiboWhite, .tencweiboWhite, .arrow, .star, .star-full, .icn-ding, .icn-comm, .icn-share, 
+        .face-laugh, .face-love, .face-applause, .face-chop, .face-cry, .shareicon-sina, .shareicon-tenc, .shareicon-qq, .shareicon-renren, #back-to-top,
+        .user-arrow, .dropdown-arrow, .myproduct, .exit, #logined > .arrow,
+        .icon-mypro, .icon-mylike, .mypro-arrow, .mylike-arrow {
+          background-image: url(../img/icon.png); 
+          background-repeat: no-repeat;
+        }
+
+        #logo {
+          background-position: -19px -20px;
+          width: 204px; height: 69px;
+          margin: 12px 0 0 0;
+        }
+
+        #login {
+          background-position: -54px -103px;
+          width: 42px; height: 43px;
+          margin: 30px 0 0 0;
+          cursor: pointer;
+        }
+        #login:hover {
+          background-position: -105px -103px;
+        }
+        #logined {
+          height: 30px;
+          padding: 10px 0 0 0;
+          margin: 30px 0 0 0;
+          cursor: pointer;
+          color: #ff788a;
+          font-size: 14px;
+        }
+        #logined:hover {
+          color: #b95869;
+        }
+        #logined > .arrow {
+          width: 14px; height: 12px;
+          background-position: -2px -232px;
+          display: inline-block;
+        }
+
+        .headright > .dropdown-menu {
+          border: 2px solid rgba(255, 120, 138, 0.3);
+          width: 150px;
+          box-shadow: 0 0 0 rgba(0, 0, 0, 0.1);
+          right: -55px;
+          margin-top: 10px;
+        }
+        .headright > .dropdown-menu > li {
+          padding: 5px 0 5px 0;
+          text-align: left;
+        }
+        .headright > .dropdown-menu > li a:hover {
+          background: rgba(0,0,0,0.1) !important;
+        }
+        .dropdown-arrow {
+          width: 18px; height: 10px;
+          background-position: -18px -232px;
+          position: absolute;
+          top: -10px; left: 68px;
+        }
+
+        .sinaweibo, .tencweibo, .sinaweiboWhite, .tencweiboWhite {
+          float: left; padding: 0 8px 0 0;
+          width: 26px; height: 22px;
+        }
+        .sinaweibo, .shareicon-sina {
+          background-position: -160px -214px;
+        }
+        .tencweibo, .shareicon-tenc {
+          background-position: -210px -217px;
+        }
+        .sinaweiboWhite {
+          background-position: -162px -266px;
+        }
+        .tencweiboWhite {
+          background-position: -114px -267px;
+        }
+        .shareicon-qq {
+          background-position: -260px -213px;
+        }
+        .shareicon-renren {
+          background-position: -309px -216px;
+        }
+
+
+
+        /*登录模态框*/
+        .modal {
+          border: 5px solid rgba(255, 120, 138, 0.5);
+        }
+
+        .modal > .headleft {
+          margin: 20px 0 20px 0;
+          width:280px; height: 245px;
+          padding: 10px 30px 0 50px;
+          border-right: 1px solid rgba(255, 120, 138, 0.5);
+          color: #999;
+        }
+
+        .modal > .headleft > div {
+          padding: 20px 0 0 0;
+        }
+
+        .btnSinaWeibo, .btnTencWeibo {
+          color: #FFF;
+          width: 160px; height: 28px;
+          font-size: 14px;
+          padding: 7px 0 0 14px;
+          margin: 0 0 15px 0;
+          cursor: pointer;
+          border-radius: 2px 2px 2px 2px;
+        }
+        .btnSinaWeiboMini, .btnTencWeiboMini {
+          display: inline-table;
+          font-style: 12px;
+          color: #FFF;
+          width: 100px; height: 28px;
+          padding: 5px 15px 0 15px;
+          margin: 0 10px 0 0;
+          cursor: pointer;
+          border-radius: 2px 2px 2px 2px;
+        }
+        .btnSinaWeibo, .btnSinaWeiboMini {
+          background-color: #dc504b;
+          vertical-align: middle;
+        }
+        .btnSinaWeibo:hover, .btnSinaWeiboMini:hover {
+          background-color: #cb1814;
+        }
+        .btnTencWeibo, .btnTencWeiboMini {
+          background-color: #61cae3;
+          vertical-align: middle;
+        }
+        .btnTencWeibo:hover, .btnTencWeiboMini:hover {
+          background-color: #1c99b8;
+        }
+        
+
+        .modal > .headright {
+          padding: 0 20px 0 380px;
+          color: #999;
+        }
+
+        .modal > .headright > div {
+          padding: 5px -10px 0 0;
+        }
+
+        .modal > .headright > h6 {
+          padding: 80px 0 0 0;
+          color: #666;
+        }
+
+        .modal-backdrop {
+          background-color: rgba(0,0,0,0.3);
+        }
+
+        .close {
+          color: red;
+          font-size: 30px;
+        }
+        .close:hover {
+          color: red;
+        }
+
+
+
+
+        /*底部*/
+        .bottom {
+          width: 100%;
+          height: 60px;
+          margin: 0 auto;
+          text-align: center;
+          background: #ffbab1 url(../img/bottombg.png);
+          padding: 15px 0 0 0;
+          color: #ff8894;
+          font-size: 14px; font-weight: bolder;
+          line-height: 25px;
+        }

@@ -1,0 +1,60 @@
+#my-nav {
+          max-width: 522px;
+          margin: auto;
+          position: relative;
+}
+
+.my-products, .my-likes {
+	max-width: 252px;
+	width: 100%;
+	border-radius: 5px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	background: #FFF;
+	margin: 30px 0 20px 0;
+	text-align: center;
+	padding: 15px 0 15px 0;
+	font-size: 16px;
+	font-weight: bolder;
+	cursor: pointer;
+}
+
+.my-products:hover, .my-likes:hover {
+	background: #f0efec;
+}
+
+
+.my-products {
+	float: left;
+	color: #00c49f;
+}
+.my-likes {
+	float: right;
+	color: #ffc107;
+}
+
+.icon-mypro, .icon-mylike {
+	width: 33px; height: 33px;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 10px 0 0;
+}
+.icon-mypro {
+	background-position: -108px -308px;
+}
+.icon-mylike {
+	background-position: -159px -308px;
+}
+
+.mypro-arrow, .mylike-arrow {
+	width: 14px; height: 7px;
+	background-position: -36px -215px;
+	position: absolute;
+	bottom: 14px; 
+}
+.mypro-arrow {
+	left: 140px;
+}
+.mylike-arrow {
+	float: right;
+	right: 140px;
+}

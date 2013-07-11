@@ -10,9 +10,12 @@ func main() {
 	beego.Router("/", &controllers.MainController{})
 	beego.Router("/sinalogin", &controllers.SinaLoginController{})
 	beego.Router("/tenclogin", &controllers.TencLoginController{})
+
 	beego.Router("/pro/comment", &controllers.ProCommentController{})
 	beego.Router("/pro/updown", &controllers.ProOptController{})
 	beego.Router("/pro/like", &controllers.ProLikeController{})
+
+	beego.Router("/my/pro", &controllers.MyProController{})
 
 	beego.AddFuncMap("fmtHeadImg", business.DefaultHeadImg)
 	beego.AddFuncMap("loginDisplay", business.LoginDisplay)

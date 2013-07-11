@@ -37,3 +37,4 @@ var DefDBName = beego.AppConfig.String("db_name")
 
 //Open Platform Login
 var SinaLoginAddr = beego.AppConfig.String("sina_login_addr")
+var TencLoginAddr = beego.AppConfig.String("tenc_login_addr")
