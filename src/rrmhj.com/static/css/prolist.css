@@ -30,7 +30,7 @@
           max-width: 512px;
         } 
 
-        .star, .star-full, .myproduct, .exit {
+        .star, .star-full, .myproduct, .exit, .delpro {
           width: 30px; height: 21px;
           margin: 0 0 0 8px;
           float: left;
@@ -49,6 +49,9 @@
         }
         .exit {
           background-position: -63px -314px;
+        }
+        .delpro {
+          background-position: -364px -265px;
         }
 
         .like {

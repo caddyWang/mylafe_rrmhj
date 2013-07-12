@@ -4,6 +4,7 @@
 {{ $sinaLogin := .SinaLogin}}
 {{ $tencLogin := .TencLogin}}
 {{ $uid := .Uid}}
+{{ $mypro := .MyPro}}
 <html lang="zh">
 	<head>
 		<meta charset="utf-8">
@@ -40,7 +41,7 @@
                     <div class="dropdown-arrow"></div>
                     <li><a title='我的作品' href="/my/pro"><div class="myproduct"></div> 我的作品</a></li>
                     <li><a title='我的收藏' href="/my/like"><div class="star"></div> 我的收藏</a></li>
-                    <li><a title='退出' href="/exit"><div class="exit"></div> 退出</a></li>
+                    <li><a title='退出' href="/my/logout"><div class="exit"></div> 退出</a></li>
                 </ul>
               </div>
         </div>
@@ -53,18 +54,24 @@
       <input type="hidden" id="pageSize" value="{{.PageSize}}">
 
       <div id="my-nav" class="container-fluid">
-        {{if .MyPro}}<div class="mypro-arrow"></div>{{end}}{{if .MyLike}}<div class="mylike-arrow"></div>{{end}}
-        <div class="my-products"><div class="icon-mypro"></div> 我的作品({{.ListCount}})</div>
-        <div class="my-likes"><div class="icon-mylike"></div> 我的收藏(10)</div>
+        {{if $mypro}}<div class="mypro-arrow"></div>{{end}}{{if .MyLike}}<div class="mylike-arrow"></div>{{end}}
+        <div class="my-products"><div class="icon-mypro"></div> 我的作品(<span id="myproNum">{{.ProCount}}</span>)</div>
+        <div class="my-likes"><div class="icon-mylike"></div> 我的收藏(<span id="mylikeNum">{{.LikeCount}}</span>)</div>
+        <div class="deleted-info">删除成功了！</div>
       </div>
+
+      {{if .ListNull}}
+      <div class="nopro"></div>
+      <div class="return-url"><a href="/">返回首页</a> &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:history.back(-1);">返回上一页</a></div>
+      {{end}}
 
       {{with .Plist}}
       {{range .}}
-        <ul class="thumbnails">
+        <ul class="thumbnails" id="thumbnails_{{.Pid}}">
               <li>
                   <div class="thumbnail">
                       <div class="product">
-                        <div class="like {{islike $uid .Pid}}" data-pid="{{.Pid}}" data-login="{{$isLogin}}">{{displayLike $uid .Pid}}</div>
+                        <div class="like {{if $mypro}}delmypro{{else}}delmylike{{end}}" data-pid="{{.Pid}}" data-login="{{$isLogin}}"><div class="delpro"></div> 删除</div>
                         <img src="{{$sfu}}/{{.ImgPath}}" alt="{{.Desc | html2str}}">
                       </div>
 
@@ -101,13 +108,8 @@
                       <div class="pro-info">{{.Desc | html2str}}</div>
 
                       <div id="comments_{{.Pid}}" class="comment-list" view="0">
-      
-                        <div class="comment_login" {{$isLogin | logoutDisplay}}>发布评论要登录哦：
-                          <div class="btnSinaWeiboMini" data-url="{{$sinaLogin}}"><div class="sinaweiboWhite"></div> 新浪微博</div>
-                          <div class="btnTencWeiboMini" data-url="{{$tencLogin}}"><div class="tencweiboWhite"></div> 腾讯微博</div>
-                        </div>
 
-                        <div class="comment_input" {{$isLogin | loginDisplay}}>
+                        <div class="comment_input">
                           <span><textarea class="commentdesc{{.Pid}} comm_input" data-pid="{{.Pid}}" placeholder="我来说两句..." rows="1" ></textarea></span> <span class="pull-right"><div id="sendCommnet_{{.Pid}}" class="sendCommnet" proid="{{.Pid}}">发布</div></span>
                         </div>
 
@@ -137,7 +139,17 @@
   <script src="{{$sfu}}/js/bootstrap.min.js"></script>
   <script src="{{$sfu}}/js/twitter-bootstrap-hover-dropdown.min.js"></script>
   <script src="{{$sfu}}/js/scrollpagination.js"></script>
-  <script src="{{$sfu}}/js/index.js"></script>
+  <script src="{{$sfu}}/js/prolist.js"></script>
+
+  <script>
+    $(function(){
+      if ("{{.ListNull}}" != "true") {
+        scrollData('/my/pro','没有其他作品了，快来创作吧...');
+      } else {
+        $("#loading").hide();
+      }
+    });
+  </script>
 
 
   </body>

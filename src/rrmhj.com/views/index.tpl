@@ -42,7 +42,7 @@
                     <li {{$isLogin | logoutDisplay}}><a title='腾讯微博登录' href="{{$tencLogin}}" target="_blank"><div class="tencweibo"></div> 腾讯微博登录</a></li>
                     <li {{$isLogin | loginDisplay}}><a title='我的作品' href="/my/pro"><div class="myproduct"></div> 我的作品</a></li>
                     <li {{$isLogin | loginDisplay}}><a title='我的收藏' href="/my/like"><div class="star"></div> 我的收藏</a></li>
-                    <li {{$isLogin | loginDisplay}}><a title='退出' href="#"><div class="exit"></div> 退出</a></li>
+                    <li {{$isLogin | loginDisplay}}><a title='退出' href="/my/logout"><div class="exit"></div> 退出</a></li>
                 </ul>
               </div>
         </div>
@@ -162,7 +162,13 @@
 	<script src="{{$sfu}}/js/bootstrap.min.js"></script>
   <script src="{{$sfu}}/js/twitter-bootstrap-hover-dropdown.min.js"></script>
   <script src="{{$sfu}}/js/scrollpagination.js"></script>
-  <script src="{{$sfu}}/js/index.js"></script>
+  <script src="{{$sfu}}/js/prolist.js"></script>
+
+  <script>
+    $(function(){
+      scrollData('/','没有新的作品了，等大家来创作吧...')
+    });
+  </script>
 
 
 	</body>

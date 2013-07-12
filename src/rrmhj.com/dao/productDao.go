@@ -18,13 +18,15 @@ import (
 
 const proInfo = "productInfo"
 const commInfo = "commentInfo"
+const deleteCode = -999
+const normalCode = 0
 
 func GetProductListByPage(pageIndex int) (proList []models.Product, count int) {
 
 	pageSize := conf.PageSize
 	proList = []models.Product{}
 
-	count, err := FindList(bson.M{"iflag": 0}, &proList, proInfo, pageIndex*pageSize, pageSize, "-posttime")
+	count, err := FindList(bson.M{"iflag": normalCode}, &proList, proInfo, pageIndex*pageSize, pageSize, "-posttime")
 	if err != nil {
 		beego.Error("查询漫画列表数据出错：", err)
 	}
@@ -81,10 +83,10 @@ func UpdateProUporDown(proId, dingface string) {
 //2013/07/11 Wangdj 新建：获取指定用户发布的作品集
 func GetProductsByUid(uid string, pageIndex int) (proList []models.Product, count int) {
 
-	pageSize := 10
+	pageSize := conf.PageSize
 	proList = []models.Product{}
 
-	count, err := FindList(bson.M{"author.id": uid}, &proList, proInfo, pageIndex*pageSize, pageSize, "-posttime")
+	count, err := FindList(bson.M{"author.id": uid, "iflag": bson.M{"$gt": deleteCode}}, &proList, proInfo, pageIndex*pageSize, pageSize, "-posttime")
 	if err == mgo.ErrNotFound {
 		return []models.Product{}, 0
 	} else if err != nil {
@@ -93,4 +95,31 @@ func GetProductsByUid(uid string, pageIndex int) (proList []models.Product, coun
 	}
 
 	return proList, count
+}
+
+//2013/07/12 Wangdj 新建：删除用户指定的作品
+func DelProductByUid(uid, pid string) (err error) {
+
+	query := bson.M{"_id": pid, "author.id": uid}
+	err = Update(proInfo, query, bson.M{"$set": bson.M{"iflag": deleteCode}})
+	if err != nil {
+		beego.Error("删除用户指定的作品出错:Uid=", uid, ",Pid=", pid, err)
+	}
+
+	return
+}
+
+//2013/07/12 Wangdj 新建：根据一组proid获取相应的作品信息
+func GetProductLikeByPidArr(pidarr []string, pageIndex int) (proList []models.Product, count int) {
+	var err error
+	pageSize := conf.PageSize
+	proList = []models.Product{}
+
+	query := bson.M{"iflag": normalCode, "_id": bson.M{"$in": pidarr}}
+	count, err = FindList(query, &proList, proInfo, pageIndex*pageSize, pageSize, "-posttime")
+	if err != nil {
+		beego.Error("根据一组proid获取相应的作品信息出错:PidArr=", pidarr, err)
+	}
+
+	return
 }

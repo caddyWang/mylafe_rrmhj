@@ -9,8 +9,8 @@
 
     	<link href="css/bootstrap.min.css" rel="stylesheet">
     	<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
-      <link href="css/index.css" rel="stylesheet">
-      <link href="css/header.css" rel="stylesheet">
+      <link href="css/prolist.css" rel="stylesheet">
+      <link href="css/headerfooter.css" rel="stylesheet">
       <link href="css/my.css" rel="stylesheet">
 
     	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -30,12 +30,9 @@
 				<div id="head" class="container-fluid">
             <div class="headleft"><div id="logo"></div></div>
             <div class="headright pull-right dropdown">
-                <div id="login" class="dropdown-toggle" data-close-others="true" data-hover="dropdown" data-toggle="modal" href="#myModal" style="display:none;"></div>
                 <div id="logined" class="dropdown-toggle" data-close-others="true" data-hover="dropdown">dadairen007 <div class="arrow"></div></div>
                 <ul class="dropdown-menu">
                     <div class="dropdown-arrow"></div>
-                    <li><a title='新浪微博登录' href="#"><div class="sinaweibo"></div> 新浪微博登录</a></li>
-                    <li><a title='腾讯微博登录' href="#"><div class="tencweibo"></div> 腾讯微博登录</a></li>
                     <li><a title='我的作品' href="#"><div class="myproduct"></div> 我的作品</a></li>
                     <li><a title='我的收藏' href="#"><div class="star"></div> 我的收藏</a></li>
                     <li><a title='退出' href="#"><div class="exit"></div> 退出</a></li>
@@ -50,6 +47,12 @@
         <div class="mypro-arrow"></div><div class="mylike-arrow"></div>
         <div class="my-products"><div class="icon-mypro"></div> 我的作品(0)</div>
         <div class="my-likes"><div class="icon-mylike"></div> 我的收藏(10)</div>
+        <div class="deleted-info">删除成功了！</div>
+      </div>
+
+      <div class="err-info">
+        <div class="nopro"></div>
+        <div class="return-url"><a href="/">返回首页</a> &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:history.back(-1);">返回上一页</a></div>
       </div>
 
             <ul class="thumbnails">
@@ -163,7 +166,7 @@
 	<script src="js/bootstrap.min.js"></script>
   <script src="js/twitter-bootstrap-hover-dropdown.min.js"></script>
   <script src="js/scrollpagination.js"></script>
-  <script src="js/index.js"></script>
+  <script src="js/prolist.js"></script>
 
   
 

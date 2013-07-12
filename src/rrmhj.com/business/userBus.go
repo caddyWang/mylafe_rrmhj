@@ -8,6 +8,7 @@ package business
 
 import (
 	"github.com/astaxie/beego"
+	"net/http"
 	"rrmhj.com/dao"
 	"rrmhj.com/models"
 	"strconv"
@@ -89,6 +90,27 @@ func TencLoginProcess(tkRST *TencWeiboOauth2AccesstokenResult, userRST *TencWeib
 	setSess("uid", userId)
 	setSess("uname", user.UserName)
 	setSess("uprofileimg", user.ProfileImg)
+}
+
+// 2013/07/12 Wangdj 新增：退出登录
+func Logout(ctx *beego.Controller) {
+	ctx.DelSession("uid")
+
+	//判断是用的哪个社交帐号登录的，并退出相应授权
+	if ctx.GetSession("sina_access_token") != nil && ctx.GetSession("sina_access_token") != "" {
+		_, err := http.Get("https://api.weibo.com/oauth2/revokeoauth2?access_token=" + ctx.GetSession("sina_access_token").(string))
+		if err != nil {
+			beego.Error("退出新浪微博帐号时出错：", err)
+		}
+		ctx.DelSession("sina_id")
+		ctx.DelSession("sina_access_token")
+	} else if ctx.GetSession("tenc_id") != nil && ctx.GetSession("tenc_id") != "" {
+		ctx.DelSession("tenc_id")
+		_, err := http.Get("http://open.t.qq.com/api/auth/revoke_auth?format=json")
+		if err != nil {
+			beego.Error("退出腾讯微博帐号时出错：", err)
+		}
+	}
 }
 
 // 2013/07/09 Wangdj 新增：获取当前站点登录的用户信息

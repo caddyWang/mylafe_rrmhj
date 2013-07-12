@@ -17,29 +17,13 @@ import (
 
 //根据分页参数获取漫画作品列表（Wangdj 2013-06-07	）
 func QueryProductsList(pageIndex int, req *http.Request) (proHtmllist []models.ProductUseHtml, count int) {
-	prolist, count := dao.GetProductListByPage(pageIndex)
-	proHtmllist = []models.ProductUseHtml{}
 
 	if pageIndex < 0 {
 		pageIndex = 0
 	}
 
-	for _, pro := range prolist {
-		proHtml := models.ProductUseHtml{}
-		proHtml.Pid, proHtml.ImgPath, proHtml.Author, proHtml.PostTime, proHtml.Desc, proHtml.UpNum, proHtml.DownNum, proHtml.CommentNum = pro.Pid, pro.ImgPath, pro.Author, pro.PostTime, pro.Desc, pro.UpNum, pro.DownNum, pro.CommentNum
-		proHtml.UpNumScript, proHtml.DownNumScript = "up", "down"
-		cookie, err := req.Cookie(pro.Pid)
-		if err == nil && cookie != nil {
-			val := cookie.Value
-			if val == "1" {
-				proHtml.UpNumScript = "ding_disabled"
-			}
-		}
-
-		proHtmllist = append(proHtmllist, proHtml)
-	}
-
-	return
+	prolist, count := dao.GetProductListByPage(pageIndex)
+	return setUpNumScript(prolist, req), count
 }
 
 //读取某个漫画下的所有评论(Wangdj 2013-06-19)
@@ -74,7 +58,9 @@ func UpdateProUporDown(proId, dingface string) {
 }
 
 //2013/07/11 Wangdj 新建：获取指定用户发布的作品集
-func GetProductsByUid(ctx *beego.Controller, pageIndex int) (proList []models.Product, count int) {
+//2013/07/12 Wangdj 修改：根据当前Cookies判断当前用户是否已经顶过各个作品，并添加显示样式
+func GetProductsByUid(ctx *beego.Controller, pageIndex int) (proHtmllist []models.ProductUseHtml, count int) {
+	var proList []models.Product
 
 	if pageIndex < 0 {
 		pageIndex = 0
@@ -82,8 +68,53 @@ func GetProductsByUid(ctx *beego.Controller, pageIndex int) (proList []models.Pr
 
 	uid := ctx.GetSession("uid")
 	if uid == nil || uid == "" {
-		return []models.Product{}, 0
+		return []models.ProductUseHtml{}, 0
 	}
 
-	return dao.GetProductsByUid(uid.(string), pageIndex)
+	proList, count = dao.GetProductsByUid(uid.(string), pageIndex)
+	return setUpNumScript(proList, ctx.Ctx.Request), count
+}
+
+func GetLikeProByUid(ctx *beego.Controller, pageIndex int) (proHtmllist []models.ProductUseHtml, count int) {
+	var proList []models.Product
+
+	if pageIndex < 0 {
+		pageIndex = 0
+	}
+
+	uid := ctx.GetSession("uid")
+	if uid == nil || uid == "" {
+		return []models.ProductUseHtml{}, 0
+	}
+
+	pidArr := dao.GetUserLikeProduct(uid.(string))
+	proList, count = dao.GetProductLikeByPidArr(pidArr, pageIndex)
+	return setUpNumScript(proList, ctx.Ctx.Request), count
+}
+
+//2013/07/12 Wangdj 新建：删除用户指定的作品
+func DelProductByUid(uid, pid string) (err error) {
+	return dao.DelProductByUid(uid, pid)
+}
+
+//2013/07/12 Wangdj 新增：内部公共函数，根据当前Cookies判断当前用户是否已经顶过各个作品，并添加显示样式
+func setUpNumScript(proList []models.Product, req *http.Request) (proHtmllist []models.ProductUseHtml) {
+	proHtmllist = []models.ProductUseHtml{}
+
+	for _, pro := range proList {
+		proHtml := models.ProductUseHtml{}
+		proHtml.Pid, proHtml.ImgPath, proHtml.Author, proHtml.PostTime, proHtml.Desc, proHtml.UpNum, proHtml.DownNum, proHtml.CommentNum = pro.Pid, pro.ImgPath, pro.Author, pro.PostTime, pro.Desc, pro.UpNum, pro.DownNum, pro.CommentNum
+		proHtml.UpNumScript, proHtml.DownNumScript = "up", "down"
+		cookie, err := req.Cookie(pro.Pid)
+		if err == nil && cookie != nil {
+			val := cookie.Value
+			if val == "1" {
+				proHtml.UpNumScript = "ding_disabled"
+			}
+		}
+
+		proHtmllist = append(proHtmllist, proHtml)
+	}
+
+	return
 }

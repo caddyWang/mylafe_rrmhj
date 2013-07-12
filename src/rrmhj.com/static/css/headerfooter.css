@@ -2,6 +2,20 @@
           background: #f2f2e9 none; padding: 0px 0 0 0; font-family:Arial,"微软雅黑","黑体","宋体"; font-size: 12px;
         } 
 
+
+        a:link, a:visited {
+          color: #666;
+          text-decoration: none;
+        }
+
+        a:hover {
+          color: #333;
+          text-decoration: underline;
+        }
+
+
+
+
         /*头部*/
         .navbar-inner { 
           border-width: 0 0 1px;
@@ -21,7 +35,7 @@
         #logo, #login, .sinaweibo, .tencweibo, .sinaweiboWhite, .tencweiboWhite, .arrow, .star, .star-full, .icn-ding, .icn-comm, .icn-share, 
         .face-laugh, .face-love, .face-applause, .face-chop, .face-cry, .shareicon-sina, .shareicon-tenc, .shareicon-qq, .shareicon-renren, #back-to-top,
         .user-arrow, .dropdown-arrow, .myproduct, .exit, #logined > .arrow,
-        .icon-mypro, .icon-mylike, .mypro-arrow, .mylike-arrow {
+        .icon-mypro, .icon-mylike, .mypro-arrow, .mylike-arrow, .delpro {
           background-image: url(../img/icon.png); 
           background-repeat: no-repeat;
         }

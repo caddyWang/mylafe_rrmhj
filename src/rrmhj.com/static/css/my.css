@@ -1,4 +1,4 @@
-#my-nav {
+#my-nav, #err-info {
           max-width: 522px;
           margin: auto;
           position: relative;
@@ -57,4 +57,45 @@
 .mylike-arrow {
 	float: right;
 	right: 140px;
+}
+
+.nopro, .err404 {
+	max-width: 325px; height: 327px;
+    margin: 10px auto;
+    background-image: url(../img/alert.png); 
+    background-repeat: no-repeat;
+}
+
+.nopro {
+	background-position: 0 0;
+}
+
+.err404 {
+	max-width: 382px;
+	background-position: 397 0;
+}
+
+.return-url {
+	margin: auto;
+	text-align: center;
+	font-size: 14px;
+	padding: 0 0 20px 0;
+}
+
+.deleted-info {
+	width: 180px; height: 20px;
+	padding: 20px;
+	background-color: rgba(0,0,0,0.5);
+	color: #FFF;
+	font-size: 16px; font-weight: bold;
+	text-align: center;
+	position: fixed; z-index: 999;
+	left: 200px; top: 200px;
+	display: none;
+	 -webkit-border-radius: 5px;
+             -moz-border-radius: 5px;
+                  border-radius: 5px;
+          -webkit-box-shadow: 0 3px 7px class="pull-right" rgba(0,0,0,.4);
+             -moz-box-shadow: 0 3px 7px rgba(0,0,0,.4);
+                  box-shadow: 0 3px 7px rgba(0,0,0,.4);
 }
