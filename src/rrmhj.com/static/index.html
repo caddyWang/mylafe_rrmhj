@@ -9,8 +9,9 @@
 
     	<link href="css/bootstrap.min.css" rel="stylesheet">
     	<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
-      <link href="css/header.css" rel="stylesheet">
+      <link href="css/headerfooter.css" rel="stylesheet">
       <link href="css/index.css" rel="stylesheet">
+      <link href="css/prolist.css" rel="stylesheet">
 
     	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 	    <!--[if lt IE 9]>
@@ -29,7 +30,9 @@
 				<div id="head" class="container-fluid">
             <div class="headleft"><div id="logo"></div></div>
             <div class="headright pull-right dropdown">
-                <div id="login" class="dropdown-toggle" data-close-others="true" data-hover="dropdown" data-toggle="modal" href="#myModal" style="display:none;"></div>
+                <div onclick="javascript:location.href='/'">首页</div>
+                <div onclick="javascript:location.href='/phone'">软件下载</div>
+                <div id="login-text" class="dropdown-toggle" data-close-others="true" data-hover="dropdown" data-toggle="modal" href="#myModal" {{$isLogin | logoutDisplay}}>登录</div>
                 <div id="logined" class="dropdown-toggle" data-close-others="true" data-hover="dropdown">dadairen007 <div class="arrow"></div></div>
                 <ul class="dropdown-menu">
                     <div class="dropdown-arrow"></div>

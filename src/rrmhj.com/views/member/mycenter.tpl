@@ -36,6 +36,8 @@
         <div id="head" class="container-fluid">
             <div class="headleft"><div id="logo"></div></div>
             <div class="headright pull-right dropdown">
+                <div class="topmenu-index" onclick="javascript:location.href='/'">首页</div>
+                <div class="topmenu-phone"onclick="javascript:location.href='/phone'">软件下载</div>
                 <div id="logined" class="dropdown-toggle" data-close-others="true" data-hover="dropdown">{{.UserName}}<div class="arrow"></div></div>
                 <ul class="dropdown-menu">
                     <div class="dropdown-arrow"></div>

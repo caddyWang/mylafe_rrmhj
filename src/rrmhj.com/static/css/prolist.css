@@ -213,14 +213,17 @@
         .ding_disabled { background: rgba(0, 0, 0, 0.1); }
         .comment {color: #66c4da;}
         .share {color: #52b24e;}
-        .icn-ding, .icn-comm, .icn-share {
-          width: 21px; height: 20px;
+        .icn-ding, .icn-dinged, .icn-comm, .icn-share {
+          width: 27px; height: 24px;
           float: left;
           margin-right: 5px;
         }
 
         .icn-ding{
           background-position: -216px -267px;
+        }
+        .icn-dinged{
+          background-position: -314px -316px;
         }
         .icn-comm{
           background-position: -266px -267px;

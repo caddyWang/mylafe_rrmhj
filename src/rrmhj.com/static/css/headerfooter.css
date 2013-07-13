@@ -32,10 +32,10 @@
 
         .headleft{ float: left; position: relative;}
 
-        #logo, #login, .sinaweibo, .tencweibo, .sinaweiboWhite, .tencweiboWhite, .arrow, .star, .star-full, .icn-ding, .icn-comm, .icn-share, 
+        #logo, #login, .sinaweibo, .tencweibo, .sinaweiboWhite, .tencweiboWhite, .arrow, .star, .star-full, .icn-ding, .icn-dinged, .icn-comm, .icn-share, 
         .face-laugh, .face-love, .face-applause, .face-chop, .face-cry, .shareicon-sina, .shareicon-tenc, .shareicon-qq, .shareicon-renren, #back-to-top,
         .user-arrow, .dropdown-arrow, .myproduct, .exit, #logined > .arrow,
-        .icon-mypro, .icon-mylike, .mypro-arrow, .mylike-arrow, .delpro {
+        .icon-mypro, .icon-mylike, .mypro-arrow, .mylike-arrow, .delpro, .icon-ios, .icon-android {
           background-image: url(../img/icon.png); 
           background-repeat: no-repeat;
         }
@@ -59,24 +59,32 @@
           height: 30px;
           padding: 10px 0 0 0;
           margin: 30px 0 0 0;
-          cursor: pointer;
-          color: #ff788a;
-          font-size: 14px;
         }
-        #logined:hover {
-          color: #b95869;
-        }
+        
         #logined > .arrow {
           width: 14px; height: 12px;
           background-position: -2px -232px;
           display: inline-block;
         }
 
+        div[class*="topmenu-"] {
+          display: inline-block;
+          margin: 30px 0 0 0;
+          padding: 10px 20px 10px 20px;
+          cursor: pointer;
+          color: #ff788a;
+          font-size: 14px;
+        }
+
+        div[class*="topmenu-"]:hover {
+          color: #b95869 !important;
+        }
+
         .headright > .dropdown-menu {
           border: 2px solid rgba(255, 120, 138, 0.3);
           width: 150px;
           box-shadow: 0 0 0 rgba(0, 0, 0, 0.1);
-          right: -55px;
+          right: -50px;
           margin-top: 10px;
         }
         .headright > .dropdown-menu > li {
@@ -85,6 +93,7 @@
         }
         .headright > .dropdown-menu > li a:hover {
           background: rgba(0,0,0,0.1) !important;
+          color: #000;
         }
         .dropdown-arrow {
           width: 18px; height: 10px;
@@ -128,7 +137,7 @@
           width:280px; height: 245px;
           padding: 10px 30px 0 50px;
           border-right: 1px solid rgba(255, 120, 138, 0.5);
-          color: #999;
+          color: #666 !important;
         }
 
         .modal > .headleft > div {
@@ -205,9 +214,10 @@
           height: 60px;
           margin: 0 auto;
           text-align: center;
-          background: #ffbab1 url(../img/bottombg.png);
           padding: 15px 0 0 0;
           color: #ff8894;
-          font-size: 14px; font-weight: bolder;
+          font-size: 14px;
           line-height: 25px;
+          border-top: 1px solid #FFBAB1;
+          background: #fffff5 none;
         }

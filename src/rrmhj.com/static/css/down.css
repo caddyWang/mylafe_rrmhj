@@ -1,0 +1,118 @@
+body {
+	background: #fffff5 !important;
+}
+
+.banner {
+	width: 100%; height: 560px;
+	background: #f6726a url(../img/down_bg.png) no-repeat top center;
+	text-align: center;
+}
+
+.down-info {
+	width: 900px; height: 550px;
+	margin: 0 auto;
+	position: relative;
+}
+
+.down-info > .down-left {
+	width: 48%;
+}
+.down-info > .down-right {
+	text-align: left;
+	position: absolute;
+	left: 533px;
+	color: #FFF;
+	padding: 100px 0 0 0;
+}
+.down-right > h1 {
+	font-size: 38px;
+	line-height: 45px;
+}
+.down-right > h5 {
+	width: 420px;
+	font-size: 16px;
+}
+.down-btn {
+	width: 400px;
+	padding: 25px 0;
+}
+.ios, .android {
+	width: 185px;
+	border-radius: 5px;
+	color: #FFF;
+	font-size: 20px; font-weight: bold;
+	text-align: center;
+	cursor: pointer;
+}
+.ios {
+	float: left;
+	background: #262626 none;
+}
+.android {
+	float: right;
+	background: #00c49f none;
+}
+.icon-ios, .icon-android {
+	width: 38px; height: 44px;
+	vertical-align: middle;
+	margin: 5px 8px 5px 0;
+}
+.icon-ios {
+	background-position: -209px -302px;
+}
+.icon-android {
+	background-position: -259px -302px;
+}
+
+.downlist {
+    border: 2px solid #ffe4e0;
+    width: 183px;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.1);
+    left: 213px;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.downlist > li a:hover {
+   	background: rgba(0,0,0,0.1) !important;
+    color: #000;
+}
+.dropdown-arrow {
+    left: 80px;
+}
+
+
+.introduction {
+	max-width: 1000px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+div[class^="info"] {
+	width: 25%;
+	display: inline-block;
+	padding: 30px 20px 30px 20px;
+	text-align: left;
+}
+
+div[class^="info"] > div {
+	font-size: 14px;
+	line-height: 22px;
+	vertical-align: top;
+}
+
+.icon-info1, .icon-info2, .icon-info3 {
+	background-image: url(../img/down_icon.png); 
+    background-repeat: no-repeat;
+    width: 189px; height: 180px;
+}
+
+.icon-info1 {
+	background-position: 0 -1px;
+}
+.icon-info2 {
+	background-position: -229px 0;
+}
+.icon-info3 {
+	background-position: -465px 0;
+}

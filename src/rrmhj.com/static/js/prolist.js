@@ -187,6 +187,11 @@
           var uid = $(this).attr("data-uid");
           $('#has_ding_'+uid).show(300).delay(1000).hide(300);
         });
+        $(".ding_disabled").find("div[class='icn-ding']").each(function(){
+          $(this).addClass("icn-dinged")
+          $(this).removeClass("icn-ding")
+        });
+                  
         //关闭表情选择框
         $(".faceclose").unbind("click");
         $(".faceclose").click(function(){
@@ -352,6 +357,8 @@
       playPlus(up, 1); 
 
       up.addClass("ding_disabled")
+      up.find("div[class='icn-ding']").addClass("icn-dinged")
+      up.find("div[class='icn-ding']").removeClass("icn-ding")
       up.unbind("click")
       $(".ding_"+workId).click(function(){
         $('#has_ding_'+workId).show(300).delay(1000).hide(300);
@@ -394,4 +401,17 @@
         winWidth = document.body.clientWidth;
 
       return winWidth;
+   }
+
+   //获取浏览器高度
+   function findScreenH()  {
+      var winHeight;
+
+      //获取窗口高度
+      if (window.innerHeight)
+        winHeight = window.innerHeight;
+      else if ((document.body) && (document.body.clientHeight))
+        winHeight = document.body.clientHeight; 
+
+      return winHeight;
    }

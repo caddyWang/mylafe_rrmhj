@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="utf-8">
+		<title>人人漫画家</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="description" content="">
+    	<meta name="author" content="">
+
+    	<link href="css/bootstrap.min.css" rel="stylesheet">
+    	<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+      <link href="css/headerfooter.css" rel="stylesheet">
+      <link href="css/prolist.css" rel="stylesheet">
+      <link href="css/down.css" rel="stylesheet">
+
+    	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+	    <!--[if lt IE 9]>
+	      <script src="js/html5shiv.js"></script>
+	    <![endif]-->
+
+    	
+	</head>
+
+	<body id="top">
+
+		<div class="navbar">
+			<div class="navbar-inner">
+				<div id="head" class="container-fluid">
+            <div class="headleft"><div id="logo"></div></div>
+            <div class="headright pull-right dropdown">
+                <div id="logined" class="dropdown-toggle" data-close-others="true" data-hover="dropdown">dadairen007 <div class="arrow"></div></div>
+                <ul class="dropdown-menu">
+                    <div class="dropdown-arrow"></div>
+                    <li><a title='我的作品' href="#"><div class="myproduct"></div> 我的作品</a></li>
+                    <li><a title='我的收藏' href="#"><div class="star"></div> 我的收藏</a></li>
+                    <li><a title='退出' href="#"><div class="exit"></div> 退出</a></li>
+                </ul>
+              </div>
+				</div>
+			</div>
+
+      <div class="banner">
+        <div class="down-info">
+          <div class="down-left"></div>
+          <div class="down-right">
+            <h1>最简单的创作<br>与分享漫画的方式</h1>
+            <h5>专为喜欢漫画的人定制的设计工具。一拖一拉即可用漫画记录你的生活。</h5>
+            <div class="down-btn">
+              <div class="ios"><div class="icon-ios"></div>iphone版</div>
+              <div class="android dropdown-toggle" data-close-others="true" data-hover="dropdown"><div class="icon-android"></div>Android版 <div class="arrow"></div></div>
+                <ul class="dropdown-menu downlist">
+                    <div class="dropdown-arrow"></div>
+                    <li><a title='官方本地下载' href="http://m.mylafe.cc/littlecartoonist1.2.5.apk" target="_blank">官方本地下载</a></li>
+                    <li><a title='小米应用下载' href="http://app.xiaomi.com/detail/37624" target="_blank">小米应用下载</a></li>
+                    <li><a title='豌豆夹' href="http://www.wandoujia.com/apps/com.shane.littlecartoonist" target="_blank">豌豆夹</a></li>
+                    <li><a title='360手机助手' href="http://zhushou.360.cn/detail/index/soft_id/360268" target="_blank">360手机助手</a></li>
+                </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="introduction">
+      <div class="info1">
+        <h4>最简单的方式</h4>
+        <div>只需要一拖一拉就能得到你想要的故事人物和场景。</div>
+        <div class="icon-info1"></div>
+      </div>
+      <div class="info2">
+        <h4>丰富的素材</h4>
+        <div>超过100种的特色表情和动作可以自由变换不同组合的情景。</div>
+        <div class="icon-info2"></div>
+      </div>
+      <div class="info3">
+        <h4>自由的分享</h4>
+        <div>所有这些都可一键分享到微信，新浪微博，腾讯微博，QQ空间等社区。</div>
+        <div class="icon-info3"></div>
+      </div>
+    </div>
+
+		
+
+      <div class="bottom">
+        <div>关于我们  &nbsp;&nbsp;&nbsp;&nbsp;手机客户端  &nbsp;&nbsp;&nbsp;&nbsp;免责声明</div>
+        <div>@renrenmanhua.com</div>
+      </div>
+
+      <div id="myModal" class="modal hide fade">
+        <div class="headleft">
+          <h3>欢迎回来</h3>
+          <p>目前仅提供新浪和微博的登录。暂不支持其它方式。因为麦麦觉得这样比较简单，比较快咧:)</p>
+          <div>
+            <div class="btnSinaWeibo"><div class="sinaweiboWhite"></div> 使用新浪微博登录</div>
+            <div class="btnTencWeibo"><div class="tencweiboWhite"></div> 使用腾讯微博登录</div>
+          </div>
+        </div>
+        <div class="headright">
+          <div><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
+          <h6>麦麦提醒你：</h6>
+          <p>登录后你可以点评、收藏、分享麦友滴作品，还有好多好涅...</p>
+        </div>
+      </div>        
+
+
+	<script src="js/jquery.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+  <script src="js/twitter-bootstrap-hover-dropdown.min.js"></script>
+
+  <script>
+    $(function(){
+      $(".ios").click(function(){
+        window.open("https://itunes.apple.com/cn/app/ren-ren-man-hua-jia/id608827447?mt=8");
+      });
+      $(".android").click(function(){
+        window.open("http://m.mylafe.cc/littlecartoonist1.2.5.apk");
+      });
+    });
+  </script>
+  
+
+	</body>
+</html>

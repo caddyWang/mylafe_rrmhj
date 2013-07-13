@@ -34,8 +34,10 @@
         <div id="head" class="container-fluid">
             <div class="headleft"><div id="logo"></div></div>
             <div class="headright pull-right dropdown">
-                <div id="login" class="dropdown-toggle" data-close-others="true" data-hover="dropdown" data-toggle="modal" href="#myModal" {{$isLogin | logoutDisplay}}></div>
-                <div id="logined" class="dropdown-toggle" data-close-others="true" data-hover="dropdown" {{$isLogin | loginDisplay}}>{{.UserName}}<div class="arrow"></div></div>
+                <div class="topmenu-index" onclick="javascript:location.href='/'">首页</div>
+                <div class="topmenu-phone"onclick="javascript:location.href='/phone'">软件下载</div>
+                <div class="topmenu-login dropdown-toggle" data-close-others="true" data-hover="dropdown" data-toggle="modal" href="#myModal" {{$isLogin | logoutDisplay}}>登录</div>
+                <div id="logined" class="topmenu-logined dropdown-toggle" data-close-others="true" data-hover="dropdown" {{$isLogin | loginDisplay}}>{{.UserName}}<div class="arrow"></div></div>
                 <ul class="dropdown-menu">
                     <div class="dropdown-arrow"></div>
                     <li {{$isLogin | logoutDisplay}}><a title='新浪微博登录' href="{{$sinaLogin}}" target="_blank"><div class="sinaweibo"></div> 新浪微博登录</a></li>
@@ -57,7 +59,7 @@
             <a class="btn btn-large btn-info">了解详情</a>
           </div>
         </div>
-        <div href="#container" class="arrow"></div>
+        <div class="out-arrow"><div href="#container" class="arrow"></div></div>
       </div>
     </div>
 
@@ -171,6 +173,14 @@
             newScrollData("/");
           }
       });
+
+      //ad全屏
+      var winH = (parseInt(findScreenH()) - 650) / 2
+      if (winH > 0) {
+        $("#default_ad").find(".headleft").css({margin:winH+"px 0 "+winH+"px 0"})
+        $("#default_ad").find(".headright").css({margin:winH+"px 0 "+winH+"px 0"})
+      }
+
     });
   </script>
 

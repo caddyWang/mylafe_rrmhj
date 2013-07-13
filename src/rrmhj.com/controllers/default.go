@@ -32,3 +32,13 @@ func (this *MainController) Post() {
 
 	this.TplNames = "product/loading.tpl"
 }
+
+type PhoneController struct {
+	beego.Controller
+}
+
+func (this *PhoneController) Get() {
+	this.Data["IsLogin"] = business.CheckLogin(this.GetSession)
+	business.LoginedUserInfo(&this.Controller)
+	this.TplNames = "phone.tpl"
+}

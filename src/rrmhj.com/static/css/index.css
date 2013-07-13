@@ -17,11 +17,12 @@
         }
         #default_ad > .headright {
           text-align: left;
-          padding: 140px 50px 0 0;
+          padding: 100px 50px 0 0;
           color: #545454;
         }
         #default_ad > .headright > h1 {
-          font-size: 30px;
+          font-size: 38px;
+          line-height: 45px;
         }
         #default_ad > .headright > h5 {
           font-size: 16px;
@@ -30,14 +31,18 @@
           padding: 10px 0 0 0;
         }
 
-        #ad > .arrow {
+        #ad > .out-arrow {
+          height: 65px;
+        }
+
+        #ad .arrow {
           width: 23px; height: 14px;
           background-position: -115px -210px;
           margin: 0 auto;
           padding: 0 0 6px 0;
           cursor: pointer;
         }
-        #ad > .arrow:hover {
+        #ad .arrow:hover {
           background-position: -115px -231px;
         }
 
