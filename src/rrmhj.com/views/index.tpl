@@ -162,7 +162,6 @@
 	<script src="{{$sfu}}/js/jquery.js"></script>
 	<script src="{{$sfu}}/js/bootstrap.min.js"></script>
   <script src="{{$sfu}}/js/twitter-bootstrap-hover-dropdown.min.js"></script>
-  <script src="{{$sfu}}/js/scrollpagination.js"></script>
   <script src="{{$sfu}}/js/prolist.js"></script>
 
   <script>

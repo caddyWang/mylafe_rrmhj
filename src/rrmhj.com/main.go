@@ -15,8 +15,10 @@ func main() {
 	beego.Router("/pro/updown", &controllers.ProOptController{})
 	beego.Router("/pro/like", &controllers.ProLikeController{})
 	beego.Router("/pro/delpro", &controllers.ProDelController{})
+	beego.Router("/pro/dellike", &controllers.LikeProDelController{})
 
 	beego.Router("/my/pro", &controllers.MyProController{})
+	beego.Router("/my/like", &controllers.MyLikeController{})
 	beego.Router("/my/logout", &controllers.ExitController{})
 
 	beego.AddFuncMap("fmtHeadImg", business.DefaultHeadImg)
@@ -25,5 +27,6 @@ func main() {
 	beego.AddFuncMap("displayLike", business.DisplayLike)
 	beego.AddFuncMap("islike", business.IsLike)
 
+	beego.SetLevel(beego.LevelError)
 	beego.Run()
 }

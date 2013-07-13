@@ -144,6 +144,37 @@
           }
         });
 
+
+        //删除收藏的作品
+        $(".delmylike").unbind("click");
+        $(".delmylike").click(function(){
+          var pid = $(this).attr("data-pid");
+          var login = $(this).attr("data-login");
+          var like = $(this);
+          if(login == "false") {
+            $('#myModal').modal('show');
+            return false;
+          }else{
+            $.get("/pro/dellike?t="+(new Date()).valueOf() ,{"proId":pid},function(data){
+                  if(data == "0"){
+                    $("#thumbnails_"+pid).fadeOut();
+
+                    var w = findScreenW();
+                    var leftS = parseInt(w)/2 - 100;
+                    $(".deleted-info").css({left : leftS+"px"})
+                    $(".deleted-info").show(500).delay(1000).hide(500);
+
+                    var myproNum = parseInt($("#mylikeNum").text())-1;
+                    $("#mylikeNum").text(myproNum);
+                  }else if(data == "-2"){
+                    alert("登录超时，请重新登录后再删除！");
+                  }else{
+                    alert("删除出错！")
+                  }
+              });
+          }
+        });
+
         //顶 调用相关的表情选择框
         $(".up").unbind("click");
         $(".up").click(function(){

@@ -60,7 +60,7 @@ func InitUserInfoBySocialUser(user *models.UserInfo, platformName string) (uid s
 
 // 2013/07/10 Wangdj 新增：用户收藏作品功能
 func SaveUserLikeProduct(proId, userId string) (err error) {
-	change := bson.M{"$push": bson.M{"likepro": proId}}
+	change := bson.M{"$addToSet": bson.M{"likepro": proId}}
 
 	err = Update(userInfo, bson.M{"_id": userId}, change)
 	if err != nil {
@@ -79,6 +79,18 @@ func GetUserLikeProduct(userId string) []string {
 	}
 
 	return user.LikePro
+}
+
+// 2013/07/13 Wangdj 新增：删除当前用户已经收藏的作品
+func DelUserLikeProduct(proId, userId string) (err error) {
+	change := bson.M{"$pull": bson.M{"likepro": proId}}
+
+	err = Update(userInfo, bson.M{"_id": userId}, change)
+	if err != nil {
+		beego.Error("删除当前用户已经收藏的作品出错：userId=", userId, ",proId=", proId, err)
+	}
+
+	return
 }
 
 func findSocialUser(platform string, socialUser models.SocialUserInfo, user *models.UserInfo) (pushSocialUser map[string]interface{}, err error) {

@@ -133,3 +133,8 @@ func SaveUserLikeProduct(proId, userId string) (err error) {
 func GetUserLikeProduct(userId string) []string {
 	return dao.GetUserLikeProduct(userId)
 }
+
+// 2013/07/13 Wangdj 新增：删除当前用户已经收藏的作品
+func DelUserLikeProduct(proId, userId string) (err error) {
+	return dao.DelUserLikeProduct(proId, userId)
+}

@@ -8,7 +8,7 @@
 <html lang="zh">
 	<head>
 		<meta charset="utf-8">
-		<title>我的作品 - 人人漫画家</title>
+		<title>我的{{if $mypro}}作品{{else}}收藏{{end}} - 人人漫画家</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
     	<meta name="description" content="">
     	<meta name="author" content="">
@@ -128,7 +128,7 @@
    </div>
 
   <div id="loading"><img src="{{$sfu}}/img/loading.gif"><p>内容加载中...</p></div>
-  <div class="alert alert-success" style="text-align:center; display:none;"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>没有作品了，快来创作吧...</strong></div><br>
+  <div class="alert alert-success" style="text-align:center; display:none;"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>没有作品了，{{if $mypro}}快来创作吧{{else}}有喜欢的再收吧{{end}}...</strong></div><br>
 
   <div class="bottom">
       <div>关于我们  &nbsp;&nbsp;&nbsp;&nbsp;手机客户端  &nbsp;&nbsp;&nbsp;&nbsp;免责声明</div>
@@ -139,7 +139,6 @@
   <script src="{{$sfu}}/js/jquery.js"></script>
   <script src="{{$sfu}}/js/bootstrap.min.js"></script>
   <script src="{{$sfu}}/js/twitter-bootstrap-hover-dropdown.min.js"></script>
-  <script src="{{$sfu}}/js/scrollpagination.js"></script>
   <script src="{{$sfu}}/js/prolist.js"></script>
 
   <script>
@@ -148,13 +147,24 @@
         $(function(){
           $(window).scroll(function(){
               if  ($(window).scrollTop() == $(document).height() - $(window).height()){
-                newScrollData("/my/pro");
+                if ("{{$mypro}}" == "true") {
+                  newScrollData("/my/pro");
+                }else{
+                  newScrollData("/my/like");
+                }
               }
           });
         });
       } else {
         $("#loading").hide();
       }
+
+      $(".my-products").click(function(){
+        location.href = "/my/pro";
+      });
+      $(".my-likes").click(function(){
+        location.href = "/my/like";
+      });
     });
   </script>
 
