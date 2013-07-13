@@ -88,11 +88,12 @@ func (this *MyProController) Post() {
 	beego.Debug("Loading PageIndex=", pageIndex)
 
 	this.Data["IsLogin"] = true
+	this.Data["MyPro"] = true
 	this.Data["Plist"], _ = business.GetProductsByUid(&this.Controller, int(pageIndex))
 
 	business.LoginedUserInfo(&this.Controller)
 
-	this.TplNames = "product/loading.tpl"
+	this.TplNames = "product/myloading.tpl"
 }
 
 //2013/07/12 Wangdj 新增：退出登录

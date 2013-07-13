@@ -63,7 +63,7 @@
 
 
 		<div id="container" class="container-fluid">
-      <input type="hidden" id="pageIndex" pageindex="{{.PageIndex}}">
+      <input type="hidden" id="pageIndex" data-val="{{.PageIndex}}">
       <input type="hidden" id="proCount" value="{{.ProCount}}">
       <input type="hidden" id="pageSize" value="{{.PageSize}}">
 
@@ -135,6 +135,7 @@
 	 </div>
 
   <div id="loading"><img src="{{$sfu}}/img/loading.gif"><p>内容加载中...</p></div>
+  <div class="alert alert-success" style="text-align:center; display:none;"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>没有新的作品了，等大家来创作吧...</strong></div><br>
 
   <div class="bottom">
       <div>关于我们  &nbsp;&nbsp;&nbsp;&nbsp;手机客户端  &nbsp;&nbsp;&nbsp;&nbsp;免责声明</div>
@@ -166,7 +167,11 @@
 
   <script>
     $(function(){
-      scrollData('/','没有新的作品了，等大家来创作吧...')
+      $(window).scroll(function(){
+          if  ($(window).scrollTop() == $(document).height() - $(window).height()){
+            newScrollData("/");
+          }
+      });
     });
   </script>
 

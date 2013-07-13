@@ -45,7 +45,15 @@
 			  type: 'POST',
 			  url: opts.contentPage,
 			  //data: opts.contentData, //原语句改成获取当前页面已经加载的原素，以支持分页
-			  data: {"pageIndex": Math.floor($('#container').children('.thumbnails').size() / parseInt($('#pageSize').val())) },
+			  data: {"pageIndex":  function(){
+			  	var pageIndex = Math.floor($('#container').children('.thumbnails').size() / parseInt($('#pageSize').val()));
+			  	var lastEle = Math.floor($('#container').children('.thumbnails').size() % parseInt($('#pageSize').val()));
+			  	if(lastEle > 0 ) {
+			  		pageIndex = pageIndex+1;
+			  	}
+
+			  	return pageIndex;
+			  }},
 			  success: function(data){
 				$(obj).append(data); 
 				var objectsRendered = $(obj).children('[rel!=loaded]');

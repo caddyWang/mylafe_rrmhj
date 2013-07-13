@@ -55,37 +55,32 @@
 
     });
 
-
     //无限数据读取
-    function scrollData(ajaxURL, nodataInfo) {
-        $('#container').scrollPagination({
-          'contentPage': ajaxURL, 
-          'scrollTarget': $(window), 
-          'heightOffset': 15, 
-          'beforeLoad': function(){ 
-            $('#loading').fadeIn(); 
+    function newScrollData(ajaxURL) {
+      var pageIndex = $("#pageIndex").attr("data-val");
+      var pageSize = parseInt($('#pageSize').val());
+      var proCount = parseInt($('#proCount').val());
 
-
-            var pageSize = parseInt($('#pageSize').val());
-            var proCount = parseInt($('#proCount').val());
-
-            var a = $('#container').children('.thumbnails').size();
-            var pageIndex =Math.floor(a / pageSize)
-
-            if(pageIndex*pageSize >= proCount) {
-              $('#loading').fadeOut();
-              $('#container').stopScrollPagination();
-              
-              $('#container').append('<div class="alert alert-success" style="text-align:center; display:none;"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>'+nodataInfo+'</strong></div><br>');
-              $('.alert').delay(1000).fadeIn(0);
-            }
+      if (pageIndex*pageSize >= proCount){
+        $('.alert').delay(1000).fadeIn(0);
+      } else {
+        $.ajax({
+          type: 'POST',
+          url: ajaxURL,
+          data: {"pageIndex":  pageIndex},
+          success: function(data){
+            $("#pageIndex").attr("data-val", parseInt(pageIndex)+1);
+            $("#container").append(data);
+            loadPageInit();
           },
-          'afterLoad': function(elementsLoaded){ 
-            
-            $('#loading').fadeOut();
-            loadPageInit()
-          }
+          dataType: 'html'
         });
+
+        $('#loading').show();
+      }
+
+      $('#loading').fadeOut();
+
     }
 
 
@@ -139,7 +134,6 @@
                     $(".deleted-info").show(500).delay(1000).hide(500);
 
                     var myproNum = parseInt($("#myproNum").text())-1;
-                    alert(myproNum);
                     $("#myproNum").text(myproNum);
                   }else if(data == "-2"){
                     alert("登录超时，请重新登录后再删除！");
