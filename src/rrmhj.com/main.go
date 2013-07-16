@@ -31,6 +31,6 @@ func main() {
 	beego.AddFuncMap("displayLike", business.DisplayLike)
 	beego.AddFuncMap("islike", business.IsLike)
 
-	//beego.SetLevel(beego.LevelError)
+	beego.SetLevel(beego.LevelError)
 	beego.Run()
 }

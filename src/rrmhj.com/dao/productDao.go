@@ -97,7 +97,7 @@ func GetProductsByUid(uid string, pageIndex int) (proList []models.Product, coun
 	pageSize := conf.PageSize
 	proList = []models.Product{}
 
-	count, err := FindList(bson.M{"author.id": uid, "iflag": bson.M{"$gt": deleteCode}}, &proList, proInfo, pageIndex*pageSize, pageSize, "-posttime")
+	count, err := FindList(bson.M{"author._id": uid, "iflag": bson.M{"$gt": deleteCode}}, &proList, proInfo, pageIndex*pageSize, pageSize, "-posttime")
 	if err == mgo.ErrNotFound {
 		return []models.Product{}, 0
 	} else if err != nil {
@@ -111,7 +111,7 @@ func GetProductsByUid(uid string, pageIndex int) (proList []models.Product, coun
 //2013/07/12 Wangdj 新建：删除用户指定的作品
 func DelProductByUid(uid, pid string) (err error) {
 
-	query := bson.M{"_id": pid, "author.id": uid}
+	query := bson.M{"_id": pid, "author._id": uid}
 	err = Update(proInfo, query, bson.M{"$set": bson.M{"iflag": deleteCode}})
 	if err != nil {
 		beego.Error("删除用户指定的作品出错:Uid=", uid, ",Pid=", pid, err)
