@@ -34,6 +34,17 @@ func GetProductListByPage(pageIndex int) (proList []models.Product, count int) {
 	return proList, count
 }
 
+//2013/07/16 Wangdj 新建：保存作品
+func SaveProduct(product *models.Product) {
+	product.Pid = bson.NewObjectId().Hex()
+	product.PostTime = time.Now()
+
+	err := Insert(proInfo, product)
+	if err != nil {
+		beego.Error("保存作品出错：product=", product, err)
+	}
+}
+
 //读取某个漫画下的所有评论(Wangdj 2013-06-19)
 func GetProComment(pid string) (commentList []models.Comment, count int, err error) {
 	commentList = []models.Comment{}

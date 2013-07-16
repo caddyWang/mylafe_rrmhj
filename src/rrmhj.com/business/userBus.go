@@ -119,6 +119,7 @@ func LoginedUserInfo(ctx *beego.Controller) {
 		ctx.Data["UserName"] = ctx.GetSession("uname")
 		ctx.Data["Uid"] = ctx.GetSession("uid")
 		ctx.Data["Platform"] = ctx.GetSession("open_platform")
+		ctx.Data["UserImg"] = ctx.GetSession("uprofileimg")
 	} else {
 		ctx.Data["UserName"], ctx.Data["Uid"], ctx.Data["Platform"] = "", "", ""
 	}

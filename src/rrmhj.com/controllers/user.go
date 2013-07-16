@@ -183,5 +183,11 @@ type ExitController struct {
 func (this *ExitController) Get() {
 	business.Logout(&this.Controller)
 
-	this.Redirect("/", 302)
+	returnUrl := this.GetString("returnurl")
+	if returnUrl == "" {
+		this.Redirect("/", 302)
+		return
+	}
+
+	this.Redirect(returnUrl, 302)
 }

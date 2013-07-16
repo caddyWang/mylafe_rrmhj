@@ -22,12 +22,15 @@ func main() {
 	beego.Router("/my/like", &controllers.MyLikeController{})
 	beego.Router("/my/logout", &controllers.ExitController{})
 
+	beego.Router("/send/login", &controllers.LoginController{})
+	beego.Router("/send/pro", &controllers.UploadController{})
+
 	beego.AddFuncMap("fmtHeadImg", business.DefaultHeadImg)
 	beego.AddFuncMap("loginDisplay", business.LoginDisplay)
 	beego.AddFuncMap("logoutDisplay", business.LogoutDisplay)
 	beego.AddFuncMap("displayLike", business.DisplayLike)
 	beego.AddFuncMap("islike", business.IsLike)
 
-	beego.SetLevel(beego.LevelError)
+	//beego.SetLevel(beego.LevelError)
 	beego.Run()
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {{ $sfu := .SFUrl }}
+{{ $pfu := .PFUrl }}
 {{ $isLogin := .IsLogin}}
 {{ $sinaLogin := .SinaLogin}}
 {{ $tencLogin := .TencLogin}}
@@ -10,7 +11,7 @@
 		<meta charset="utf-8">
 		<title>我的{{if $mypro}}作品{{else}}收藏{{end}} - 人人漫画家</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    	<meta name="description" content="">
+    	<meta name="description" content="">{{ $pfu := .PFUrl }}
     	<meta name="author" content="">
 
     	<link href="{{$sfu}}/css/bootstrap.min.css" rel="stylesheet">
@@ -37,8 +38,8 @@
             <div class="headleft"><div id="logo"></div></div>
             <div class="headright pull-right dropdown">
                 <div class="topmenu-index" onclick="javascript:location.href='/'">首页</div>
-                <div class="topmenu-phone"onclick="javascript:location.href='/phone'">软件下载</div>
-                <div id="logined" class="dropdown-toggle" data-close-others="true" data-hover="dropdown">{{.UserName}}<div class="arrow"></div></div>
+                <div class="topmenu-phone" onclick="javascript:location.href='/phone'">软件下载</div>
+                <div id="logined" class="topmenu-user dropdown-toggle" data-close-others="true" data-hover="dropdown">{{.UserName}}<div class="arrow"></div></div>
                 <ul class="dropdown-menu">
                     <div class="dropdown-arrow"></div>
                     <li><a title='我的作品' href="/my/pro"><div class="myproduct"></div> 我的作品</a></li>
@@ -74,7 +75,7 @@
                   <div class="thumbnail">
                       <div class="product">
                         <div class="like {{if $mypro}}delmypro{{else}}delmylike{{end}}" data-pid="{{.Pid}}" data-login="{{$isLogin}}"><div class="delpro"></div> 删除</div>
-                        <img src="{{$sfu}}/{{.ImgPath}}" alt="{{.Desc | html2str}}">
+                        <img src="{{$pfu}}/{{.ImgPath}}" alt="{{.Desc | html2str}}">
                       </div>
 
                       <div class="row-fluid">

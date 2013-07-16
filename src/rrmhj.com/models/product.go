@@ -13,6 +13,7 @@ type Product struct {
 	UpNum      int
 	DownNum    int
 	CommentNum int
+	DingFace   map[string]int
 	Iflag      int //0为审核通过可查看，-1为不可查看
 }
 

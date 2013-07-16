@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {{ $sfu := .SFUrl }}
+{{ $pfu := .PFUrl }}
 {{ $isLogin := .IsLogin}}
 {{ $sinaLogin := .SinaLogin}}
 {{ $tencLogin := .TencLogin}}
@@ -76,7 +77,7 @@
                   <div class="thumbnail">
                       <div class="product">
                         <div class="like {{islike $uid .Pid}}" data-pid="{{.Pid}}" data-login="{{$isLogin}}">{{displayLike $uid .Pid}}</div>
-                        <img src="{{$sfu}}/{{.ImgPath}}" alt="{{.Desc | html2str}}">
+                        <img src="{{$pfu}}/{{.ImgPath}}" alt="{{.Desc | html2str}}">
                       </div>
 
                       <div class="row-fluid">

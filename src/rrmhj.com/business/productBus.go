@@ -26,6 +26,11 @@ func QueryProductsList(pageIndex int, req *http.Request) (proHtmllist []models.P
 	return setUpNumScript(prolist, req), count
 }
 
+//2013/07/16 Wangdj 新建：保存作品
+func SaveProduct(product *models.Product) {
+	dao.SaveProduct(product)
+}
+
 //读取某个漫画下的所有评论(Wangdj 2013-06-19)
 func GetProComment(pid string) (commentList []models.Comment, count int, err error) {
 	var list []models.Comment
