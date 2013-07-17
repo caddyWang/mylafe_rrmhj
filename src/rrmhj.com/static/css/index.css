@@ -46,6 +46,9 @@
           background-position: -115px -231px;
         }
 
+        #ad a:link, #ad a:hover, #ad a:visited {
+          color: #FFF;
+        }
 
         
    

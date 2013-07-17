@@ -40,5 +40,6 @@ type PhoneController struct {
 func (this *PhoneController) Get() {
 	this.Data["IsLogin"] = business.CheckLogin(this.GetSession)
 	business.LoginedUserInfo(&this.Controller)
+
 	this.TplNames = "phone.tpl"
 }

@@ -1,13 +1,22 @@
 package controllers
 
 import (
+	"encoding/json"
 	"github.com/astaxie/beego"
 	. "github.com/qiniu/api/conf"
+	"github.com/qiniu/api/io"
 	"github.com/qiniu/api/rs"
+	"github.com/qiniu/rpc"
 	"rrmhj.com/business"
 	"rrmhj.com/models"
+	"strconv"
+	"strings"
 	"time"
 )
+
+var logger rpc.Logger
+var ret io.PutRet
+var extra = &io.PutExtra{}
 
 type LoginController struct {
 	beego.Controller
@@ -42,12 +51,6 @@ func (this *UploadController) Get() {
 		this.Redirect("/send/login", 302)
 		return
 	}
-
-	ACCESS_KEY = "hQDkHrrIArdxEcthaHNSa4GqjKm0LD1G5HbcTbH_"
-	SECRET_KEY = "X8JWFgipMFfqifIoA7KTZUcHS4iMq4I9N9tfR1N3"
-
-	this.Data["Uptoken"] = uptoken("rrmhj")
-	this.Data["Key"] = time.Now().UnixNano()
 
 	user := this.GetSession("userName")
 	if user.(string) == "" {
@@ -84,6 +87,48 @@ func (this *UploadController) Post() {
 	}
 
 	defer this.Redirect("/send/pro", 302)
+}
+
+type PutImgCloudController struct {
+	beego.Controller
+}
+
+func (this *PutImgCloudController) Post() {
+	r := this.Ctx.Request
+	r.ParseMultipartForm(32 << 20)
+	file, hander, err := r.FormFile("qqfile")
+	if err != nil {
+		beego.Error("...", err)
+		return
+	}
+	defer file.Close()
+
+	ACCESS_KEY = "hQDkHrrIArdxEcthaHNSa4GqjKm0LD1G5HbcTbH_"
+	SECRET_KEY = "X8JWFgipMFfqifIoA7KTZUcHS4iMq4I9N9tfR1N3"
+
+	uptoken := uptoken("rrmhj")
+	key := strconv.FormatInt(time.Now().UnixNano(), 10)
+	suffix := hander.Filename[strings.LastIndex(hander.Filename, "."):]
+
+	err = io.Put(logger, &ret, uptoken, key+suffix, file, extra)
+	if err != nil {
+		beego.Error("...", err)
+		return
+	}
+
+	var rtn struct {
+		io.PutRet
+		Success bool `json:"success"`
+	}
+	rtn.Hash, rtn.Key, rtn.Success = ret.Hash, ret.Key, true
+	infoJson, err1 := json.Marshal(rtn)
+	if err1 != nil {
+		beego.Error("数据格式化成JSON出错！", err1)
+	}
+	beego.Debug(rtn)
+	beego.Debug(string(infoJson))
+
+	this.Ctx.WriteString(string(infoJson))
 }
 
 func uptoken(bucketName string) string {

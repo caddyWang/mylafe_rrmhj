@@ -71,7 +71,7 @@
     <link href="{{$sfu}}/css/headerfooter.css" rel="stylesheet">
     <link href="{{$sfu}}/css/prolist.css" rel="stylesheet">
     <link href="{{$sfu}}/css/index.css" rel="stylesheet">
-    <link href="{{$sfu}}/components/uploadify/uploadify.css" rel="stylesheet" type="text/css" />
+    <link href="{{$sfu}}/components/fineuploader/fineuploader-3.7.0.min.css" rel="stylesheet" type="text/css" />
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -102,13 +102,13 @@
           <form class="well form-inline" action="/send/pro" method="post" data-img="">
             <div style="padding-left:20px;">
               <label class="control-label" for="fileInput">选择作品文件：</label> 
-              <input type="file" name="detectFile" id="detectFile" multiple="true"/>
+              <div id="thumbnail-fine-uploader"></div>
 
               
             </div>
 
               <div class="comment_input" >
-                <input type="hidden" id="imgName" name="imgName" value="{{.Key}}.png">
+                <input type="hidden" id="imgName" name="imgName" value="">
                 <span><textarea class="comm_input" name="descript" placeholder="给作品加个介绍..." rows="3" style="height:50px;" data-pid="0"></textarea></span> <span class="pull-right"><div id="sendCommnet_0">发布</div></span>
               </div>
             
@@ -125,19 +125,41 @@
   <script src="{{$sfu}}/js/jquery.js"></script>
   <script src="{{$sfu}}/js/bootstrap.min.js"></script>
   <script src="{{$sfu}}/js/prolist.js"></script>
-  <script src="{{$sfu}}/components/uploadify/jquery.uploadify-3.1.min.js"></script>
+  <script src="{{$sfu}}/components/fineuploader/jquery.fineuploader-3.7.0.min.js"></script>
 
   </body>
 
   <script>
+
     $(function(){
+        
       //文件上传
+      $('#thumbnail-fine-uploader').fineUploader({
+          request: {
+              endpoint: '/send/putimgcloud'
+          },
+          autoUpload: true,
+          validation: {
+            allowedExtensions: ['jpeg', 'jpg', 'gif', 'png']
+          },
+          text: {
+            uploadButton: '上传作品'
+          }
+      }).on('complete', function(event, id, fileName, responseJSON) {
+        alert(responseJSON);
+        if (responseJSON.success) {
+          alert('dddd');
+          $(".well").append('<a href="http://rrmhj.qiniudn.com/'+responseJSON.key+'" target="_blank"><img src="http://rrmhj.qiniudn.com/'+responseJSON.key+'"></a>');
+              $("#imgName").val(responseJSON.key);
+        }
+      });
+
+      /*
       $("#detectFile").uploadify({
 
         'fileObjName'   :  'file',
-        'uploader'       : 'http://up.qiniu.com/',
+        'uploader'       : '/send/putimgcloud',
         'method'       : 'post',
-        'formData'     : {'key':'{{.Key}}.png','token':'{{.Uptoken}}'},
         'swf'           : '{{$sfu}}/components/uploadify/uploadify.swf',
         'multi'          : false,
         'fileTypeExts'   : '*.png; *.jpg; *.jpeg; *.gif',
@@ -149,8 +171,8 @@
         'heigth'     : 280,
         'onUploadSuccess'  : function(file, data, response){
               var jsonText = eval('('+data+')'); 
-              $(".well").append('<a href="http://rrmhj.qiniudn.com/{{.Key}}.png" target="_blank"><img src="http://rrmhj.qiniudn.com/{{.Key}}.png"></a>');
-              $(".well").attr("data-img",jsonText.key);
+              $(".well").append('<a href="http://rrmhj.qiniudn.com/'+jsonText.key+'" target="_blank"><img src="http://rrmhj.qiniudn.com/'+jsonText.key+'"></a>');
+              $("#imgName").val(jsonText.key);
 
               return false;
               },
@@ -158,10 +180,11 @@
               alert('文件上传出错！原因：'+errorString);
               }
       });
+*/
 
       $("#sendCommnet_0").click(function(){
         var desc = $(".comm_input").val();
-        var img = $(".well").attr("data-img");
+        var img = $("#imgName").val();
 
         if(img == "") {
           alert('先上传作品！');

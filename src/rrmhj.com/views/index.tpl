@@ -57,7 +57,7 @@
           <div class="headright">
             <h1>最简单的创作<br>与分享漫画的方式</h1>
             <h5>专为喜欢漫画的人定制的设计工具。一拖一拉即可用漫画记录你的生活。</h5>
-            <a class="btn btn-large btn-info">了解详情</a>
+            <a class="btn btn-large btn-info" href="/phone">了解详情</a>
           </div>
         </div>
         <div class="out-arrow"><div href="#container" class="arrow"></div></div>

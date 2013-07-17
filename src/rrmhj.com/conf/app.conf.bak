@@ -1,14 +1,14 @@
 
 appname = rrmhj.com
-httpport = 80
-runmode = pro
+httpport = 8080
+runmode = dev
 sessionon = true
 enablegzip = true
 
 page_size = 5
 def_profile_img = img/defuser.png
-web_url = http://www.renrenmanhua.com
-static_file_url = http://static.rrmhj.com/static
+web_url = http://192.168.1.134:8080
+static_file_url = http://192.168.1.134:8080/static
 pro_file_url = http://rrmhj.qiniudn.com
 
 #Sina weibo API's config params
@@ -18,7 +18,7 @@ sina_user_show_addr = https://api.weibo.com/2/users/show.json
 sina_client_id = 3269145958
 sina_client_secret = 0c7d156fbf6e29354003aa00fa0723e3
 sina_grant_type = authorization_code
-sina_login_addr = https://api.weibo.com/oauth2/authorize?client_id=3269145958&response_type=code&redirect_uri=www.renrenmanhua.com/sinalogin
+sina_login_addr = https://api.weibo.com/oauth2/authorize?client_id=3269145958&response_type=code&redirect_uri=192.168.1.134:8080/sinalogin
 
 #Tenc weibo API's config params
 tenc_redirect_uri = /tenclogin
@@ -27,7 +27,7 @@ tenc_user_show_addr = http://open.t.qq.com/api/user/info
 tenc_client_id = 801378372
 tenc_client_secret = 985b55f2155ff4c3d5664c5e6ea586c3
 tenc_grant_type = authorization_code
-tenc_login_addr = https://open.t.qq.com/cgi-bin/oauth2/authorize?client_id=801378372&response_type=code&redirect_uri=http://www.renrenmanhua.com/tenclogin
+tenc_login_addr = https://open.t.qq.com/cgi-bin/oauth2/authorize?client_id=801378372&response_type=code&redirect_uri=http://192.168.1.134:8080/tenclogin
 
 
 #mongoDB
@@ -40,6 +40,5 @@ password = mylafe2013rrmhj.com
 
 #Hosts
 default_host = www.renrenmanhua.com
-expert_host = static.rrmhj.com
 expert_host = static.rrmhj.com
 other_host = renrenmanhua.com,www.rrmhj.com,rrmhj.com,www.renrenmanhuajia.com,renrenmanhuajia.com,www.renrenmanhua.cc,renrenmanhua.cc

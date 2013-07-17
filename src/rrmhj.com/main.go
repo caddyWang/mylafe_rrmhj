@@ -24,6 +24,7 @@ func main() {
 
 	beego.Router("/send/login", &controllers.LoginController{})
 	beego.Router("/send/pro", &controllers.UploadController{})
+	beego.Router("/send/putimgcloud", &controllers.PutImgCloudController{})
 
 	beego.AddFuncMap("fmtHeadImg", business.DefaultHeadImg)
 	beego.AddFuncMap("loginDisplay", business.LoginDisplay)
