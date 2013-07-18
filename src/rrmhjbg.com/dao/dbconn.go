@@ -18,10 +18,10 @@ const (
 	findListOpt
 )
 
-var dbNameDef = conf.DefDBName
+var DBName = conf.DefDBName
 
 func FindOne(query, result interface{}, collectionName string) (err error) {
-	_, err = queryOpt(findOneOpt, dbNameDef, collectionName, query, result, "", 0, 0)
+	_, err = queryOpt(findOneOpt, DBName, collectionName, query, result, "", 0, 0)
 	return
 }
 
@@ -30,7 +30,7 @@ func FindList(query, result interface{}, collectionName string, skip, limit int,
 		skip = 0
 	}
 
-	return queryOpt(findListOpt, dbNameDef, collectionName, query, result, sort, skip, limit)
+	return queryOpt(findListOpt, DBName, collectionName, query, result, sort, skip, limit)
 }
 
 func Insert(collectionName string, doc interface{}) (err error) {
@@ -42,7 +42,7 @@ func Insert(collectionName string, doc interface{}) (err error) {
 	}
 	defer session.Close()
 
-	c := session.DB(dbNameDef).C(collectionName)
+	c := session.DB(DBName).C(collectionName)
 	err = c.Insert(doc)
 
 	return
@@ -57,7 +57,7 @@ func Update(collectionName string, selector, change interface{}) (err error) {
 	}
 	defer session.Close()
 
-	c := session.DB(dbNameDef).C(collectionName)
+	c := session.DB(DBName).C(collectionName)
 	err = c.Update(selector, change)
 
 	return

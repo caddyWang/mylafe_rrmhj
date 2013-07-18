@@ -1,0 +1,6 @@
+db.srcRoleInfo.insert({"_id":"20130717210521baba01","rolename":"baba01","picname":"baba01.png","itempicname":"item-baba01.png","direction":2,"defaultface":"baba01-dx01","defaultclothing":"baba01-hs01","systemrole":1,"posttime":ISODate("2013-07-16T11:00:33.089Z"),"profilename":"爸爸","iflag":0})
+
+
+db.srcDialogInfo.insert({"_id":"20130718095721db03","dialogname":"db03","picname":"db03.png","itempicname":"item-db03.png","direction":2,"color":"#854F05","systemrole":1,"posttime":ISODate("2013-07-16T11:00:33.089Z"),"profilename":"","iflag":0})
+
+db.srcSceneInfo.insert({"_id":"20130718095721kt01","scenename":"kt01","picname":"kt01.png","itempicname":"item-kt01.png","systemrole":1,"posttime":ISODate("2013-07-16T11:00:33.089Z"),"profilename":"","iflag":0})

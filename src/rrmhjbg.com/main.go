@@ -10,5 +10,7 @@ func main() {
 	beego.Router("/user/get_all_account", &controllers.UserController{})
 	beego.Router("/user/filter_user", &controllers.FilterController{})
 
+	beego.Router("/src/show_list", &controllers.ShowListController{})
+
 	beego.Run()
 }
