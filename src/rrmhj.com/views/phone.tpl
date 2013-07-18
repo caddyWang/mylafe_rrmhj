@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 {{ $sfu := .SFUrl }}
+{{ $pfu := .PFUrl }}
 {{ $isLogin := .IsLogin}}
 {{ $sinaLogin := .SinaLogin}}
 {{ $tencLogin := .TencLogin}}
@@ -61,7 +62,7 @@
               <div class="android dropdown-toggle" data-close-others="true" data-hover="dropdown"><div class="icon-android"></div>Android版 <div class="arrow"></div></div>
                 <ul class="dropdown-menu downlist">
                     <div class="dropdown-arrow"></div>
-                    <li><a title='官方本地下载' href="http://m.mylafe.cc/littlecartoonist1.2.5.apk" target="_blank">官方本地下载</a></li>
+                    <li><a title='官方本地下载' href="{{$pfu}}/littlecartoonist.apk" target="_blank">官方本地下载</a></li>
                     <li><a title='小米应用下载' href="http://app.xiaomi.com/detail/37624" target="_blank">小米应用下载</a></li>
                     <li><a title='豌豆夹' href="http://www.wandoujia.com/apps/com.shane.littlecartoonist" target="_blank">豌豆夹</a></li>
                     <li><a title='360手机助手' href="http://zhushou.360.cn/detail/index/soft_id/360268" target="_blank">360手机助手</a></li>
@@ -106,7 +107,7 @@
         window.open("https://itunes.apple.com/cn/app/ren-ren-man-hua-jia/id608827447?mt=8");
       });
       $(".android").click(function(){
-        window.open("http://m.mylafe.cc/littlecartoonist1.2.5.apk");
+        window.open("{{$pfu}}/littlecartoonist.apk");
       });
     });
   </script>

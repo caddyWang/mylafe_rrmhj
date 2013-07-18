@@ -11,6 +11,7 @@ func main() {
 	beego.Router("/phone", &controllers.PhoneController{})
 	beego.Router("/sinalogin", &controllers.SinaLoginController{})
 	beego.Router("/tenclogin", &controllers.TencLoginController{})
+	beego.Router("/download", &controllers.DownController{})
 
 	beego.Router("/pro/comment", &controllers.ProCommentController{})
 	beego.Router("/pro/updown", &controllers.ProOptController{})

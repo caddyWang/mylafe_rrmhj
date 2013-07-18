@@ -43,3 +43,11 @@ func (this *PhoneController) Get() {
 
 	this.TplNames = "phone.tpl"
 }
+
+type DownController struct {
+	beego.Controller
+}
+
+func (this *DownController) Get() {
+	this.TplNames = "down.tpl"
+}
