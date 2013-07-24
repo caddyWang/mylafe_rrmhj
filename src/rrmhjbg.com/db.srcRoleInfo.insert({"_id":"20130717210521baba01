@@ -1,6 +1,24 @@
-db.srcRoleInfo.insert({"_id":"20130717210521baba01","rolename":"baba01","picname":"baba01.png","itempicname":"item-baba01.png","direction":2,"defaultface":"baba01-dx01","defaultclothing":"baba01-hs01","systemrole":1,"posttime":ISODate("2013-07-16T11:00:33.089Z"),"profilename":"爸爸","iflag":0})
+db.srcRoleInfo.insert({"_id":"20130717210521miaomiao01","rolename":"miaomiao01","picname":"miaomiao01.png","itempicname":"item-miaomiao01.png","direction":2,"defaultface":"miaomiao01-dx01","defaultclothing":"miaomiao01-hs01","systemrole":1,"posttime":ISODate("2013-07-16T11:00:33.089Z"),"profilename":"喵喵","iflag":0})
 
 
-db.srcDialogInfo.insert({"_id":"20130718095721db03","dialogname":"db03","picname":"db03.png","itempicname":"item-db03.png","direction":2,"color":"#854F05","systemrole":1,"posttime":ISODate("2013-07-16T11:00:33.089Z"),"profilename":"","iflag":0})
+db.srcDialogInfo.insert({"_id":"20130718095721db04","dialogname":"db04","picname":"db04.png","itempicname":"item-db04.png","direction":1,"color":"#B0175C","systemrole":1,"posttime":ISODate("2013-07-16T11:00:33.089Z"),"profilename":"","iflag":0})
 
-db.srcSceneInfo.insert({"_id":"20130718095721kt01","scenename":"kt01","picname":"kt01.png","itempicname":"item-kt01.png","systemrole":1,"posttime":ISODate("2013-07-16T11:00:33.089Z"),"profilename":"","iflag":0})
+
+
+db.srcSceneInfo.insert({"_id":"20130718095721kt02","scenename":"kt02","picname":"kt02.png","itempicname":"item-kt02.png","systemrole":1,"posttime":ISODate("2013-07-16T11:00:33.089Z"),"profilename":"","iflag":0})
+
+
+db.srcRoleFaceInfo.insert({"_id":"20130718095721mm01dx07","facename":"mm01-dx07","picname":"mm01-dx07.png","itempicname":"item-mm01-dx07.png","rolename":"mm01","systemrole":1,"posttime":ISODate("2013-07-16T11:00:33.089Z"),"profilename":"","profileimg":"","iflag":0})
+db.srcRoleFaceInfo.insert({"_id":"20130718095721ff01dx01","facename":"ff01-dx01","picname":"ff01-dx01.png","itempicname":"item-ff01-dx01.png","rolename":"ff01","systemrole":1,"posttime":ISODate("2013-07-16T11:00:33.089Z"),"profilename":"","profileimg":"","iflag":0})
+db.srcRoleFaceInfo.insert({"_id":"20130718095721ff01dx02","facename":"ff01-dx02","picname":"ff01-dx02.png","itempicname":"item-ff01-dx02.png","rolename":"ff01","systemrole":1,"posttime":ISODate("2013-07-16T11:00:33.089Z"),"profilename":"","profileimg":"","iflag":0})
+
+
+
+
+
+db.srcRoleActionInfo.insert({"_id":"2013071809572108ac01","actionname":"ac01",clothing:[{"clothingname":"mm01-hs01","picname":"mm01-hs01.png"},{"clothingname":"mm01-hs02","picname":"mm01-hs02.png"},{"clothingname":"mm01-hs03","picname":"mm01-hs03.png"},{"clothingname":"mm01-hs04","picname":"mm01-hs04.png"}],"itempicname":"item-ac01.png","rolename":"mm01","systemrole":1,"posttime":ISODate("2013-07-16T11:00:33.089Z"),"profilename":"","iflag":0})
+
+db.srcRoleActionInfo.insert({"_id":"2013071809572108ac02","actionname":"ac02",clothing:[{"clothingname":"mm01-hs01","picname":"mm01-hs05.png"},{"clothingname":"mm01-hs02","picname":"mm01-hs06.png"}],"itempicname":"item-ac02.png","rolename":"mm01","systemrole":1,"posttime":ISODate("2013-07-16T11:00:33.089Z"),"profilename":"","iflag":0})
+
+db.srcRoleClothingInfo.insert({"_id":"2013071809572108hs01","clothingname":"hs01","itempicname":"item-hs01.png","rolename":"mm01","systemrole":1,"posttime":ISODate("2013-07-16T11:00:33.089Z"),"profilename":"","iflag":0})
+db.srcRoleClothingInfo.insert({"_id":"2013071809572108hs02","clothingname":"hs02","itempicname":"item-hs02.png","rolename":"mm01","systemrole":1,"posttime":ISODate("2013-07-16T11:00:33.089Z"),"profilename":"","iflag":0})

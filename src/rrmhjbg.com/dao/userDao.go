@@ -45,12 +45,12 @@ func InitUserInfoBySinaWeibo(user *models.UserInfo, platformName string) (uid st
 			user.Id = bson.NewObjectId().Hex()
 			user.CreateTime = time.Now()
 
-			err = Insert(userInfo, user)
+			err = InsertDB(userInfo, DBNameForUser, user)
 			if err != nil {
 				beego.Error("新增用户信息时出错：", *user, err)
 			}
 		} else {
-			err = Update(userInfo, bson.M{"_id": user.Id}, bson.M{"$push": bson.M{fieldName: pushSocialUser}})
+			err = UpdateDB(userInfo, DBNameForUser, bson.M{"_id": user.Id}, bson.M{"$push": bson.M{fieldName: pushSocialUser}})
 		}
 	} else if err != nil {
 		beego.Error("查询用户数据出错：platformName=", platformName, err)
@@ -63,7 +63,7 @@ func GetAllUsers(pageIndex, pageSize int, sort string, user *[]models.UserInfo) 
 	if sort == "" {
 		sort = "-createtime"
 	}
-	icount, err = FindList(bson.M{}, user, userInfo, (pageIndex-1)*pageSize, pageSize, sort)
+	icount, err = FindListDB(bson.M{}, user, userInfo, DBNameForUser, (pageIndex-1)*pageSize, pageSize, sort)
 	if err != nil {
 		beego.Error("查询用户分页数据出错：pageindex=", pageIndex, " pagesize=", pageSize, err)
 	}
@@ -71,11 +71,11 @@ func GetAllUsers(pageIndex, pageSize int, sort string, user *[]models.UserInfo) 
 }
 
 func UpateUser(user *models.UserInfo) {
-	Update(userInfo, bson.M{"_id": user.Id}, user)
+	UpdateDB(userInfo, DBNameForUser, bson.M{"_id": user.Id}, user)
 }
 
 func findSocialUser(platform string, socialUser models.SocialUserInfo, user *models.UserInfo) (pushSocialUser map[string]interface{}, err error) {
-	err = FindOne(bson.M{platform: bson.M{"$elemMatch": bson.M{"uid": socialUser.Uid}}}, user, userInfo)
+	err = FindOneDB(bson.M{platform: bson.M{"$elemMatch": bson.M{"uid": socialUser.Uid}}}, user, userInfo, DBNameForUser)
 	user.UserName, user.ProfileImg = socialUser.UserName, socialUser.ProfileImg
 	pushSocialUser = bson.M{"uid": socialUser.Uid, "username": socialUser.UserName, "profileimg": socialUser.ProfileImg, "profileurl": socialUser.ProfileUrl}
 

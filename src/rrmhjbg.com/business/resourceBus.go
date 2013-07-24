@@ -1,11 +1,14 @@
 package business
 
 import (
+	"encoding/json"
 	"fmt"
+	"github.com/astaxie/beego"
 	"rrmhjbg.com/conf"
 	"rrmhjbg.com/dao"
-	"rrmhjbg.com/models/jsonmodels"
+	. "rrmhjbg.com/models/jsonmodels"
 	"rrmhjbg.com/models/resource"
+	"rrmhjbg.com/tools"
 	"strconv"
 )
 
@@ -13,10 +16,38 @@ var (
 	roleInfoList   []resource.SrcRoleInfo
 	dialogInfoList []resource.SrcDialogInfo
 	sceneInfoList  []resource.SrcSceneInfo
+
+	faceInfoList     []resource.SrcRoleFaceInfo
+	actionInfoList   []resource.SrcRoleActionInfo
+	clothingInfoList []resource.SrcRoleClothingInfo
 )
 
+//2013/07/23 Wangdj 新增：下载指定新角色
+//2013/07/24 Wangdj 修改：将查找指定角色，表情，动作与衣服的业务代码提炼到三个公共方法
+func DownNewRole(roleName, uid string) (zipbyte []byte) {
+
+	var url = conf.ImgUrl
+	var fileName []string
+	var confFile []DownRes
+
+	fileName, confFile = getRoleBySystem(roleName, 1, fileName, confFile)
+	fileName, confFile = getRoleFaceBySystem(roleName, 1, fileName, confFile)
+	fileName, confFile = getRoleActionClothingBySystem(roleName, 1, fileName, confFile)
+
+	jsonRtn, err := json.Marshal(confFile)
+	if err != nil {
+		beego.Error("数据格式化成JSON出错！", err)
+	}
+
+	dao.SaveRoleInUser(roleName, uid)
+
+	zipbyte = tools.GencZip(fileName, url, jsonRtn)
+
+	return
+}
+
 //2013/07/18 Wangdj 新增：获取当前分页下的资源信息，验证数据合法性，并转换成json
-func ShowSrcInfoByPage(pageIndex, pageSize, srcType, uid string, showResList *jsonmodels.ShowResList) {
+func ShowSrcInfoByPage(pageIndex, pageSize, uid, roleName string, srcType int64, showResList *ShowResList) {
 	var count int
 	var err, err1 error
 	var downRoleInfo string
@@ -30,17 +61,29 @@ func ShowSrcInfoByPage(pageIndex, pageSize, srcType, uid string, showResList *js
 	err1 = dao.GetDownloadInfoByUid(uid, &userDownd)
 
 	switch srcType {
-	case "1":
+	case RoleType:
 		roleInfoList = []resource.SrcRoleInfo{}
 		count, err = dao.ShowRoleInfoByPage(index, size, &roleInfoList)
 
-	case "2":
+	case DialogType:
 		dialogInfoList = []resource.SrcDialogInfo{}
 		count, err = dao.ShowDialogInfoByPage(index, size, &dialogInfoList)
 
-	case "3":
+	case SceneType:
 		sceneInfoList = []resource.SrcSceneInfo{}
 		count, err = dao.ShowSceneInfoByPage(index, size, &sceneInfoList)
+
+	case RoleFaceType:
+		faceInfoList = []resource.SrcRoleFaceInfo{}
+		count, err = dao.ShowRoleFaceInfoByPage(index, size, roleName, &faceInfoList)
+
+	case RoleActionType:
+		actionInfoList = []resource.SrcRoleActionInfo{}
+		count, err = dao.ShowRoleActionInfoByPage(index, size, roleName, &actionInfoList)
+
+	case RoleClothingType:
+		clothingInfoList = []resource.SrcRoleClothingInfo{}
+		count, err = dao.ShowRoleClothingInfoByPage(index, size, roleName, &clothingInfoList)
 	}
 
 	if err != nil || err1 != nil {
@@ -50,21 +93,39 @@ func ShowSrcInfoByPage(pageIndex, pageSize, srcType, uid string, showResList *js
 		showResList.ListCount = strconv.Itoa(count)
 
 		switch srcType {
-		case "1":
+		case RoleType:
 			downRoleInfo = fmt.Sprint(userDownd.RoleInfo)
 			for _, rec := range roleInfoList {
 				showResList.ListArry = append(showResList.ListArry, rec.GetRes(downRoleInfo))
 			}
 
-		case "2":
+		case DialogType:
 			downRoleInfo = fmt.Sprint(userDownd.DialogInfo)
 			for _, rec := range dialogInfoList {
 				showResList.ListArry = append(showResList.ListArry, rec.GetRes(downRoleInfo))
 			}
 
-		case "3":
+		case SceneType:
 			downRoleInfo = fmt.Sprint(userDownd.SceneInfo)
 			for _, rec := range sceneInfoList {
+				showResList.ListArry = append(showResList.ListArry, rec.GetRes(downRoleInfo))
+			}
+
+		case RoleFaceType:
+			downRoleInfo = fmt.Sprint(userDownd.RoleFaceInfo)
+			for _, rec := range faceInfoList {
+				showResList.ListArry = append(showResList.ListArry, rec.GetRes(downRoleInfo))
+			}
+
+		case RoleActionType:
+			downRoleInfo = fmt.Sprint(userDownd.RoleActionInfo)
+			for _, rec := range actionInfoList {
+				showResList.ListArry = append(showResList.ListArry, rec.GetRes(downRoleInfo))
+			}
+
+		case RoleClothingType:
+			downRoleInfo = fmt.Sprint(userDownd.RoleClothingInfo)
+			for _, rec := range clothingInfoList {
 				showResList.ListArry = append(showResList.ListArry, rec.GetRes(downRoleInfo))
 			}
 		}
@@ -87,4 +148,51 @@ func filterPageInfo(pageIndex, pageSize string) (index, size int) {
 	}
 
 	return
+}
+
+func getRoleBySystem(roleName string, systemRole int, fileName []string, confFile []DownRes) ([]string, []DownRes) {
+	srcRoleInfo := []resource.SrcRoleInfo{}
+	dao.GetRoleBySystem(roleName, systemRole, &srcRoleInfo)
+	for _, role := range srcRoleInfo {
+		fileName = append(fileName, role.PicName)
+		fileName = append(fileName, role.ItemPicName)
+
+		cf := DownRes{PicName: role.PicName, SrcType: strconv.Itoa(RoleType), KeyName: roleName, ItemPicName: role.ItemPicName, Direction: strconv.Itoa(role.Direction), DefaultFace: role.DefaultFace, DefaultClothing: role.DefaultClothing}
+		confFile = append(confFile, cf)
+	}
+
+	return fileName, confFile
+}
+
+func getRoleFaceBySystem(roleName string, systemRole int, fileName []string, confFile []DownRes) ([]string, []DownRes) {
+	srcRoleFaceInfo := []resource.SrcRoleFaceInfo{}
+
+	dao.GetRoleFaceBySystem(roleName, systemRole, &srcRoleFaceInfo)
+	for _, face := range srcRoleFaceInfo {
+		fileName = append(fileName, face.PicName)
+		fileName = append(fileName, face.ItemPicName)
+
+		cf := DownRes{PicName: face.PicName, SrcType: strconv.Itoa(RoleFaceType), KeyName: face.FaceName, ItemPicName: face.ItemPicName, RoleName: roleName}
+		confFile = append(confFile, cf)
+	}
+	return fileName, confFile
+}
+
+func getRoleActionClothingBySystem(roleName string, systemRole int, fileName []string, confFile []DownRes) ([]string, []DownRes) {
+	srcRoleActionInfo := []resource.SrcRoleActionInfo{}
+
+	dao.GetRoleActionClothingBySystem(roleName, 1, &srcRoleActionInfo)
+	for _, act := range srcRoleActionInfo {
+		fileName = append(fileName, act.ItemPicName)
+
+		for _, cl := range act.Clothing {
+			fileName = append(fileName, cl.PicName)
+			fileName = append(fileName, "item-"+cl.PicName)
+
+			cf := DownRes{PicName: cl.PicName, SrcType: strconv.Itoa(RoleClothingType), KeyName: cl.ClothingName, ItemPicName: "item-" + cl.PicName, ActionItemPicName: act.ItemPicName, RoleName: roleName, ClothingGroup: cl.ClothingName + "-" + act.ActionName, ActionGroup: cl.ClothingName + "-" + act.ActionName}
+			confFile = append(confFile, cf)
+		}
+	}
+
+	return fileName, confFile
 }

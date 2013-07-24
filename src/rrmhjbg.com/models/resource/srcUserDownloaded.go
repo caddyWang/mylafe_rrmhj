@@ -6,4 +6,8 @@ type SrcUserDownloaded struct {
 	RoleInfo   []string
 	DialogInfo []string
 	SceneInfo  []string
+
+	RoleFaceInfo     []string
+	RoleActionInfo   []string
+	RoleClothingInfo []string
 }

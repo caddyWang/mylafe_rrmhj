@@ -18,22 +18,34 @@ const (
 	findListOpt
 )
 
-var DBName = conf.DefDBName
+var DBName = conf.ResourceDBName
+var DBNameForUser = conf.DefDBName
 
 func FindOne(query, result interface{}, collectionName string) (err error) {
-	_, err = queryOpt(findOneOpt, DBName, collectionName, query, result, "", 0, 0)
+	return FindOneDB(query, result, collectionName, DBName)
+}
+func FindOneDB(query, result interface{}, collectionName, dbName string) (err error) {
+	_, err = queryOpt(findOneOpt, dbName, collectionName, query, result, "", 0, 0)
 	return
 }
 
 func FindList(query, result interface{}, collectionName string, skip, limit int, sort string) (count int, err error) {
+	return FindListDB(query, result, collectionName, DBName, skip, limit, sort)
+}
+
+func FindListDB(query, result interface{}, collectionName, dbName string, skip, limit int, sort string) (count int, err error) {
 	if skip < 0 {
 		skip = 0
 	}
 
-	return queryOpt(findListOpt, DBName, collectionName, query, result, sort, skip, limit)
+	return queryOpt(findListOpt, dbName, collectionName, query, result, sort, skip, limit)
 }
 
 func Insert(collectionName string, doc interface{}) (err error) {
+	return InsertDB(collectionName, DBName, doc)
+}
+
+func InsertDB(collectionName, dbName string, doc interface{}) (err error) {
 
 	session, err := getDBConnSession()
 	if err != nil {
@@ -42,13 +54,17 @@ func Insert(collectionName string, doc interface{}) (err error) {
 	}
 	defer session.Close()
 
-	c := session.DB(DBName).C(collectionName)
+	c := session.DB(dbName).C(collectionName)
 	err = c.Insert(doc)
 
 	return
 }
 
 func Update(collectionName string, selector, change interface{}) (err error) {
+	return UpdateDB(collectionName, DBName, selector, change)
+}
+
+func UpdateDB(collectionName, dbName string, selector, change interface{}) (err error) {
 
 	session, err := getDBConnSession()
 	if err != nil {
@@ -57,7 +73,7 @@ func Update(collectionName string, selector, change interface{}) (err error) {
 	}
 	defer session.Close()
 
-	c := session.DB(DBName).C(collectionName)
+	c := session.DB(dbName).C(collectionName)
 	err = c.Update(selector, change)
 
 	return
