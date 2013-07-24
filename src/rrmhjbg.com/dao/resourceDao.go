@@ -102,9 +102,33 @@ func SaveRoleInUser(roleName, uid string) {
 		return
 	}
 
-	err = Update(userDown, bson.M{"uid": uid}, bson.M{"$addToSet": bson.M{"roleInfo": roleName}})
+	err = Update(userDown, bson.M{"uid": uid}, bson.M{"$set": bson.M{"roleInfo": bson.M{"roleName": roleName}}})
 	if err != nil {
 		beego.Error("[rrmhjbg.com/dao/resourceDao.SaveRoleInUser(roleName=", roleName, "uid=", uid, ")] 记录已下载角色信息时出错：", err)
+	}
+}
+
+//2013/07/24 Wangdj 新增：记录当前用户已经下载过的表情
+func SaveRoleFaceInUser(faceNames []string, uid string) {
+	err := Update(userDown, bson.M{"uid": uid}, bson.M{"$set": bson.M{"roleInfo.roleFaceInfo": faceNames}})
+	if err != nil {
+		beego.Error("[rrmhjbg.com/dao/resourceDao.SaveRoleFaceInUser(faceNames=", faceNames, "uid=", uid, ")] 记录当前用户已经下载过的表情时出错：", err)
+	}
+}
+
+//2013/07/24 Wangdj 新增：记录当前用户已经下载过的表情
+func SaveRoleActionInUser(actionNames []string, uid string) {
+	err := Update(userDown, bson.M{"uid": uid}, bson.M{"$set": bson.M{"roleInfo.roleActionInfo": actionNames}})
+	if err != nil {
+		beego.Error("[rrmhjbg.com/dao/resourceDao.SaveRoleActionInUser(actionNames=", actionNames, "uid=", uid, ")] 记录当前用户已经下载过的表情时出错：", err)
+	}
+}
+
+//2013/07/24 Wangdj 新增：记录当前用户已经下载过的表情
+func SaveRoleClothingInUser(clothinsNames []string, uid string) {
+	err := Update(userDown, bson.M{"uid": uid}, bson.M{"$set": bson.M{"roleInfo.roleClothingInfo": clothinsNames}})
+	if err != nil {
+		beego.Error("[rrmhjbg.com/dao/resourceDao.SaveRoleClothingInUser(clothinsNames=", clothinsNames, "uid=", uid, ")] 记录当前用户已经下载过的表情时出错：", err)
 	}
 }
 

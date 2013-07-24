@@ -55,6 +55,8 @@ func (this *DownResController) Get() {
 	case RoleType:
 		if isFlag == 1 {
 			zipByte = business.DownNewRole(keyName, uid)
+		} else if isFlag == 2 {
+			zipByte = business.DownExistRole(keyName, uid)
 		}
 	}
 

@@ -31,8 +31,8 @@ func DownNewRole(roleName, uid string) (zipbyte []byte) {
 	var confFile []DownRes
 
 	fileName, confFile = getRoleBySystem(roleName, 1, fileName, confFile)
-	fileName, confFile = getRoleFaceBySystem(roleName, 1, fileName, confFile)
-	fileName, confFile = getRoleActionClothingBySystem(roleName, 1, fileName, confFile)
+	fileName, confFile, _ = getRoleFaceBySystem(roleName, 1, fileName, confFile)
+	fileName, confFile, _, _ = getRoleActionClothingBySystem(roleName, 1, fileName, confFile)
 
 	jsonRtn, err := json.Marshal(confFile)
 	if err != nil {
@@ -40,6 +40,28 @@ func DownNewRole(roleName, uid string) (zipbyte []byte) {
 	}
 
 	dao.SaveRoleInUser(roleName, uid)
+
+	zipbyte = tools.GencZip(fileName, url, jsonRtn)
+
+	return
+}
+
+func DownExistRole(roleName, uid string) (zipbyte []byte) {
+	var url = conf.ImgUrl
+	var fileName, faceNames, actionNames, clothingNames []string
+	var confFile []DownRes
+
+	fileName, confFile, faceNames = getRoleFaceBySystem(roleName, 0, fileName, confFile)
+	fileName, confFile, actionNames, clothingNames = getRoleActionClothingBySystem(roleName, 0, fileName, confFile)
+
+	jsonRtn, err := json.Marshal(confFile)
+	if err != nil {
+		beego.Error("数据格式化成JSON出错！", err)
+	}
+
+	dao.SaveRoleFaceInUser(faceNames, uid)
+	dao.SaveRoleActionInUser(actionNames, uid)
+	dao.SaveRoleClothingInUser(clothingNames, uid)
 
 	zipbyte = tools.GencZip(fileName, url, jsonRtn)
 
@@ -94,7 +116,9 @@ func ShowSrcInfoByPage(pageIndex, pageSize, uid, roleName string, srcType int64,
 
 		switch srcType {
 		case RoleType:
-			downRoleInfo = fmt.Sprint(userDownd.RoleInfo)
+			for _, role := range userDownd.RoleInfo {
+				downRoleInfo += " " + role.RoleName
+			}
 			for _, rec := range roleInfoList {
 				showResList.ListArry = append(showResList.ListArry, rec.GetRes(downRoleInfo))
 			}
@@ -112,19 +136,34 @@ func ShowSrcInfoByPage(pageIndex, pageSize, uid, roleName string, srcType int64,
 			}
 
 		case RoleFaceType:
-			downRoleInfo = fmt.Sprint(userDownd.RoleFaceInfo)
+			for _, role := range userDownd.RoleInfo {
+				if role.RoleName == roleName {
+					downRoleInfo = fmt.Sprint(role.RoleFaceInfo)
+				}
+			}
+
 			for _, rec := range faceInfoList {
 				showResList.ListArry = append(showResList.ListArry, rec.GetRes(downRoleInfo))
 			}
 
 		case RoleActionType:
-			downRoleInfo = fmt.Sprint(userDownd.RoleActionInfo)
+			for _, role := range userDownd.RoleInfo {
+				if role.RoleName == roleName {
+					downRoleInfo = fmt.Sprint(role.RoleActionInfo)
+				}
+			}
+
 			for _, rec := range actionInfoList {
 				showResList.ListArry = append(showResList.ListArry, rec.GetRes(downRoleInfo))
 			}
 
 		case RoleClothingType:
-			downRoleInfo = fmt.Sprint(userDownd.RoleClothingInfo)
+			for _, role := range userDownd.RoleInfo {
+				if role.RoleName == roleName {
+					downRoleInfo = fmt.Sprint(role.RoleClothingInfo)
+				}
+			}
+
 			for _, rec := range clothingInfoList {
 				showResList.ListArry = append(showResList.ListArry, rec.GetRes(downRoleInfo))
 			}
@@ -164,35 +203,40 @@ func getRoleBySystem(roleName string, systemRole int, fileName []string, confFil
 	return fileName, confFile
 }
 
-func getRoleFaceBySystem(roleName string, systemRole int, fileName []string, confFile []DownRes) ([]string, []DownRes) {
+func getRoleFaceBySystem(roleName string, systemRole int, fileName []string, confFile []DownRes) ([]string, []DownRes, []string) {
 	srcRoleFaceInfo := []resource.SrcRoleFaceInfo{}
+	faceNames := []string{}
 
 	dao.GetRoleFaceBySystem(roleName, systemRole, &srcRoleFaceInfo)
 	for _, face := range srcRoleFaceInfo {
 		fileName = append(fileName, face.PicName)
 		fileName = append(fileName, face.ItemPicName)
+		faceNames = append(faceNames, face.FaceName)
 
 		cf := DownRes{PicName: face.PicName, SrcType: strconv.Itoa(RoleFaceType), KeyName: face.FaceName, ItemPicName: face.ItemPicName, RoleName: roleName}
 		confFile = append(confFile, cf)
 	}
-	return fileName, confFile
+	return fileName, confFile, faceNames
 }
 
-func getRoleActionClothingBySystem(roleName string, systemRole int, fileName []string, confFile []DownRes) ([]string, []DownRes) {
+func getRoleActionClothingBySystem(roleName string, systemRole int, fileName []string, confFile []DownRes) ([]string, []DownRes, []string, []string) {
 	srcRoleActionInfo := []resource.SrcRoleActionInfo{}
+	var actionNames, clothingNames []string
 
-	dao.GetRoleActionClothingBySystem(roleName, 1, &srcRoleActionInfo)
+	dao.GetRoleActionClothingBySystem(roleName, systemRole, &srcRoleActionInfo)
 	for _, act := range srcRoleActionInfo {
 		fileName = append(fileName, act.ItemPicName)
+		actionNames = append(actionNames, act.ActionName)
 
 		for _, cl := range act.Clothing {
 			fileName = append(fileName, cl.PicName)
 			fileName = append(fileName, "item-"+cl.PicName)
+			clothingNames = append(clothingNames, cl.ClothingName)
 
 			cf := DownRes{PicName: cl.PicName, SrcType: strconv.Itoa(RoleClothingType), KeyName: cl.ClothingName, ItemPicName: "item-" + cl.PicName, ActionItemPicName: act.ItemPicName, RoleName: roleName, ClothingGroup: cl.ClothingName + "-" + act.ActionName, ActionGroup: cl.ClothingName + "-" + act.ActionName}
 			confFile = append(confFile, cf)
 		}
 	}
 
-	return fileName, confFile
+	return fileName, confFile, actionNames, clothingNames
 }
