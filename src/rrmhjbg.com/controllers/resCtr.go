@@ -36,7 +36,7 @@ type DownResController struct {
 	beego.Controller
 }
 
-func (this *DownResController) Get() {
+func (this *DownResController) Post() {
 
 	keyName := this.GetString("keyName")
 	uid := this.GetString("rrmhjUid")
@@ -58,6 +58,21 @@ func (this *DownResController) Get() {
 		} else if isFlag == 2 {
 			zipByte = business.DownExistRole(keyName, uid)
 		}
+
+	case RoleFaceType:
+		zipByte = business.DownSingleFace(keyName, uid)
+
+	case RoleActionType:
+		zipByte = business.DownSingleAction(keyName, uid)
+
+	case RoleClothingType:
+		zipByte = business.DownSingleClothing(keyName, uid)
+
+	case DialogType:
+		zipByte = business.DownSingleDialog(keyName, uid)
+
+	case SceneType:
+		zipByte = business.DownSingleScene(keyName, uid)
 	}
 
 	if len(zipByte) > 0 {
@@ -68,6 +83,10 @@ func (this *DownResController) Get() {
 		this.Ctx.ResponseWriter.Write(zipByte)
 	}
 
+}
+
+func (this *DownResController) Get() {
+	this.Post()
 }
 
 func bindCtxData(this *beego.Controller) {

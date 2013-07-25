@@ -4,13 +4,11 @@ type SrcUserDownloaded struct {
 	Id  string "_id"
 	Uid string
 
-	RoleInfo []struct {
-		RoleName         string
-		RoleFaceInfo     []string
-		RoleActionInfo   []string
-		RoleClothingInfo []string
-	}
+	RoleInfo         []string "roleInfo"
+	RoleFaceInfo     []string "roleFaceInfo"
+	RoleActionInfo   []string "roleActionInfo"
+	RoleClothingInfo []string "roleClothingInfo"
 
-	DialogInfo []string
-	SceneInfo  []string
+	DialogInfo []string "dialogInfo"
+	SceneInfo  []string "sceneInfo"
 }

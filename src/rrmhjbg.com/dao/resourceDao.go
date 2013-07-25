@@ -58,7 +58,7 @@ func ShowRoleClothingInfoByPage(pageIndex, pageSize int, roleName string, srcSce
 
 //2013/07/17 Wangdj 新增：获取当前用户的已下载资源信息
 func GetDownloadInfoByUid(uid string, srcUserDownInfo *resource.SrcUserDownloaded) (err error) {
-	err = FindOne(bson.M{"uid": uid}, srcUserDownInfo, roleInfo)
+	err = FindOne(bson.M{"uid": uid}, srcUserDownInfo, userDown)
 	if err != nil && err != mgo.ErrNotFound {
 		beego.Error("[rrmhjbg.com/dao/resourceDao.GetDownloadInfoByUid(uid=", uid, ")] 获取当前用户的已下载资源信息时出错：", err)
 		return err
@@ -85,6 +85,67 @@ func GetRoleActionClothingBySystem(roleName string, systemRole int, srcRoleActio
 	getRoleInfo(roleName, systemRole, srcRoleActionInfo, actionInfo)
 }
 
+//2013/07/25 Wangdj 新增：查找指定表情
+func GetOneRoleFaceByKey(faceName string, srcRoleFaceInfo *resource.SrcRoleFaceInfo) (found bool) {
+	err := FindOne(bson.M{"facename": faceName}, srcRoleFaceInfo, faceInfo)
+	if err != nil {
+		beego.Error("[rrmhjbg.com/dao/resourceDao.GetOneRoleFaceByKey(faceName=", faceName, ")]：", err)
+		return false
+	}
+
+	return true
+}
+
+//2013/07/25 Wangdj 新增：查找指定动作
+func GetOneRoleActionByKey(actionName string, srcRoleActionInfo *resource.SrcRoleActionInfo) (found bool) {
+	err := FindOne(bson.M{"actionname": actionName}, srcRoleActionInfo, actionInfo)
+	if err != nil {
+		beego.Error("[rrmhjbg.com/dao/resourceDao.GetOneRoleActionByKey(actionName=", actionName, ")]：", err)
+		return false
+	}
+
+	return true
+}
+
+//2013/07/25 Wangdj 新增：查找指定服装
+func GetOneRoleClothingByKey(clothingName string, srcRoleClothingInfo *resource.SrcRoleClothingInfo, srcRoleActionInfo *[]resource.SrcRoleActionInfo) (found bool) {
+	err := FindOne(bson.M{"clothingname": clothingName}, srcRoleClothingInfo, clothingInfo)
+	if err != nil {
+		beego.Error("[rrmhjbg.com/dao/resourceDao.GetOneRoleClothingByKey(clothingName=", clothingName, ")]：", err)
+		return false
+	}
+
+	_, err = FindList(bson.M{"clothing.clothingname": bson.M{"$all": []string{clothingName}}}, srcRoleActionInfo, actionInfo, 0, 1000, "posttime")
+	if err != nil {
+		beego.Error("[rrmhjbg.com/dao/resourceDao.GetOneRoleClothingByKey(clothingName=", clothingName, ")]：", err)
+		return false
+	}
+
+	return true
+}
+
+//2013/07/25 Wangdj 新增：查找指定对话框
+func GetOneDialogByKey(dialogName string, srcDialogInfo *resource.SrcDialogInfo) (found bool) {
+	err := FindOne(bson.M{"dialogname": dialogName}, srcDialogInfo, dialogInfo)
+	if err != nil {
+		beego.Error("[rrmhjbg.com/dao/resourceDao.GetOneDialogByKey(dialogName=", dialogName, ")]：", err)
+		return false
+	}
+
+	return true
+}
+
+//2013/07/25 Wangdj 新增：查找指定场景
+func GetOneSceneByKey(sceneName string, srcSceneInfo *resource.SrcSceneInfo) (found bool) {
+	err := FindOne(bson.M{"scenename": sceneName}, srcSceneInfo, sceneInfo)
+	if err != nil {
+		beego.Error("[rrmhjbg.com/dao/resourceDao.GetOneSceneByKey(sceneName=", sceneName, ")]：", err)
+		return false
+	}
+
+	return true
+}
+
 //2013/07/23 Wangdj 新增：记录当前用户已经下载过此角色
 //2013/07/24 Wangdj 修改：在记录下载信息前，先查询此用户记录是否存在，如果不存在，则新增。
 func SaveRoleInUser(roleName, uid string) {
@@ -102,7 +163,7 @@ func SaveRoleInUser(roleName, uid string) {
 		return
 	}
 
-	err = Update(userDown, bson.M{"uid": uid}, bson.M{"$set": bson.M{"roleInfo": bson.M{"roleName": roleName}}})
+	err = Update(userDown, bson.M{"uid": uid}, bson.M{"$addToSet": bson.M{"roleInfo": roleName}})
 	if err != nil {
 		beego.Error("[rrmhjbg.com/dao/resourceDao.SaveRoleInUser(roleName=", roleName, "uid=", uid, ")] 记录已下载角色信息时出错：", err)
 	}
@@ -110,7 +171,8 @@ func SaveRoleInUser(roleName, uid string) {
 
 //2013/07/24 Wangdj 新增：记录当前用户已经下载过的表情
 func SaveRoleFaceInUser(faceNames []string, uid string) {
-	err := Update(userDown, bson.M{"uid": uid}, bson.M{"$set": bson.M{"roleInfo.roleFaceInfo": faceNames}})
+
+	err := Update(userDown, bson.M{"uid": uid}, bson.M{"$addToSet": bson.M{"roleFaceInfo": bson.M{"$each": faceNames}}})
 	if err != nil {
 		beego.Error("[rrmhjbg.com/dao/resourceDao.SaveRoleFaceInUser(faceNames=", faceNames, "uid=", uid, ")] 记录当前用户已经下载过的表情时出错：", err)
 	}
@@ -118,7 +180,7 @@ func SaveRoleFaceInUser(faceNames []string, uid string) {
 
 //2013/07/24 Wangdj 新增：记录当前用户已经下载过的表情
 func SaveRoleActionInUser(actionNames []string, uid string) {
-	err := Update(userDown, bson.M{"uid": uid}, bson.M{"$set": bson.M{"roleInfo.roleActionInfo": actionNames}})
+	err := Update(userDown, bson.M{"uid": uid}, bson.M{"$addToSet": bson.M{"roleActionInfo": bson.M{"$each": actionNames}}})
 	if err != nil {
 		beego.Error("[rrmhjbg.com/dao/resourceDao.SaveRoleActionInUser(actionNames=", actionNames, "uid=", uid, ")] 记录当前用户已经下载过的表情时出错：", err)
 	}
@@ -126,9 +188,27 @@ func SaveRoleActionInUser(actionNames []string, uid string) {
 
 //2013/07/24 Wangdj 新增：记录当前用户已经下载过的表情
 func SaveRoleClothingInUser(clothinsNames []string, uid string) {
-	err := Update(userDown, bson.M{"uid": uid}, bson.M{"$set": bson.M{"roleInfo.roleClothingInfo": clothinsNames}})
+	err := Update(userDown, bson.M{"uid": uid}, bson.M{"$addToSet": bson.M{"roleClothingInfo": bson.M{"$each": clothinsNames}}})
 	if err != nil {
 		beego.Error("[rrmhjbg.com/dao/resourceDao.SaveRoleClothingInUser(clothinsNames=", clothinsNames, "uid=", uid, ")] 记录当前用户已经下载过的表情时出错：", err)
+	}
+}
+
+//2013/07/24 Wangdj 新增：记录当前用户已经下载过的表情
+func SaveDialogInUser(dialogNames []string, uid string) {
+
+	err := Update(userDown, bson.M{"uid": uid}, bson.M{"$addToSet": bson.M{"dialogInfo": bson.M{"$each": dialogNames}}})
+	if err != nil {
+		beego.Error("[rrmhjbg.com/dao/resourceDao.SaveDialogInUser(dialogNames=", dialogNames, "uid=", uid, ")]：", err)
+	}
+}
+
+//2013/07/24 Wangdj 新增：记录当前用户已经下载过的表情
+func SaveSceneInUser(sceneNames []string, uid string) {
+
+	err := Update(userDown, bson.M{"uid": uid}, bson.M{"$addToSet": bson.M{"sceneInfo": bson.M{"$each": sceneNames}}})
+	if err != nil {
+		beego.Error("[rrmhjbg.com/dao/resourceDao.SaveSceneInUser(sceneNames=", sceneNames, "uid=", uid, ")]：", err)
 	}
 }
 

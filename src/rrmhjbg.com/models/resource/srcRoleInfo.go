@@ -1,6 +1,7 @@
 package resource
 
 import (
+	"github.com/astaxie/beego"
 	"rrmhjbg.com/models/jsonmodels"
 	"strings"
 	"time"
@@ -29,6 +30,8 @@ func (this *SrcRoleFaceInfo) GetRes(downloadInfo string) (res jsonmodels.Res) {
 	res.ProfileText = ""
 
 	//如果是系统角色或者用户已经下载过，进行标识
+	beego.Debug("downloadInfo", downloadInfo)
+	beego.Debug("facename", this.FaceName)
 	if this.SystemRole == 1 || strings.Contains(downloadInfo, this.FaceName) {
 		res.IsDown = "1"
 	}

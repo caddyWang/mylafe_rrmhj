@@ -14,5 +14,6 @@ func main() {
 	beego.Router("/src/show_role_list", &controllers.ShowRoleListController{})
 	beego.Router("/src/down_resource", &controllers.DownResController{})
 
+	beego.SetLevel(beego.LevelError)
 	beego.Run()
 }

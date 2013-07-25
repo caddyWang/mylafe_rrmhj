@@ -3,6 +3,7 @@ package tools
 import (
 	"archive/zip"
 	"bytes"
+	"encoding/json"
 	"github.com/astaxie/beego"
 	"io/ioutil"
 	"net/http"
@@ -17,6 +18,17 @@ func FilterURL(origin string) (dest string) {
 
 	return (string(one))
 
+}
+
+//2013/07/25 Wangdj 将结构数据转化成json格式
+func TransformJSON(obj interface{}) (jsonRtn []byte) {
+	var err error
+	jsonRtn, err = json.Marshal(obj)
+	if err != nil {
+		beego.Error("数据格式化成JSON出错！", err)
+	}
+
+	return
 }
 
 //2013/07/23 Wangdj 根据用户请求的信息，生成可下载的ZIP文件包
