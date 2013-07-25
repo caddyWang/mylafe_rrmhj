@@ -45,6 +45,20 @@ func Insert(collectionName string, doc interface{}) (err error) {
 	return InsertDB(collectionName, DBName, doc)
 }
 
+func Remove(collectionName string, selector interface{}) (err error) {
+	session, err := getDBConnSession()
+	if err != nil {
+		beego.Critical("数据库连接出错：", err)
+		panic(err)
+	}
+	defer session.Close()
+
+	c := session.DB(DBName).C(collectionName)
+	err = c.Remove(selector)
+
+	return
+}
+
 func InsertDB(collectionName, dbName string, doc interface{}) (err error) {
 
 	session, err := getDBConnSession()

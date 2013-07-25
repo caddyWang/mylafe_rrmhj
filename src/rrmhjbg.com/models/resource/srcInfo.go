@@ -22,7 +22,7 @@ type SrcRoleInfo struct {
 	PostTime        time.Time
 	ProfileName     string
 	ProfileImg      string
-	UndonwImg       string
+	UndownImg       string
 	ProfileText     string
 	Iflag           int
 }
@@ -33,7 +33,7 @@ func (this *SrcRoleInfo) GetRes(downloadedInfo string) (res jsonmodels.Res) {
 	res.ItemPic = this.ItemPicName
 	res.IsDown, res.TipNum = "0", "0"
 	res.ProfileName = this.ProfileName
-	res.ProfilePic = this.UndonwImg
+	res.ProfilePic = this.UndownImg
 	res.ProfileText = this.ProfileText
 
 	//如果是系统角色或者用户已经下载过，进行标识

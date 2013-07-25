@@ -11,6 +11,7 @@ import (
 	"labix.org/v2/mgo"
 	"labix.org/v2/mgo/bson"
 	"rrmhjbg.com/models/resource"
+	"time"
 )
 
 const (
@@ -209,6 +210,46 @@ func SaveSceneInUser(sceneNames []string, uid string) {
 	err := Update(userDown, bson.M{"uid": uid}, bson.M{"$addToSet": bson.M{"sceneInfo": bson.M{"$each": sceneNames}}})
 	if err != nil {
 		beego.Error("[rrmhjbg.com/dao/resourceDao.SaveSceneInUser(sceneNames=", sceneNames, "uid=", uid, ")]：", err)
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+func InsertRole(srcRoleInfo *resource.SrcRoleInfo) {
+	srcRoleInfo.Id = bson.NewObjectId().Hex()
+	srcRoleInfo.PostTime = time.Now()
+	srcRoleInfo.Iflag = NormalCode
+
+	insertSrc(roleInfo, "rolename", srcRoleInfo.RoleName, srcRoleInfo)
+}
+
+func InsertDialog(srcInfo *resource.SrcDialogInfo) {
+	srcInfo.Id = bson.NewObjectId().Hex()
+	srcInfo.PostTime = time.Now()
+	srcInfo.Iflag = NormalCode
+
+	insertSrc(dialogInfo, "dialogname", srcInfo.DialogName, srcInfo)
+}
+
+func InsertScene(srcInfo *resource.SrcSceneInfo) {
+	srcInfo.Id = bson.NewObjectId().Hex()
+	srcInfo.PostTime = time.Now()
+	srcInfo.Iflag = NormalCode
+
+	insertSrc(sceneInfo, "scenename", srcInfo.SceneName, srcInfo)
+}
+
+func insertSrc(collection, seletorKey, selectorVal string, data interface{}) {
+	err := Remove(collection, bson.M{seletorKey: selectorVal})
+	if err != nil && err != mgo.ErrNotFound {
+		beego.Error(err)
+		return
+	}
+
+	err = Insert(collection, data)
+	if err != nil {
+		beego.Error(err)
 	}
 }
 
