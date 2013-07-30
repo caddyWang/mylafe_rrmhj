@@ -6,7 +6,6 @@ import (
 	"rrmhjbg.com/business"
 	. "rrmhjbg.com/models/jsonmodels"
 	"strconv"
-	"time"
 )
 
 type ShowListController struct {
@@ -32,6 +31,8 @@ func (this *ShowRoleListController) Post() {
 	bindCtxData(&this.Controller)
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 type DownResController struct {
 	beego.Controller
 }
@@ -51,41 +52,67 @@ func (this *DownResController) Post() {
 	}
 
 	var zipByte []byte
+	var zipName string
 	switch srcType {
 	case RoleType:
 		if isFlag == 1 {
-			zipByte = business.DownNewRole(keyName, uid)
+			zipByte, zipName = business.DownNewRole(keyName, uid)
 		} else if isFlag == 2 {
-			zipByte = business.DownExistRole(keyName, uid)
+			zipByte, zipName = business.DownExistRole(keyName, uid)
 		}
 
 	case RoleFaceType:
-		zipByte = business.DownSingleFace(keyName, uid)
+		zipByte, zipName = business.DownSingleFace(keyName, uid)
 
 	case RoleActionType:
-		zipByte = business.DownSingleAction(keyName, uid)
+		zipByte, zipName = business.DownSingleAction(keyName, uid)
 
 	case RoleClothingType:
-		zipByte = business.DownSingleClothing(keyName, uid)
+		zipByte, zipName = business.DownSingleClothing(keyName, uid)
 
 	case DialogType:
-		zipByte = business.DownSingleDialog(keyName, uid)
+		zipByte, zipName = business.DownSingleDialog(keyName, uid)
 
 	case SceneType:
-		zipByte = business.DownSingleScene(keyName, uid)
+		zipByte, zipName = business.DownSingleScene(keyName, uid)
 	}
 
 	if len(zipByte) > 0 {
-		fileName := strconv.FormatInt(time.Now().Unix(), 10)
 		this.Ctx.SetHeader("Content-Length", strconv.Itoa(len(zipByte)), true)
 		this.Ctx.SetHeader("Content-Type", "application/octet-stream", true)
-		this.Ctx.SetHeader("Content-disposition", "attachment; filename="+fileName+".zip", true)
+		this.Ctx.SetHeader("Content-disposition", "attachment; filename="+zipName+".zip", true)
 		this.Ctx.ResponseWriter.Write(zipByte)
 	}
 
 }
 
 func (this *DownResController) Get() {
+	this.Post()
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+type InitUserDownInfoController struct {
+	beego.Controller
+}
+
+func (this *InitUserDownInfoController) Post() {
+	uid := this.GetString("rrmhjUid")
+	business.InitUserDownInfo(uid)
+}
+func (this *InitUserDownInfoController) Get() {
+	this.Post()
+}
+
+type RecordUserDownInfoController struct {
+	beego.Controller
+}
+
+func (this *RecordUserDownInfoController) Post() {
+	fileName := this.GetString("fileName")
+	business.RecordUserDownInfo(fileName)
+}
+func (this *RecordUserDownInfoController) Get() {
 	this.Post()
 }
 

@@ -44,3 +44,8 @@ type DownRes struct {
 	ActionGroup       string `json:"actionGroup"`
 	Color             string `json:"color"`
 }
+
+type NewDownRes struct {
+	FileName  string    `json:"fileName"`
+	ImgStruct []DownRes `json:"imgStruct"`
+}

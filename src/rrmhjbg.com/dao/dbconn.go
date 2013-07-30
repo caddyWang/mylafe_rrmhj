@@ -16,6 +16,7 @@ import (
 const (
 	findOneOpt = iota
 	findListOpt
+	findCountOpt
 )
 
 var DBName = conf.ResourceDBName
@@ -39,6 +40,14 @@ func FindListDB(query, result interface{}, collectionName, dbName string, skip, 
 	}
 
 	return queryOpt(findListOpt, dbName, collectionName, query, result, sort, skip, limit)
+}
+
+func FindCount(query interface{}, collectionName string) (count int, err error) {
+	return queryOpt(findCountOpt, DBName, collectionName, query, nil, "", 0, 0)
+}
+
+func FindCountDB(query interface{}, collectionName, dbName string) (count int, err error) {
+	return queryOpt(findCountOpt, dbName, collectionName, query, nil, "", 0, 0)
 }
 
 func Insert(collectionName string, doc interface{}) (err error) {
@@ -110,6 +119,8 @@ func queryOpt(optType int, dbname string, collectionName string, query interface
 	case findListOpt:
 		count, err = q.Count()
 		err = q.Sort(sort).Skip(skip).Limit(limit).All(result)
+	case findCountOpt:
+		count, err = q.Count()
 	}
 	return
 }

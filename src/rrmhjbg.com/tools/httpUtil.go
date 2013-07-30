@@ -62,6 +62,7 @@ func GencZip(srcFiles []string, url string, confFileContent []byte) (zipFile []b
 	//close zip
 	err = w.Close()
 	handlerErr("GencZip", err)
+
 	return buf.Bytes()
 }
 

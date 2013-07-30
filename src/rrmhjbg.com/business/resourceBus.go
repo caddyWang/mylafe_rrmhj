@@ -2,12 +2,16 @@ package business
 
 import (
 	"fmt"
+	"github.com/astaxie/beego"
+	"rrmhjbg.com/business/cache"
 	"rrmhjbg.com/conf"
 	"rrmhjbg.com/dao"
 	. "rrmhjbg.com/models/jsonmodels"
 	"rrmhjbg.com/models/resource"
 	"rrmhjbg.com/tools"
 	"strconv"
+	"strings"
+	"time"
 )
 
 var (
@@ -19,12 +23,81 @@ var (
 	actionInfoList   []resource.SrcRoleActionInfo
 	clothingInfoList []resource.SrcRoleClothingInfo
 
-	url = conf.ImgUrl
+	url      = conf.ImgUrl
+	srcCache = cache.Cache{}
 )
+
+type userDownInfo struct {
+	Uid     string
+	SrcInfo interface{}
+}
+
+//2013/07/26 Wangdj 新增：清空当前用户的下载记录
+func InitUserDownInfo(uid string) {
+	dao.InitUserDownInfo(uid)
+}
+
+//2013/07/26 Wangdj 新增：记录当前用户下载记录
+func RecordUserDownInfo(fileName string) {
+	keys := strings.Split(fileName, "_")
+	if len(keys) < 2 {
+		beego.Error("[rrmhjbg.com/business/RecordUserDownInfo(fileName=", fileName, ")]记录下载的文件标识不正确，如‘234343434_1’")
+		return
+	}
+
+	srcType, err := strconv.Atoi(keys[1])
+	if err != nil {
+		beego.Error("[rrmhjbg.com/business/RecordUserDownInfo(fileName=", fileName, ")]文件标识下划线后必须为数字，如‘234343434_1’")
+		return
+	}
+
+	switch srcType {
+	case RoleType:
+		cacheVal := srcCache.Get(fileName).(userDownInfo)
+		dao.SaveRoleInUser(cacheVal.SrcInfo.(string), cacheVal.Uid)
+		srcCache.Del(fileName)
+
+	case RoleFaceType:
+		faceKey := keys[0] + "_" + strconv.Itoa(RoleFaceType)
+		cacheVal := srcCache.Get(faceKey).(userDownInfo)
+		dao.SaveRoleFaceInUser(cacheVal.SrcInfo.([]string), cacheVal.Uid)
+		srcCache.Del(faceKey)
+		if len(keys) == 4 {
+			actionKey, clothingKey := keys[0]+"_"+strconv.Itoa(RoleActionType), keys[0]+"_"+strconv.Itoa(RoleClothingType)
+			actionCache := srcCache.Get(actionKey).(userDownInfo)
+			clothingCache := srcCache.Get(clothingKey).(userDownInfo)
+			dao.SaveRoleActionInUser(actionCache.SrcInfo.([]string), actionCache.Uid)
+			dao.SaveRoleClothingInUser(clothingCache.SrcInfo.([]string), clothingCache.Uid)
+			srcCache.Del(actionKey)
+			srcCache.Del(clothingKey)
+		}
+
+	case RoleActionType:
+		cacheVal := srcCache.Get(fileName).(userDownInfo)
+		dao.SaveRoleActionInUser(cacheVal.SrcInfo.([]string), cacheVal.Uid)
+		srcCache.Del(fileName)
+
+	case RoleClothingType:
+		cacheVal := srcCache.Get(fileName).(userDownInfo)
+		dao.SaveRoleClothingInUser(cacheVal.SrcInfo.([]string), cacheVal.Uid)
+		srcCache.Del(fileName)
+
+	case DialogType:
+		cacheVal := srcCache.Get(fileName).(userDownInfo)
+		dao.SaveDialogInUser(cacheVal.SrcInfo.([]string), cacheVal.Uid)
+		srcCache.Del(fileName)
+
+	case SceneType:
+		cacheVal := srcCache.Get(fileName).(userDownInfo)
+		dao.SaveSceneInUser(cacheVal.SrcInfo.([]string), cacheVal.Uid)
+		srcCache.Del(fileName)
+	}
+
+}
 
 //2013/07/23 Wangdj 新增：下载指定新角色
 //2013/07/24 Wangdj 修改：将查找指定角色，表情，动作与衣服的业务代码提炼到三个公共方法
-func DownNewRole(roleName, uid string) (zipbyte []byte) {
+func DownNewRole(roleName, uid string) (zipbyte []byte, zipName string) {
 	var fileName []string
 	var confFile []DownRes
 
@@ -32,35 +105,37 @@ func DownNewRole(roleName, uid string) (zipbyte []byte) {
 	fileName, confFile, _ = getRoleFaceBySystem(roleName, 1, fileName, confFile)
 	fileName, confFile, _, _ = getRoleActionClothingBySystem(roleName, 1, fileName, confFile)
 
-	jsonRtn := tools.TransformJSON(confFile)
-	dao.SaveRoleInUser(roleName, uid)
-
+	zipName = strconv.FormatInt(time.Now().Unix(), 10) + "_" + strconv.Itoa(RoleType)
+	jsonRtn := tools.TransformJSON(NewDownRes{FileName: zipName, ImgStruct: confFile})
 	zipbyte = tools.GencZip(fileName, url, jsonRtn)
+
+	srcCache.Put(zipName, userDownInfo{uid, roleName})
 
 	return
 }
 
 //2013/07/24 Wangdj 新增：下载指定角色非系统（默认）资源
-func DownExistRole(roleName, uid string) (zipbyte []byte) {
+func DownExistRole(roleName, uid string) (zipbyte []byte, zipName string) {
 	var fileName, faceNames, actionNames, clothingNames []string
 	var confFile []DownRes
 
 	fileName, confFile, faceNames = getRoleFaceBySystem(roleName, 0, fileName, confFile)
 	fileName, confFile, actionNames, clothingNames = getRoleActionClothingBySystem(roleName, 0, fileName, confFile)
 
-	jsonRtn := tools.TransformJSON(confFile)
+	zipName = strconv.FormatInt(time.Now().Unix(), 10)
+	srcCache.Put(zipName+"_"+strconv.Itoa(RoleFaceType), userDownInfo{uid, faceNames})
+	srcCache.Put(zipName+"_"+strconv.Itoa(RoleActionType), userDownInfo{uid, actionNames})
+	srcCache.Put(zipName+"_"+strconv.Itoa(RoleClothingType), userDownInfo{uid, clothingNames})
 
-	dao.SaveRoleFaceInUser(faceNames, uid)
-	dao.SaveRoleActionInUser(actionNames, uid)
-	dao.SaveRoleClothingInUser(clothingNames, uid)
-
+	zipName = zipName + "_" + strconv.Itoa(RoleFaceType) + "_" + strconv.Itoa(RoleActionType) + "_" + strconv.Itoa(RoleClothingType)
+	jsonRtn := tools.TransformJSON(NewDownRes{FileName: zipName, ImgStruct: confFile})
 	zipbyte = tools.GencZip(fileName, url, jsonRtn)
 
 	return
 }
 
 //2013/07/25 Wangdj 新增：下载指定单个表情
-func DownSingleFace(faceName, uid string) (zipbyte []byte) {
+func DownSingleFace(faceName, uid string) (zipbyte []byte, zipName string) {
 
 	face := resource.SrcRoleFaceInfo{}
 	isExist := dao.GetOneRoleFaceByKey(faceName, &face)
@@ -68,9 +143,10 @@ func DownSingleFace(faceName, uid string) (zipbyte []byte) {
 	if isExist {
 
 		cf := DownRes{PicName: face.PicName, SrcType: strconv.Itoa(RoleFaceType), KeyName: face.FaceName, ItemPicName: face.ItemPicName, RoleName: face.RoleName}
-		jsonRtn := tools.TransformJSON(cf)
 
-		dao.SaveRoleFaceInUser([]string{face.FaceName}, uid)
+		zipName = strconv.FormatInt(time.Now().Unix(), 10) + "_" + strconv.Itoa(RoleFaceType)
+		srcCache.Put(zipName, userDownInfo{uid, []string{face.FaceName}})
+		jsonRtn := tools.TransformJSON(NewDownRes{FileName: zipName, ImgStruct: []DownRes{cf}})
 		zipbyte = tools.GencZip([]string{face.PicName, face.ItemPicName}, url, jsonRtn)
 	}
 
@@ -78,7 +154,7 @@ func DownSingleFace(faceName, uid string) (zipbyte []byte) {
 }
 
 //2013/07/25 Wangdj 新增：下载指定单个动作
-func DownSingleAction(actionName, uid string) (zipbyte []byte) {
+func DownSingleAction(actionName, uid string) (zipbyte []byte, zipName string) {
 
 	action := resource.SrcRoleActionInfo{}
 	isExist := dao.GetOneRoleActionByKey(actionName, &action)
@@ -92,13 +168,13 @@ func DownSingleAction(actionName, uid string) (zipbyte []byte) {
 			fileName = append(fileName, clothing.PicName)
 			fileName = append(fileName, "item-"+clothing.PicName)
 
-			cf := DownRes{PicName: clothing.PicName, SrcType: strconv.Itoa(RoleClothingType), KeyName: clothing.ClothingName, ItemPicName: "item-" + clothing.PicName, ActionItemPicName: action.ItemPicName, RoleName: action.RoleName, ClothingGroup: clothing.ClothingName + "-" + action.ActionName, ActionGroup: clothing.ClothingName + "-" + action.ActionName}
+			cf := DownRes{PicName: clothing.PicName, SrcType: strconv.Itoa(RoleClothingType), KeyName: clothing.ClothingName, ItemPicName: clothing.ItemPicName, ActionItemPicName: action.ItemPicName, RoleName: action.RoleName, ClothingGroup: clothing.ClothingGroup, ActionGroup: action.ActionGroup}
 			confFile = append(confFile, cf)
 		}
 
-		jsonRtn := tools.TransformJSON(confFile)
-
-		dao.SaveRoleActionInUser([]string{action.ActionName}, uid)
+		zipName = strconv.FormatInt(time.Now().Unix(), 10) + "_" + strconv.Itoa(RoleActionType)
+		jsonRtn := tools.TransformJSON(NewDownRes{FileName: zipName, ImgStruct: confFile})
+		srcCache.Put(zipName, userDownInfo{uid, []string{action.ActionName}})
 		zipbyte = tools.GencZip(fileName, url, jsonRtn)
 	}
 
@@ -106,7 +182,7 @@ func DownSingleAction(actionName, uid string) (zipbyte []byte) {
 }
 
 //2013/07/25 Wangdj 新增：下载指定单个动作
-func DownSingleClothing(clothingName, uid string) (zipbyte []byte) {
+func DownSingleClothing(clothingName, uid string) (zipbyte []byte, zipName string) {
 
 	action := []resource.SrcRoleActionInfo{}
 	clothing := resource.SrcRoleClothingInfo{}
@@ -123,16 +199,17 @@ func DownSingleClothing(clothingName, uid string) (zipbyte []byte) {
 			for _, cl := range at.Clothing {
 				if cl.ClothingName == clothing.ClothingName {
 					fileName = append(fileName, cl.PicName)
-					cf := DownRes{PicName: cl.PicName, SrcType: strconv.Itoa(RoleClothingType), KeyName: cl.ClothingName, ItemPicName: clothing.ItemPicName, ActionItemPicName: at.ItemPicName, RoleName: at.RoleName, ClothingGroup: cl.ClothingName + "-" + at.ActionName, ActionGroup: cl.ClothingName + "-" + at.ActionName}
+					cf := DownRes{PicName: cl.PicName, SrcType: strconv.Itoa(RoleClothingType), KeyName: cl.ClothingName, ItemPicName: clothing.ItemPicName, ActionItemPicName: at.ItemPicName, RoleName: at.RoleName, ClothingGroup: cl.ClothingGroup, ActionGroup: at.ActionGroup}
 					confFile = append(confFile, cf)
 				}
 			}
 
 		}
 
-		jsonRtn := tools.TransformJSON(confFile)
+		zipName = strconv.FormatInt(time.Now().Unix(), 10) + "_" + strconv.Itoa(RoleClothingType)
+		jsonRtn := tools.TransformJSON(NewDownRes{FileName: zipName, ImgStruct: confFile})
+		srcCache.Put(zipName, userDownInfo{uid, []string{clothing.ClothingName}})
 
-		dao.SaveRoleClothingInUser([]string{clothing.ClothingName}, uid)
 		zipbyte = tools.GencZip(fileName, url, jsonRtn)
 	}
 
@@ -140,7 +217,7 @@ func DownSingleClothing(clothingName, uid string) (zipbyte []byte) {
 }
 
 //2013/07/25 Wangdj 新增：下载指定单个表情
-func DownSingleDialog(dialogName, uid string) (zipbyte []byte) {
+func DownSingleDialog(dialogName, uid string) (zipbyte []byte, zipName string) {
 
 	dialog := resource.SrcDialogInfo{}
 	isExist := dao.GetOneDialogByKey(dialogName, &dialog)
@@ -148,9 +225,11 @@ func DownSingleDialog(dialogName, uid string) (zipbyte []byte) {
 	if isExist {
 
 		cf := DownRes{PicName: dialog.PicName, SrcType: strconv.Itoa(DialogType), KeyName: dialog.DialogName, ItemPicName: dialog.ItemPicName, Direction: strconv.Itoa(dialog.Direction), Color: dialog.Color}
-		jsonRtn := tools.TransformJSON(cf)
 
-		dao.SaveDialogInUser([]string{dialog.DialogName}, uid)
+		zipName = strconv.FormatInt(time.Now().Unix(), 10) + "_" + strconv.Itoa(DialogType)
+		jsonRtn := tools.TransformJSON(NewDownRes{FileName: zipName, ImgStruct: []DownRes{cf}})
+		srcCache.Put(zipName, userDownInfo{uid, []string{dialog.DialogName}})
+
 		zipbyte = tools.GencZip([]string{dialog.PicName, dialog.ItemPicName}, url, jsonRtn)
 	}
 
@@ -158,7 +237,7 @@ func DownSingleDialog(dialogName, uid string) (zipbyte []byte) {
 }
 
 //2013/07/25 Wangdj 新增：下载指定单个表情
-func DownSingleScene(sceneName, uid string) (zipbyte []byte) {
+func DownSingleScene(sceneName, uid string) (zipbyte []byte, zipName string) {
 
 	scene := resource.SrcSceneInfo{}
 	isExist := dao.GetOneSceneByKey(sceneName, &scene)
@@ -166,9 +245,11 @@ func DownSingleScene(sceneName, uid string) (zipbyte []byte) {
 	if isExist {
 
 		cf := DownRes{PicName: scene.PicName, SrcType: strconv.Itoa(SceneType), KeyName: scene.SceneName, ItemPicName: scene.ItemPicName}
-		jsonRtn := tools.TransformJSON(cf)
 
-		dao.SaveSceneInUser([]string{scene.SceneName}, uid)
+		zipName = strconv.FormatInt(time.Now().Unix(), 10) + "_" + strconv.Itoa(SceneType)
+		jsonRtn := tools.TransformJSON(NewDownRes{FileName: zipName, ImgStruct: []DownRes{cf}})
+		srcCache.Put(zipName, userDownInfo{uid, []string{scene.SceneName}})
+
 		zipbyte = tools.GencZip([]string{scene.PicName, scene.ItemPicName}, url, jsonRtn)
 	}
 
@@ -176,6 +257,7 @@ func DownSingleScene(sceneName, uid string) (zipbyte []byte) {
 }
 
 //2013/07/18 Wangdj 新增：获取当前分页下的资源信息，验证数据合法性，并转换成json
+//2013/07/30 Wangdj 修改：查找当前用户下指定角色有多少新增资源
 func ShowSrcInfoByPage(pageIndex, pageSize, uid, roleName string, srcType int64, showResList *ShowResList) {
 	var count int
 	var err, err1 error
@@ -225,7 +307,9 @@ func ShowSrcInfoByPage(pageIndex, pageSize, uid, roleName string, srcType int64,
 		case RoleType:
 			downRoleInfo = fmt.Sprint(userDownd.RoleInfo)
 			for _, rec := range roleInfoList {
-				showResList.ListArry = append(showResList.ListArry, rec.GetRes(downRoleInfo))
+				jsonRec := rec.GetRes(downRoleInfo)
+				jsonRec.TipNum = strconv.Itoa(dao.GetRoleTipNum(rec.RoleName, uid)) // 查找当前用户下当前角色有多少新增资源
+				showResList.ListArry = append(showResList.ListArry, jsonRec)
 			}
 
 		case DialogType:
@@ -320,13 +404,17 @@ func getRoleActionClothingBySystem(roleName string, systemRole int, fileName []s
 
 		for _, cl := range act.Clothing {
 			fileName = append(fileName, cl.PicName)
-			fileName = append(fileName, "item-"+cl.PicName)
+			fileName = append(fileName, cl.ItemPicName)
 			clothingNames = append(clothingNames, cl.ClothingName)
 
-			cf := DownRes{PicName: cl.PicName, SrcType: strconv.Itoa(RoleClothingType), KeyName: cl.ClothingName, ItemPicName: "item-" + cl.PicName, ActionItemPicName: act.ItemPicName, RoleName: roleName, ClothingGroup: cl.ClothingName + "-" + act.ActionName, ActionGroup: cl.ClothingName + "-" + act.ActionName}
+			cf := DownRes{PicName: cl.PicName, SrcType: strconv.Itoa(RoleClothingType), KeyName: cl.ClothingName, ItemPicName: cl.ItemPicName, ActionItemPicName: act.ItemPicName, RoleName: roleName, ClothingGroup: cl.ClothingGroup, ActionGroup: act.ActionGroup}
 			confFile = append(confFile, cf)
 		}
 	}
 
 	return fileName, confFile, actionNames, clothingNames
+}
+
+func init() {
+	srcCache.Init()
 }

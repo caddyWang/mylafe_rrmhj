@@ -13,9 +13,11 @@ type InitDataController struct {
 }
 
 func (this *InitDataController) Get() {
-	readCSV("role", business.InitRoleInfo)
-	readCSV("dialog", business.InitDialogInfo)
-	readCSV("scene", business.InitSceneInfo)
+	//readCSV("role", business.InitRoleInfo)
+	//readCSV("dialog", business.InitDialogInfo)
+	//readCSV("scene", business.InitSceneInfo)
+	//readCSV("face", business.InitRoleFaceInfo)
+	readCSV("action", business.InitRoleActionClothingInfo)
 }
 
 func readCSV(fileName string, initFunc func([][]string, map[string]int)) {
