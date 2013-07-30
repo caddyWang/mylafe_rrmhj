@@ -110,7 +110,10 @@ type RecordUserDownInfoController struct {
 
 func (this *RecordUserDownInfoController) Post() {
 	fileName := this.GetString("fileName")
-	business.RecordUserDownInfo(fileName)
+	tipNum := business.RecordUserDownInfo(fileName)
+	tip := strconv.Itoa(tipNum)
+	this.Ctx.WriteString("{tipNum:" + tip + "}")
+
 }
 func (this *RecordUserDownInfoController) Get() {
 	this.Post()

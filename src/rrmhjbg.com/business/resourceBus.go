@@ -38,7 +38,7 @@ func InitUserDownInfo(uid string) {
 }
 
 //2013/07/26 Wangdj 新增：记录当前用户下载记录
-func RecordUserDownInfo(fileName string) {
+func RecordUserDownInfo(fileName string) (newSrcTipNum int) {
 	keys := strings.Split(fileName, "_")
 	if len(keys) < 2 {
 		beego.Error("[rrmhjbg.com/business/RecordUserDownInfo(fileName=", fileName, ")]记录下载的文件标识不正确，如‘234343434_1’")
@@ -56,6 +56,7 @@ func RecordUserDownInfo(fileName string) {
 		cacheVal := srcCache.Get(fileName).(userDownInfo)
 		dao.SaveRoleInUser(cacheVal.SrcInfo.(string), cacheVal.Uid)
 		srcCache.Del(fileName)
+		newSrcTipNum = dao.GetRoleTipNum(cacheVal.SrcInfo.(string), cacheVal.Uid)
 
 	case RoleFaceType:
 		faceKey := keys[0] + "_" + strconv.Itoa(RoleFaceType)
@@ -93,6 +94,7 @@ func RecordUserDownInfo(fileName string) {
 		srcCache.Del(fileName)
 	}
 
+	return
 }
 
 //2013/07/23 Wangdj 新增：下载指定新角色
@@ -385,6 +387,7 @@ func getRoleFaceBySystem(roleName string, systemRole int, fileName []string, con
 	for _, face := range srcRoleFaceInfo {
 		fileName = append(fileName, face.PicName)
 		fileName = append(fileName, face.ItemPicName)
+
 		faceNames = append(faceNames, face.FaceName)
 
 		cf := DownRes{PicName: face.PicName, SrcType: strconv.Itoa(RoleFaceType), KeyName: face.FaceName, ItemPicName: face.ItemPicName, RoleName: roleName}
@@ -396,6 +399,7 @@ func getRoleFaceBySystem(roleName string, systemRole int, fileName []string, con
 func getRoleActionClothingBySystem(roleName string, systemRole int, fileName []string, confFile []DownRes) ([]string, []DownRes, []string, []string) {
 	srcRoleActionInfo := []resource.SrcRoleActionInfo{}
 	var actionNames, clothingNames []string
+	existFileName := beego.NewBeeMap()
 
 	dao.GetRoleActionClothingBySystem(roleName, systemRole, &srcRoleActionInfo)
 	for _, act := range srcRoleActionInfo {
@@ -403,8 +407,14 @@ func getRoleActionClothingBySystem(roleName string, systemRole int, fileName []s
 		actionNames = append(actionNames, act.ActionName)
 
 		for _, cl := range act.Clothing {
-			fileName = append(fileName, cl.PicName)
-			fileName = append(fileName, cl.ItemPicName)
+			if !existFileName.Check(cl.PicName) {
+				fileName = append(fileName, cl.PicName)
+				existFileName.Set(cl.PicName, 1)
+			}
+			if !existFileName.Check(cl.ItemPicName) {
+				fileName = append(fileName, cl.ItemPicName)
+				existFileName.Set(cl.ItemPicName, 1)
+			}
 			clothingNames = append(clothingNames, cl.ClothingName)
 
 			cf := DownRes{PicName: cl.PicName, SrcType: strconv.Itoa(RoleClothingType), KeyName: cl.ClothingName, ItemPicName: cl.ItemPicName, ActionItemPicName: act.ItemPicName, RoleName: roleName, ClothingGroup: cl.ClothingGroup, ActionGroup: act.ActionGroup}
