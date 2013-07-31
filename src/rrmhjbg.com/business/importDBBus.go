@@ -151,6 +151,12 @@ func InitRoleActionClothingInfo(roleData [][]string, titles map[string]int) {
 			roleInfo.RoleName = role[titles["rolename"]]
 			roleInfo.MtPicName = role[titles["mtactionpicname"]]
 
+			sysrole, err1 := strconv.Atoi(role[titles["systemrole"]])
+			if err1 != nil {
+				sysrole = 0
+			}
+			roleInfo.SystemRole = sysrole
+
 			var clothing struct {
 				ClothingName  string
 				PicName       string
@@ -161,14 +167,7 @@ func InitRoleActionClothingInfo(roleData [][]string, titles map[string]int) {
 			clothing.PicName = role[titles["picname"]]
 			clothing.ItemPicName = role[titles["itemclothingpicname"]]
 			clothing.ClothingGroup = role[titles["clothinggroup"]]
-
 			roleInfo.Clothing = append(roleInfo.Clothing, clothing)
-
-			sysrole, err1 := strconv.Atoi(role[titles["systemrole"]])
-			if err1 != nil {
-				sysrole = 0
-			}
-			roleInfo.SystemRole = sysrole
 
 			sort, err2 := strconv.Atoi(role[titles["sort"]])
 			if err2 != nil {

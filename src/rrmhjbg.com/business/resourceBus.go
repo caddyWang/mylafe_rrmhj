@@ -103,7 +103,7 @@ func DownNewRole(roleName, uid string) (zipbyte []byte, zipName string) {
 	var fileName []string
 	var confFile []DownRes
 
-	fileName, confFile = getRoleBySystem(roleName, 1, fileName, confFile)
+	fileName, confFile = getRoleBySystem(roleName, 0, fileName, confFile)
 	fileName, confFile, _ = getRoleFaceBySystem(roleName, 1, fileName, confFile)
 	fileName, confFile, _, _ = getRoleActionClothingBySystem(roleName, 1, fileName, confFile)
 
@@ -122,7 +122,7 @@ func DownExistRole(roleName, uid string) (zipbyte []byte, zipName string) {
 	var confFile []DownRes
 
 	fileName, confFile, faceNames = getRoleFaceBySystem(roleName, 0, fileName, confFile)
-	fileName, confFile, actionNames, clothingNames = getRoleActionClothingBySystem(roleName, 0, fileName, confFile)
+	fileName, confFile, actionNames, clothingNames = getRoleActionClothingBySystem(roleName, -1, fileName, confFile)
 
 	zipName = strconv.FormatInt(time.Now().Unix(), 10)
 	srcCache.Put(zipName+"_"+strconv.Itoa(RoleFaceType), userDownInfo{uid, faceNames})
@@ -156,6 +156,7 @@ func DownSingleFace(faceName, uid string) (zipbyte []byte, zipName string) {
 }
 
 //2013/07/25 Wangdj 新增：下载指定单个动作
+//2013/07/31 Wangdj 增加：只下载当前动作下，此用户已下载的服装图片。以修正下载此动作，所有服装图片都下载的bug
 func DownSingleAction(actionName, uid string) (zipbyte []byte, zipName string) {
 
 	action := resource.SrcRoleActionInfo{}
@@ -166,12 +167,38 @@ func DownSingleAction(actionName, uid string) (zipbyte []byte, zipName string) {
 		fileName := []string{action.ItemPicName}
 		var confFile []DownRes
 
-		for _, clothing := range action.Clothing {
-			fileName = append(fileName, clothing.PicName)
-			fileName = append(fileName, "item-"+clothing.PicName)
+		downClothings := ""
+		userDownd := resource.SrcUserDownloaded{}
+		err := dao.GetDownloadInfoByUid(uid, &userDownd)
+		if err == nil {
+			downClothings = fmt.Sprint(userDownd.RoleClothingInfo)
+		}
 
-			cf := DownRes{PicName: clothing.PicName, SrcType: strconv.Itoa(RoleClothingType), KeyName: clothing.ClothingName, ItemPicName: clothing.ItemPicName, ActionItemPicName: action.ItemPicName, RoleName: action.RoleName, ClothingGroup: clothing.ClothingGroup, ActionGroup: action.ActionGroup}
-			confFile = append(confFile, cf)
+		//查询当前角色下的所有服装，看哪些是默认安装的 (systemrole=1)
+		systemRoleMap := beego.NewBeeMap()
+		clothinInfos := []resource.SrcRoleClothingInfo{}
+		_, err = dao.ShowRoleClothingInfoByPage(1, 9999, action.RoleName, &clothinInfos)
+		if err != nil {
+			return
+		}
+
+		for _, cl := range clothinInfos {
+			systemRoleMap.Set(cl.ClothingGroup, cl.SystemRole)
+
+			if strings.Contains(downClothings, cl.ClothingName) {
+				systemRoleMap.Set(cl.ClothingGroup, 1)
+			}
+		}
+
+		for _, clothing := range action.Clothing {
+			//2013/07/31 Wangdj
+			if systemRoleMap.Get(clothing.ClothingGroup) == 1 {
+				fileName = append(fileName, clothing.PicName)
+				fileName = append(fileName, clothing.ItemPicName)
+
+				cf := DownRes{PicName: clothing.PicName, SrcType: strconv.Itoa(RoleClothingType), KeyName: clothing.ClothingName, ItemPicName: clothing.ItemPicName, ActionItemPicName: action.ItemPicName, RoleName: action.RoleName, ClothingGroup: clothing.ClothingGroup, ActionGroup: action.ActionGroup}
+				confFile = append(confFile, cf)
+			}
 		}
 
 		zipName = strconv.FormatInt(time.Now().Unix(), 10) + "_" + strconv.Itoa(RoleActionType)
@@ -183,7 +210,7 @@ func DownSingleAction(actionName, uid string) (zipbyte []byte, zipName string) {
 	return
 }
 
-//2013/07/25 Wangdj 新增：下载指定单个动作
+//2013/07/25 Wangdj 新增：下载指定单件衣服
 func DownSingleClothing(clothingName, uid string) (zipbyte []byte, zipName string) {
 
 	action := []resource.SrcRoleActionInfo{}
@@ -192,20 +219,28 @@ func DownSingleClothing(clothingName, uid string) (zipbyte []byte, zipName strin
 
 	if isExist {
 
+		downAction := ""
+		userDownd := resource.SrcUserDownloaded{}
+		err := dao.GetDownloadInfoByUid(uid, &userDownd)
+		if err == nil {
+			downAction = fmt.Sprint(userDownd.RoleActionInfo)
+		}
+
 		fileName := []string{clothing.ItemPicName}
 		var confFile []DownRes
 
 		for _, at := range action {
-			fileName = append(fileName, at.ItemPicName)
+			//fileName = append(fileName, at.ItemPicName)
 
-			for _, cl := range at.Clothing {
-				if cl.ClothingName == clothing.ClothingName {
-					fileName = append(fileName, cl.PicName)
-					cf := DownRes{PicName: cl.PicName, SrcType: strconv.Itoa(RoleClothingType), KeyName: cl.ClothingName, ItemPicName: clothing.ItemPicName, ActionItemPicName: at.ItemPicName, RoleName: at.RoleName, ClothingGroup: cl.ClothingGroup, ActionGroup: at.ActionGroup}
-					confFile = append(confFile, cf)
+			if at.SystemRole == 1 || strings.Contains(downAction, at.ActionName) {
+				for _, cl := range at.Clothing {
+					if cl.ClothingGroup == clothing.ClothingGroup {
+						fileName = append(fileName, cl.PicName)
+						cf := DownRes{PicName: cl.PicName, SrcType: strconv.Itoa(RoleClothingType), KeyName: cl.ClothingName, ItemPicName: clothing.ItemPicName, ActionItemPicName: at.ItemPicName, RoleName: at.RoleName, ClothingGroup: cl.ClothingGroup, ActionGroup: at.ActionGroup}
+						confFile = append(confFile, cf)
+					}
 				}
 			}
-
 		}
 
 		zipName = strconv.FormatInt(time.Now().Unix(), 10) + "_" + strconv.Itoa(RoleClothingType)
@@ -266,6 +301,13 @@ func ShowSrcInfoByPage(pageIndex, pageSize, uid, roleName string, srcType int64,
 	var downRoleInfo string
 
 	index, size := filterPageInfo(pageIndex, pageSize)
+	cacheKey := cache.SrcShowList + strconv.FormatInt(srcType, 10) + "_" + strconv.Itoa(index) + "_" + strconv.Itoa(size) + "_RN-" + roleName + "_UI-" + uid
+	if srcCache.IsExist(cacheKey) {
+		*showResList = srcCache.Get(cacheKey).(ShowResList)
+		beego.Error(cacheKey)
+		return
+	}
+
 	showResList.PageIndex = strconv.Itoa(index)
 	showResList.PageSize = strconv.Itoa(size)
 	showResList.ImgSuffix = conf.ImgUrl
@@ -277,6 +319,7 @@ func ShowSrcInfoByPage(pageIndex, pageSize, uid, roleName string, srcType int64,
 	case RoleType:
 		roleInfoList = []resource.SrcRoleInfo{}
 		count, err = dao.ShowRoleInfoByPage(index, size, &roleInfoList)
+		//count, err, roleInfoList = ShowRoleInfoByPageWithCache(index, size)
 
 	case DialogType:
 		dialogInfoList = []resource.SrcDialogInfo{}
@@ -313,6 +356,9 @@ func ShowSrcInfoByPage(pageIndex, pageSize, uid, roleName string, srcType int64,
 				jsonRec.TipNum = strconv.Itoa(dao.GetRoleTipNum(rec.RoleName, uid)) // 查找当前用户下当前角色有多少新增资源
 				showResList.ListArry = append(showResList.ListArry, jsonRec)
 			}
+
+			//add cache
+			srcCache.Put(cacheKey, *showResList)
 
 		case DialogType:
 			downRoleInfo = fmt.Sprint(userDownd.DialogInfo)
@@ -423,6 +469,25 @@ func getRoleActionClothingBySystem(roleName string, systemRole int, fileName []s
 	}
 
 	return fileName, confFile, actionNames, clothingNames
+}
+
+///////////////////////////////////////////////////////////////////////////////////
+// Cache Opt
+///////////////////////////////////////////////////////////////////////////////////
+
+func ShowRoleInfoByPageWithCache(pageIndex, pageSize int) (count int, err error, srcRoleInfo []resource.SrcRoleInfo) {
+	cacheKey := cache.SrcShowList + strconv.Itoa(RoleType) + "_" + strconv.Itoa(pageIndex) + "_" + strconv.Itoa(pageSize)
+	if srcCache.IsExist(cacheKey) {
+		beego.Error(cacheKey)
+		srcRoleInfo = srcCache.Get(cacheKey).([]resource.SrcRoleInfo)
+		count = len(srcRoleInfo)
+	} else {
+		srcRoleInfo = []resource.SrcRoleInfo{}
+		count, err = dao.ShowRoleInfoByPage(pageIndex, pageSize, &srcRoleInfo)
+		srcCache.Put(cacheKey, srcRoleInfo)
+	}
+
+	return
 }
 
 func init() {
