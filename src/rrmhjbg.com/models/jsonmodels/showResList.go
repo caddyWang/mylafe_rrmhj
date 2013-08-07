@@ -49,3 +49,13 @@ type NewDownRes struct {
 	FileName  string    `json:"fileName"`
 	ImgStruct []DownRes `json:"imgStruct"`
 }
+
+type ShowRoleInfo struct {
+	OptCode     string `json:"optCode"`
+	KeyName     string `json:"keyName"`
+	ProfileName string `json:"profileName"`
+	ProfilePic  string `json:"profilePic"`
+	ProfileText string `json:"profileText"`
+	ImgSuffix   string `json:"imgSuffix"`
+	TipNum      string `json:"tipNum"`
+}

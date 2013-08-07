@@ -28,8 +28,9 @@ var (
 )
 
 type userDownInfo struct {
-	Uid     string
-	SrcInfo interface{}
+	Uid      string
+	RoleName string
+	SrcInfo  interface{}
 }
 
 //2013/07/26 Wangdj 新增：清空当前用户的下载记录
@@ -37,7 +38,27 @@ func InitUserDownInfo(uid string) {
 	dao.InitUserDownInfo(uid)
 }
 
+func GetRoleInfo(roleName, uid string, showRole *ShowRoleInfo) {
+	srcRole := resource.SrcRoleInfo{}
+	tipNum := dao.GetRoleTipNum(roleName, uid)
+	dao.GetRoleInfo(roleName, &srcRole)
+
+	if srcRole.RoleName == "" {
+		showRole.OptCode = "-1"
+		return
+	}
+
+	showRole.OptCode = "0"
+	showRole.KeyName = srcRole.RoleName
+	showRole.ProfileName = srcRole.ProfileName
+	showRole.ProfilePic = srcRole.ProfileImg
+	showRole.ProfileText = srcRole.ProfileText
+	showRole.ImgSuffix = conf.ImgUrl
+	showRole.TipNum = strconv.Itoa(tipNum)
+}
+
 //2013/07/26 Wangdj 新增：记录当前用户下载记录
+//2013/08/02 Wangdj 修改：记录下载角色相关资源（表情、动作、服装或全部）时，返回当前角色的tipNum值
 func RecordUserDownInfo(fileName string) (newSrcTipNum int) {
 	keys := strings.Split(fileName, "_")
 	if len(keys) < 2 {
@@ -56,13 +77,14 @@ func RecordUserDownInfo(fileName string) (newSrcTipNum int) {
 		cacheVal := srcCache.Get(fileName).(userDownInfo)
 		dao.SaveRoleInUser(cacheVal.SrcInfo.(string), cacheVal.Uid)
 		srcCache.Del(fileName)
-		newSrcTipNum = dao.GetRoleTipNum(cacheVal.SrcInfo.(string), cacheVal.Uid)
+		newSrcTipNum = dao.GetRoleTipNum(cacheVal.RoleName, cacheVal.Uid)
 
 	case RoleFaceType:
 		faceKey := keys[0] + "_" + strconv.Itoa(RoleFaceType)
 		cacheVal := srcCache.Get(faceKey).(userDownInfo)
 		dao.SaveRoleFaceInUser(cacheVal.SrcInfo.([]string), cacheVal.Uid)
 		srcCache.Del(faceKey)
+		newSrcTipNum = dao.GetRoleTipNum(cacheVal.RoleName, cacheVal.Uid)
 		if len(keys) == 4 {
 			actionKey, clothingKey := keys[0]+"_"+strconv.Itoa(RoleActionType), keys[0]+"_"+strconv.Itoa(RoleClothingType)
 			actionCache := srcCache.Get(actionKey).(userDownInfo)
@@ -71,17 +93,20 @@ func RecordUserDownInfo(fileName string) (newSrcTipNum int) {
 			dao.SaveRoleClothingInUser(clothingCache.SrcInfo.([]string), clothingCache.Uid)
 			srcCache.Del(actionKey)
 			srcCache.Del(clothingKey)
+			newSrcTipNum = 0
 		}
 
 	case RoleActionType:
 		cacheVal := srcCache.Get(fileName).(userDownInfo)
 		dao.SaveRoleActionInUser(cacheVal.SrcInfo.([]string), cacheVal.Uid)
 		srcCache.Del(fileName)
+		newSrcTipNum = dao.GetRoleTipNum(cacheVal.RoleName, cacheVal.Uid)
 
 	case RoleClothingType:
 		cacheVal := srcCache.Get(fileName).(userDownInfo)
 		dao.SaveRoleClothingInUser(cacheVal.SrcInfo.([]string), cacheVal.Uid)
 		srcCache.Del(fileName)
+		newSrcTipNum = dao.GetRoleTipNum(cacheVal.RoleName, cacheVal.Uid)
 
 	case DialogType:
 		cacheVal := srcCache.Get(fileName).(userDownInfo)
@@ -111,7 +136,7 @@ func DownNewRole(roleName, uid string) (zipbyte []byte, zipName string) {
 	jsonRtn := tools.TransformJSON(NewDownRes{FileName: zipName, ImgStruct: confFile})
 	zipbyte = tools.GencZip(fileName, url, jsonRtn)
 
-	srcCache.Put(zipName, userDownInfo{uid, roleName})
+	srcCache.Put(zipName, userDownInfo{uid, roleName, roleName})
 
 	return
 }
@@ -125,9 +150,9 @@ func DownExistRole(roleName, uid string) (zipbyte []byte, zipName string) {
 	fileName, confFile, actionNames, clothingNames = getRoleActionClothingBySystem(roleName, -1, fileName, confFile)
 
 	zipName = strconv.FormatInt(time.Now().Unix(), 10)
-	srcCache.Put(zipName+"_"+strconv.Itoa(RoleFaceType), userDownInfo{uid, faceNames})
-	srcCache.Put(zipName+"_"+strconv.Itoa(RoleActionType), userDownInfo{uid, actionNames})
-	srcCache.Put(zipName+"_"+strconv.Itoa(RoleClothingType), userDownInfo{uid, clothingNames})
+	srcCache.Put(zipName+"_"+strconv.Itoa(RoleFaceType), userDownInfo{uid, roleName, faceNames})
+	srcCache.Put(zipName+"_"+strconv.Itoa(RoleActionType), userDownInfo{uid, roleName, actionNames})
+	srcCache.Put(zipName+"_"+strconv.Itoa(RoleClothingType), userDownInfo{uid, roleName, clothingNames})
 
 	zipName = zipName + "_" + strconv.Itoa(RoleFaceType) + "_" + strconv.Itoa(RoleActionType) + "_" + strconv.Itoa(RoleClothingType)
 	jsonRtn := tools.TransformJSON(NewDownRes{FileName: zipName, ImgStruct: confFile})
@@ -147,7 +172,7 @@ func DownSingleFace(faceName, uid string) (zipbyte []byte, zipName string) {
 		cf := DownRes{PicName: face.PicName, SrcType: strconv.Itoa(RoleFaceType), KeyName: face.FaceName, ItemPicName: face.ItemPicName, RoleName: face.RoleName}
 
 		zipName = strconv.FormatInt(time.Now().Unix(), 10) + "_" + strconv.Itoa(RoleFaceType)
-		srcCache.Put(zipName, userDownInfo{uid, []string{face.FaceName}})
+		srcCache.Put(zipName, userDownInfo{uid, face.RoleName, []string{face.FaceName}})
 		jsonRtn := tools.TransformJSON(NewDownRes{FileName: zipName, ImgStruct: []DownRes{cf}})
 		zipbyte = tools.GencZip([]string{face.PicName, face.ItemPicName}, url, jsonRtn)
 	}
@@ -203,7 +228,7 @@ func DownSingleAction(actionName, uid string) (zipbyte []byte, zipName string) {
 
 		zipName = strconv.FormatInt(time.Now().Unix(), 10) + "_" + strconv.Itoa(RoleActionType)
 		jsonRtn := tools.TransformJSON(NewDownRes{FileName: zipName, ImgStruct: confFile})
-		srcCache.Put(zipName, userDownInfo{uid, []string{action.ActionName}})
+		srcCache.Put(zipName, userDownInfo{uid, action.RoleName, []string{action.ActionName}})
 		zipbyte = tools.GencZip(fileName, url, jsonRtn)
 	}
 
@@ -245,7 +270,7 @@ func DownSingleClothing(clothingName, uid string) (zipbyte []byte, zipName strin
 
 		zipName = strconv.FormatInt(time.Now().Unix(), 10) + "_" + strconv.Itoa(RoleClothingType)
 		jsonRtn := tools.TransformJSON(NewDownRes{FileName: zipName, ImgStruct: confFile})
-		srcCache.Put(zipName, userDownInfo{uid, []string{clothing.ClothingName}})
+		srcCache.Put(zipName, userDownInfo{uid, clothing.RoleName, []string{clothing.ClothingName}})
 
 		zipbyte = tools.GencZip(fileName, url, jsonRtn)
 	}
@@ -265,7 +290,7 @@ func DownSingleDialog(dialogName, uid string) (zipbyte []byte, zipName string) {
 
 		zipName = strconv.FormatInt(time.Now().Unix(), 10) + "_" + strconv.Itoa(DialogType)
 		jsonRtn := tools.TransformJSON(NewDownRes{FileName: zipName, ImgStruct: []DownRes{cf}})
-		srcCache.Put(zipName, userDownInfo{uid, []string{dialog.DialogName}})
+		srcCache.Put(zipName, userDownInfo{uid, "", []string{dialog.DialogName}})
 
 		zipbyte = tools.GencZip([]string{dialog.PicName, dialog.ItemPicName}, url, jsonRtn)
 	}
@@ -285,7 +310,7 @@ func DownSingleScene(sceneName, uid string) (zipbyte []byte, zipName string) {
 
 		zipName = strconv.FormatInt(time.Now().Unix(), 10) + "_" + strconv.Itoa(SceneType)
 		jsonRtn := tools.TransformJSON(NewDownRes{FileName: zipName, ImgStruct: []DownRes{cf}})
-		srcCache.Put(zipName, userDownInfo{uid, []string{scene.SceneName}})
+		srcCache.Put(zipName, userDownInfo{uid, "", []string{scene.SceneName}})
 
 		zipbyte = tools.GencZip([]string{scene.PicName, scene.ItemPicName}, url, jsonRtn)
 	}
@@ -301,12 +326,12 @@ func ShowSrcInfoByPage(pageIndex, pageSize, uid, roleName string, srcType int64,
 	var downRoleInfo string
 
 	index, size := filterPageInfo(pageIndex, pageSize)
-	cacheKey := cache.SrcShowList + strconv.FormatInt(srcType, 10) + "_" + strconv.Itoa(index) + "_" + strconv.Itoa(size) + "_RN-" + roleName + "_UI-" + uid
+	/*cacheKey := cache.SrcShowList + strconv.FormatInt(srcType, 10) + "_" + strconv.Itoa(index) + "_" + strconv.Itoa(size) + "_RN-" + roleName + "_UI-" + uid
 	if srcCache.IsExist(cacheKey) {
 		*showResList = srcCache.Get(cacheKey).(ShowResList)
 		beego.Error(cacheKey)
 		return
-	}
+	}*/
 
 	showResList.PageIndex = strconv.Itoa(index)
 	showResList.PageSize = strconv.Itoa(size)
@@ -358,7 +383,7 @@ func ShowSrcInfoByPage(pageIndex, pageSize, uid, roleName string, srcType int64,
 			}
 
 			//add cache
-			srcCache.Put(cacheKey, *showResList)
+			//srcCache.Put(cacheKey, *showResList)
 
 		case DialogType:
 			downRoleInfo = fmt.Sprint(userDownd.DialogInfo)

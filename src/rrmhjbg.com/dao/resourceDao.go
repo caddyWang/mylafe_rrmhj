@@ -90,6 +90,14 @@ func GetRoleTipNum(roleName, uid string) (tipNum int) {
 
 }
 
+//2013/08/06 Wangdj 新增：获取当前角色信息
+func GetRoleInfo(roleName string, srcInfo *resource.SrcRoleInfo) {
+	err := FindOne(bson.M{"rolename": roleName}, srcInfo, roleInfo)
+	if err != nil {
+		beego.Error("[rrmhjbg.com/dao/resourceDao.GetRoleInfo(roleName=", roleName, ")]", err)
+	}
+}
+
 //2013/07/17 Wangdj 新增：获取当前用户的已下载资源信息
 func GetDownloadInfoByUid(uid string, srcUserDownInfo *resource.SrcUserDownloaded) (err error) {
 	err = FindOne(bson.M{"uid": uid}, srcUserDownInfo, userDown)
@@ -382,7 +390,7 @@ func getRoleInfo(roleName string, isSystem int, result interface{}, collectionNa
 	if isSystem == -1 {
 		query = bson.M{"rolename": roleName}
 	}
-	_, err := FindList(query, result, collectionName, 0, 1000, "posttime")
+	_, err := FindList(query, result, collectionName, 0, 1000, "-sort")
 	if err != nil && err != mgo.ErrNotFound {
 		var srcName string
 		var systemRole string
@@ -412,7 +420,7 @@ func showResourceInfoByPage(pageIndex, pageSize int, tableName, roleName string,
 		query = bson.M{"iflag": NormalCode, "rolename": roleName}
 	}
 
-	count, err = FindList(query, result, tableName, (pageIndex-1)*pageSize, pageSize, "-postTime")
+	count, err = FindList(query, result, tableName, (pageIndex-1)*pageSize, pageSize, "-sort")
 
 	if err != nil && err != mgo.ErrNotFound {
 		var funcName, errInfo string

@@ -32,6 +32,10 @@ func (this *UserController) Post() {
 		rtn.OptCode = "-1"
 	}
 
+	if uid != "-1" {
+		business.InitUserDownInfo(dbUid)
+	}
+
 	jsonRtn, err := json.Marshal(rtn)
 	if err != nil {
 		beego.Error("数据格式化成JSON出错！", err)

@@ -33,6 +33,29 @@ func (this *ShowRoleListController) Post() {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+type ShowRoleInfoController struct {
+	beego.Controller
+}
+
+func (this *ShowRoleInfoController) Post() {
+	uid, roleName := this.GetString("rrmhjUid"), this.GetString("roleName")
+	showRoleInfo := ShowRoleInfo{}
+	business.GetRoleInfo(roleName, uid, &showRoleInfo)
+
+	jsonRtn, err := json.Marshal(showRoleInfo)
+	if err != nil {
+		beego.Error("数据格式化成JSON出错！", err)
+	}
+
+	this.Ctx.WriteString(string(jsonRtn))
+}
+
+func (this *ShowRoleInfoController) Get() {
+	this.Post()
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 type DownResController struct {
 	beego.Controller
 }
@@ -87,22 +110,12 @@ func (this *DownResController) Post() {
 }
 
 func (this *DownResController) Get() {
-	this.Post()
+	if beego.RunMode == "dev" {
+		this.Post()
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-type InitUserDownInfoController struct {
-	beego.Controller
-}
-
-func (this *InitUserDownInfoController) Post() {
-	uid := this.GetString("rrmhjUid")
-	business.InitUserDownInfo(uid)
-}
-func (this *InitUserDownInfoController) Get() {
-	this.Post()
-}
 
 type RecordUserDownInfoController struct {
 	beego.Controller
@@ -112,11 +125,14 @@ func (this *RecordUserDownInfoController) Post() {
 	fileName := this.GetString("fileName")
 	tipNum := business.RecordUserDownInfo(fileName)
 	tip := strconv.Itoa(tipNum)
-	this.Ctx.WriteString("{tipNum:" + tip + "}")
+
+	this.Ctx.WriteString("{\"tipNum\":\"" + tip + "\"}")
 
 }
 func (this *RecordUserDownInfoController) Get() {
-	this.Post()
+	if beego.RunMode == "dev" {
+		this.Post()
+	}
 }
 
 func bindCtxData(this *beego.Controller) {
