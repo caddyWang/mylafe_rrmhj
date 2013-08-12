@@ -33,6 +33,33 @@ type userDownInfo struct {
 	SrcInfo  interface{}
 }
 
+//2013/08/12 Wangdj 新增：检测服务器上记录的最新版本信息
+func DetectNewVersion(currentVer int) (ver VersionInfo) {
+	ver = VersionInfo{}
+	ver.HasNewVer = "0"
+
+	verNewest, err := beego.AppConfig.Int("ver_newest")
+	if err != nil {
+		return
+	}
+
+	if currentVer >= verNewest {
+		return
+	}
+
+	ver.HasNewVer = "1"
+	ver.ImgPrefix = beego.AppConfig.String("ver_img_prefix")
+	ver.ImgTip = beego.AppConfig.String("ver_img_tip")
+	ver.VerInt = beego.AppConfig.String("ver_newest")
+
+	verText := beego.AppConfig.String("ver_text")
+	ver.VerText = strings.Split(verText, "|")
+	ver.VerAndroidDown = beego.AppConfig.String("ver_android_down")
+	ver.VerIosDown = beego.AppConfig.String("ver_ios_down")
+
+	return
+}
+
 //2013/07/26 Wangdj 新增：清空当前用户的下载记录
 func InitUserDownInfo(uid string) {
 	dao.InitUserDownInfo(uid)

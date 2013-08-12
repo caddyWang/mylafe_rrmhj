@@ -16,6 +16,7 @@ func main() {
 	beego.Router("/src/down_resource", &controllers.DownResController{})
 	beego.Router("/src/record_downinfo", &controllers.RecordUserDownInfoController{})
 
+	beego.Router("/ver/detect_ver", &controllers.DetectVersionController{})
 	beego.Router("/temp/init_data", &controllers.InitDataController{})
 
 	beego.SetLevel(beego.LevelError)
