@@ -135,6 +135,28 @@ func (this *RecordUserDownInfoController) Get() {
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+type DetectVersionController struct {
+	beego.Controller
+}
+
+func (this *DetectVersionController) Get() {
+	currentVer := this.GetString("version")
+	intVer, err := strconv.Atoi(currentVer)
+	if err != nil {
+		intVer = 9999
+	}
+
+	verInfo := business.DetectNewVersion(intVer)
+	jsonRtn, err := json.Marshal(verInfo)
+	if err != nil {
+		beego.Error("数据格式化成JSON出错！", err)
+	}
+
+	this.Ctx.WriteString(string(jsonRtn))
+}
+
 func bindCtxData(this *beego.Controller) {
 	rrmhjUid, pageIndex, pageSize := this.GetString("rrmhjUid"), this.GetString("pageIndex"), this.GetString("pageSize")
 	roleName := this.GetString("roleName")
