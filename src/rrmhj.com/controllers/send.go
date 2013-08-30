@@ -7,6 +7,9 @@ import (
 	"github.com/qiniu/api/io"
 	"github.com/qiniu/api/rs"
 	"github.com/qiniu/rpc"
+	"io/ioutil"
+	"net/http"
+	"os"
 	"rrmhj.com/business"
 	"rrmhj.com/models"
 	"strconv"
@@ -128,6 +131,8 @@ func (this *PutImgCloudController) Post() {
 	beego.Debug(rtn)
 	beego.Debug(string(infoJson))
 
+	downImgFromCloud(ret.Key)
+
 	this.Ctx.WriteString(string(infoJson))
 }
 
@@ -144,4 +149,31 @@ func uptoken(bucketName string) string {
 		//Expires:     expires,
 	}
 	return putPolicy.Token(nil)
+}
+
+func downImgFromCloud(imgName string) {
+
+	reqUrl := "http://rrmhj.qiniudn.com/" + imgName
+	resp, err := http.Get(reqUrl)
+	if err != nil {
+		beego.Error(err, reqUrl)
+		return
+	}
+
+	result, err1 := ioutil.ReadAll(resp.Body)
+	defer resp.Body.Close()
+	if err1 != nil {
+		beego.Error(err1, reqUrl)
+		return
+	}
+
+	imgFile, err2 := os.Create("./static/product/" + imgName)
+	if err2 != nil {
+		beego.Error(err2, reqUrl)
+		return
+	}
+	defer imgFile.Close()
+
+	imgFile.Write(result)
+
 }
